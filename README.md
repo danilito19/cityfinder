@@ -40,6 +40,12 @@ go to cityfinder directory and create a virtualenvironment called cityfinderenv
 ```
 virtualenv cityfinderenv
 ```
+To activate the environment
+
+```
+source cityfinderenv/bin/activate
+```
+
 To get all packages, run
 ```
 pip install -r requirements.txt
