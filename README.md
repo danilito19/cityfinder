@@ -70,4 +70,4 @@ Using Django app
 ```
 python manage.py runserver
 ```
-You can now open up localhost/8000 in your browser and see the front-end
+You can now open up localhost/8000/cityfinderapp in your browser and see the front-end

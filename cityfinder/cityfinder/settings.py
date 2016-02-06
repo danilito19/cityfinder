@@ -75,10 +75,12 @@ WSGI_APPLICATION = 'cityfinder.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+CITY_DATABASE = 'city_data.db'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'city_data.db'),
+        'NAME': os.path.join(BASE_DIR, CITY_DATABASE),
     }
 }
 
