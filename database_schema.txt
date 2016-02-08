@@ -1,0 +1,62 @@
+CREATE TABLE walk(
+CITY char(15) ,
+STATE char(5) ,
+WALK_SCORE decimal(3, 2) ,
+TRANSIT_SCORE decimal(3, 2) ,
+BIKE_SCORE decime(3,2) ,
+POPULATION int);
+CREATE TABLE weather(
+CITY char(15) ,
+STATE char(5) ,
+AVG_TEMP_JAN decimal(3, 2),
+AVG_TEMP_APRIL decimal(3, 2),
+AVG_TEMP_JULY decime(3,2),
+AVG_TEMP_OCT  decime(3,2),
+AVG_ANNUAL_PRECIP_IN  decime(3,2),
+AVG_ANNUAL_PRECIP_IN_DAYS  decime(3,2),
+AVG_ANNUAL_PRECIP_SNOWFALL);
+CREATE TABLE rent(
+CITY char(15) ,
+STATE char(5) ,
+BED_1_MED_PRICE decimal(3, 2) ,
+BED_2_MED_PRICE decimal(3, 2) );
+CREATE TABLE crime(
+CITY char(15) ,
+STATE char(5) ,
+POPULATION int,
+VIOLENT_CRIME int,
+MURDER int,
+RAPE int,
+ROBBERY int,
+AGGREV_ASSAULT int,
+PROPERTY_CRIME int,
+BULGLARY int,
+LARCENY_THEFT int,
+CAR_THEFT int,
+ARSON int);
+CREATE TABLE col_index(
+CITY char(15) ,
+STATE char(5) ,
+TOTAL_INDEX decimal(3, 2),
+GROCERY decimal(3, 2),
+HOUSING decimal(3, 2),
+UTILITIES decimal(3, 2),
+TRANSPORT decimal(3, 2),
+HEALTH decimal(3, 2),
+MISC_GOODS_SERVICES decimal(3, 2));
+CREATE TABLE academic(
+INSTITUTION_ID int,
+INSTITUTION_NAME char(20),
+INSTITUTION_ADD char(20),
+INSTITUTION_CITY char(10),
+INSTITUTION_STATE char(5),
+INSTITUTION_ZIP int,
+COMPUS_NAME char(20),
+CAMPUS_ADD char(20),
+CAMPUS_CITY char(5),
+CAMPUS_STATE char(5),
+CAMPUS_ZIP int,
+ACCREDITATION char(20),
+AGENCY_NAME char(20),
+ACCREDITATION_STATUS char(10),
+ACCREDITATION_DATE_TYPE char(20));
