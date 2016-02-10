@@ -42,6 +42,18 @@ def import_weather():
             avg_annual_precip_snowfall=row[8])
         weather.save()
 
+def import_rent():
+    cursor = setup_cursor()
+    if cursor is None:
+        print('no cursor')
+        return
+    sql = """SELECT * FROM rent"""
+    cursor.execute(sql)
+    for row in cursor.fetchall():
+        rent = models.Weather(city=row[0], state=row[1], BED_1_MED_PRICE=row[2], 
+                    BED_2_MED_PRICE=row[3]) 
+        rent.save()
+
 # import_walk()
 import_weather()
 
