@@ -50,10 +50,12 @@ def import_rent():
     sql = """SELECT * FROM rent"""
     cursor.execute(sql)
     for row in cursor.fetchall():
-        rent = models.Weather(city=row[0], state=row[1], BED_1_MED_PRICE=row[2], 
-                    BED_2_MED_PRICE=row[3]) 
+        rent = models.Rent(city=row[0], state=row[1], bed_1_med_price=row[2], 
+                    bed_2_med_price=row[3]) 
         rent.save()
 
-# import_walk()
-import_weather()
+import_rent()
+#import_walk()
+#import_weather()
+
 
