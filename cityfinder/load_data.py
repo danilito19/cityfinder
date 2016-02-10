@@ -54,8 +54,47 @@ def import_rent():
                     bed_2_med_price=row[3]) 
         rent.save()
 
-import_rent()
-#import_walk()
-#import_weather()
+def import_crime():
+    cursor = setup_cursor()
+    if cursor is None:
+        print('no cursor')
+        return
+    sql = """SELECT * FROM crime"""
+    cursor.execute(sql)
+    for row in cursor.fetchall():
+        crime = models.Crime(city=row[0], state=row[1], population=row[2], 
+                    violent_crime=row[3], murder=row[4], rape=row[5],
+                    robbery=row[6], aggrev_assault=row[7], property_crime=row[8],
+                    bulglary=row[9], larceny_theft=row[10], car_theft=row[11],
+                    arson=row[12])
+        crime.save()
 
+def import_COL():
+    cursor = setup_cursor()
+    if cursor is None:
+        print('no cursor')
+        return
+    sql = """SELECT * FROM col_index"""
+    cursor.execute(sql)
+    for row in cursor.fetchall():
+        col = models.COL(city=row[0], state=row[1], total_index=row[2], 
+                    grocery=row[3], housing=row[4], utilities=row[5],
+                    transport=row[6], health=row[7], misc=row[8])
+        col.save()
 
+def import_academic():
+    cursor = setup_cursor()
+    if cursor is None:
+        print('no cursor')
+        return
+    sql = """SELECT * FROM academic"""
+    cursor.execute(sql)
+    for row in cursor.fetchall():
+        ac = models.academic(institution_id=row[0], institution_name=row[1], institution_add=row[2], 
+                    institution_city=row[3], institution_state=row[4], institution_zip=row[5],
+                    campus_name=row[6], campus_add=row[7], campus_city=row[8],
+                    campus_state=row[9], campus_zip=row[10], accreditation=row[11],
+                    agency_name=row[12], accreditation_status=row[13], accreditation_date_type=row[14])
+        ac.save()
+
+import_academic()
