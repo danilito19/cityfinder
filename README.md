@@ -62,7 +62,7 @@ source cityfinderenv/bin/activate
 ```
 You will know you are working inside the virtualenv when the name of the env is in parenthesis at the beginning of the terminal command.
 
-Using Django app
+Using Django front-end
 ---------------
 
 ```cd ``` to the /cityfinder dir (where the file manage.py is) and run
@@ -71,3 +71,8 @@ Using Django app
 python manage.py runserver
 ```
 You can now open up localhost/8000/cityfinderapp in your browser and see the front-end
+
+Using Django models and data
+---------------
+
+Make sure you have our city_data.db (currently in our drive) inside cityfinder/cityfinder (same dir where manage.py is). With this file, you can now use the cityfinderapp_table_name tables as Django models.
