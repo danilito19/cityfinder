@@ -97,4 +97,3 @@ def import_academic():
                     agency_name=row[12], accreditation_status=row[13], accreditation_date_type=row[14])
         ac.save()
 
-import_academic()

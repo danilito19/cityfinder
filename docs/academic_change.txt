@@ -1,0 +1,23 @@
+select distinct 
+institution_id, 
+case when compus_name <> NULL 
+	then compus_name 
+	else institution_name 
+	end as name, 
+case when campus_add <> NULL 
+	then campus_add 
+	else institution_add 
+	end as address, 
+case when campus_city <> NULL 
+	then campus_city 
+	else institution_city 
+	end as city, 
+case when campus_state <> NULL 
+	then campus_state 
+	else institution_state 
+	end as state,
+case when campus_zip <> NULL 
+	then campus_zip 
+	else institution_zip 
+	end as zip
+from copy.academic as a

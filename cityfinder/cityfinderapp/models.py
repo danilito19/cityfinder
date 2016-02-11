@@ -58,22 +58,13 @@ class COL(models.Model):
     misc = models.FloatField(max_length=500, blank=True, null=True) 
 
 class academic(models.Model):
-    institution_id = models.IntegerField(primary_key=True, default=None)
-    institution_name = models.CharField(max_length=20, blank=True, null=True)
-    institution_add = models.CharField(max_length=20, blank=True, null=True)
-    institution_city = models.CharField(max_length=20, blank=True, null=True)
-    institution_state = models.IntegerField( blank=True, null=True)
-    institution_zip = models.CharField(max_length=7, blank=True, null=True)
-    campus_name = models.CharField(max_length=20, blank=True, null=True)
-    campus_add = models.CharField(max_length=20, blank=True, null=True)
-    campus_city = models.CharField(max_length=20, blank=True, null=True)
-    campus_state = models.CharField(max_length=5, blank=True, null=True)
-    campus_zip = models.IntegerField(blank=True, null=True)
-    accreditation = models.CharField(max_length=20, blank=True, null=True)
-    agency_name = models.CharField(max_length=20, blank=True, null=True)
-    accreditation_status = models.CharField(max_length=20, blank=True, null=True)
-    accreditation_date_type = models.CharField(max_length=20, blank=True, null=True)
-
+    institution_id = models.IntegerField(default=None)
+    name = models.CharField(max_length=20, blank=True, null=True)
+    add = models.CharField(max_length=20, blank=True, null=True)
+    city = models.CharField(max_length=20, blank=True, null=True)
+    state = models.IntegerField( blank=True, null=True)
+    zip_code = models.CharField(max_length=7, blank=True, null=True)
+    
 class LGBT(models.Model):
     city = models.CharField(max_length=20, default=None)
     state = models.CharField(max_length=20, default=None)
@@ -88,10 +79,18 @@ class LGBT(models.Model):
     All_Other_HH = models.IntegerField(blank=True, null=True)
     AOH_MOE = models.IntegerField(blank=True, null=True)
 
-class hip(models.Model):
+class Hisp(models.Model):
     city = models.CharField(max_length=20, default=None)
     state = models.CharField(max_length=20, default=None)
     hisp_count = models.IntegerField(blank=True, null=True)
     hisp_MOE = models.IntegerField(blank=True, null=True)
 
+class Age(models.Model):
+    city = models.CharField(max_length=20, default=None)
+    state = models.CharField(max_length=20, default=None)
+    population = models.IntegerField(blank=True, null=True)
+    median_age = models.FloatField(max_length=500, blank=True, null=True) 
+    age_depend_ratio = models.FloatField(max_length=500, blank=True, null=True) 
+    old_age_depend_ratio = models.FloatField(max_length=500, blank=True, null=True) 
+    child_depend_ratio = models.FloatField(max_length=500, blank=True, null=True) 
 
