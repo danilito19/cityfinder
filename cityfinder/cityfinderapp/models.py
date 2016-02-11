@@ -74,4 +74,24 @@ class academic(models.Model):
     accreditation_status = models.CharField(max_length=20, blank=True, null=True)
     accreditation_date_type = models.CharField(max_length=20, blank=True, null=True)
 
+class LGBT(models.Model):
+    city = models.CharField(max_length=20, default=None)
+    state = models.CharField(max_length=20, default=None)
+    Total_HH = models.IntegerField(blank=True, null=True)
+    THH_MOE = models.IntegerField(blank=True, null=True)
+    Total_Unmarried = models.IntegerField(blank=True, null=True)
+    TU_MOE = models.IntegerField(blank=True, null=True)
+    Male_Male_HH = models.IntegerField(blank=True, null=True)
+    MMHH_MOE = models.IntegerField(blank=True, null=True)
+    Female_Female_HH = models.IntegerField(blank=True, null=True)
+    FFHH_MOE = models.IntegerField(blank=True, null=True)
+    All_Other_HH = models.IntegerField(blank=True, null=True)
+    AOH_MOE = models.IntegerField(blank=True, null=True)
+
+class hip(models.Model):
+    city = models.CharField(max_length=20, default=None)
+    state = models.CharField(max_length=20, default=None)
+    hisp_count = models.IntegerField(blank=True, null=True)
+    hisp_MOE = models.IntegerField(blank=True, null=True)
+
 
