@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,700|Dosis:400,300' rel='stylesheet' type='text/css'>
+    <title>CityFinder</title>
+</head>
+<body id="bootstrap-overrides">
+    <header>
+        <div class="container" id="title_section">
+            <h1>CityFinder</h1>
+        </div>
+    </header>
+    <main>
+        <h2>
+            What are your priorities?
+        </h2>
+        <!-- sort: false -->
+        <div class="container-fluid" id="lists">
+            <div class="row-centered gutter-60">
+                <div class="col-xs-6">
+                    <p class="instructions">
+                        Drag items that matter to you from this list...
+                    </p>
+                    <div id="sortFalse" class="list-group">
+                        <div class="list-group-item">Cost of Living</div>
+                        <div class="list-group-item">Walkability</div>
+                        <div class="list-group-item">Bikability</div>
+                        <div class="list-group-item">Public Transit</div>
+                        <div class="list-group-item">Safety</div>
+                        <div class="list-group-item">Cultural Diversity</div>
+                        <div class="list-group-item">Weather</div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <p class="instructions">
+                        And place them in this list, in order of their importance
+                    </p>
+                    <!-- sort: true -->
+                    <div id="sortTrue" class="list-group">
+                        <div class="list-group-item">Drag here!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="container-fluid">
+            <a href="">
+                <img src="images/arrow.svg" id="arrow">
+            </a>
+        </div>
+    </footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="js/jquery-2.2.0.js"></script>
+<script src="http://rubaxa.github.io/Sortable/Sortable.js"></script>
+<script src="js/script.js"></script>
+<script src="js/priorities.js"></script>
+</body>
+</html>

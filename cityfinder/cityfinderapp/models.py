@@ -11,7 +11,7 @@ class Walk(models.Model):
     population = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return self.city
+        return '%s %s' % (self.city, self.state)
 
 class Weather(models.Model):
     city = models.CharField(max_length=20, default=None)
@@ -24,12 +24,17 @@ class Weather(models.Model):
     avg_annual_precip_in_days = models.FloatField(max_length=500, blank=True, null=True)
     avg_annual_precip_snowfall = models.FloatField(max_length=500, blank=True, null=True)
 
+    def __str__(self):
+        return '%s %s' % (self.city, self.state)
+
 class Rent(models.Model):
     city = models.CharField(max_length=20, default=None)
     state = models.CharField(max_length=5, blank=True, null=True)
     bed_1_med_price = models.FloatField(max_length=500, blank=True, null=True) 
     bed_2_med_price = models.FloatField(max_length=500, blank=True, null=True) 
 
+    def __str__(self):
+        return '%s %s' % (self.city, self.state)
 
 class Crime(models.Model):
     city = models.CharField(max_length=20, default=None)
@@ -46,6 +51,9 @@ class Crime(models.Model):
     car_theft = models.IntegerField(blank=True, null=True)
     arson = models.IntegerField(blank=True, null=True)
 
+    def __str__(self):
+        return '%s %s' % (self.city, self.state)
+
 class COL(models.Model):
     city = models.CharField(max_length=20, default=None)
     state = models.CharField(max_length=5, blank=True, null=True)
@@ -57,6 +65,9 @@ class COL(models.Model):
     health = models.FloatField(max_length=500, blank=True, null=True) 
     misc = models.FloatField(max_length=500, blank=True, null=True) 
 
+    def __str__(self):
+        return '%s %s' % (self.city, self.state)
+
 class academic(models.Model):
     institution_id = models.IntegerField(default=None)
     name = models.CharField(max_length=20, blank=True, null=True)
@@ -65,6 +76,9 @@ class academic(models.Model):
     state = models.IntegerField( blank=True, null=True)
     zip_code = models.CharField(max_length=7, blank=True, null=True)
     
+    def __str__(self):
+        return '%s %s' % (self.city, self.state)
+
 class LGBT(models.Model):
     city = models.CharField(max_length=20, default=None)
     state = models.CharField(max_length=20, default=None)
@@ -79,11 +93,17 @@ class LGBT(models.Model):
     All_Other_HH = models.IntegerField(blank=True, null=True)
     AOH_MOE = models.IntegerField(blank=True, null=True)
 
+    def __str__(self):
+        return '%s %s' % (self.city, self.state)
+
 class Hisp(models.Model):
     city = models.CharField(max_length=20, default=None)
     state = models.CharField(max_length=20, default=None)
     hisp_count = models.IntegerField(blank=True, null=True)
     hisp_MOE = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return '%s %s' % (self.city, self.state)
 
 class Age(models.Model):
     city = models.CharField(max_length=20, default=None)
@@ -93,4 +113,7 @@ class Age(models.Model):
     age_depend_ratio = models.FloatField(max_length=500, blank=True, null=True) 
     old_age_depend_ratio = models.FloatField(max_length=500, blank=True, null=True) 
     child_depend_ratio = models.FloatField(max_length=500, blank=True, null=True) 
+
+    def __str__(self):
+        return '%s %s' % (self.city, self.state)
 
