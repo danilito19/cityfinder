@@ -1,0 +1,120 @@
+
+#bootstrap-overrides h1 {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 700;
+	color: #FF0C70; /*fuschia*/
+	text-align: center;
+	padding: 100px;
+	/*background-image: url(images/cityview.jpg);
+	border-radius:  25px;
+	background-size: cover;
+	background-position: center center; */
+	
+}
+
+#bootstrap-overrides h2 {
+	color: #00A0B2;
+	text-align: center;
+	padding-bottom: 80px;
+}
+
+#bootstrap-overrides #lists {
+	width: 60%;
+}
+
+#bootstrap-overrides #checkbox {
+
+}
+
+#bootstrap-overrides .list-group-item {
+	background-color: #B4EBEA;
+	border-style: dashed;
+	border-color: black;
+}
+
+#bootstrap-overrides .instructions {
+	padding: 10px;
+	border-style: dashed;
+	border-width: 1px;
+	border-color: black;
+	border-radius: 5px;
+	margin-bottom: 40px;
+}
+
+body {
+	font-family: 'Dosis', sans-serif;
+	font-weight: 300;
+}
+#bootstrap-overrides #arrow {
+	display: block;
+	width: 100px;
+	margin: 100px auto;
+}
+
+#bootstrap-overrides .option {
+	width: 150px;
+	text-align: center;
+}
+
+#ex7 .slider-selection {
+	background: #BABABA;
+}
+
+#bootstrap-overrides .slider_element {
+	display: inline-block;
+	padding: 15px 10px;
+	margin: 15px 0;
+}
+
+#bootstrap-overrides #slide_header {
+	color: #00A0B2;
+	font-size: 1.4em;
+	border-style: dashed;
+	border-width: 1px;
+	border-color: black;
+	border-radius: 5px;
+	width: 150px;
+	text-align: center;
+}
+
+#bootstrap-overrides .slider_element > p {
+	display: inline-block;
+	padding-left: 10px;
+}
+/*gutter adjustments from http://arnique.net/web-design/58/a-quick-guide-to-changing-bootstraps-gutter-width/*/
+// 60px gutter
+.gutter-60.row {
+  margin-right: -60px;
+  margin-left: -60px;
+}
+.gutter-60 > [class^="col-"], .gutter-60 > [class^=" col-"] {
+  padding-right: 60px;
+  padding-left: 60px;
+}
+// 20px gutter
+.gutter-20.row {
+  margin-right: -10px;
+  margin-left: -10px;
+}
+.gutter-20 > [class^="col-"], .gutter-20 > [class^=" col-"] {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+// 10px gutter
+.gutter-10.row {
+  margin-right: -5px;
+  margin-left: -5px;
+}
+.gutter-10 > [class^="col-"], .gutter-10 > [class^=" col-"] {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+// 0px gutter
+.gutter-0.row {
+  margin-right: 0;
+  margin-left: 0;
+}
+.gutter-0 > [class^="col-"], .gutter-0 > [class^=" col-"]{
+  padding-right: 0;
+  padding-left: 0;
+}
