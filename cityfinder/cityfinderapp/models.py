@@ -1,7 +1,5 @@
 from __future__ import unicode_literals
 from django.db import models
-# from django.contrib.contenttypes.models import ContentType
-# from django.contrib.contenttypes.fields import GenericForeignKey
 
 class City(models.Model):
     city = models.CharField(max_length=20, default=None)
@@ -11,7 +9,6 @@ class City(models.Model):
         return '%s %s' % (self.city, self.state)
 
 class Walk(models.Model):
-    #city = models.CharField(max_length=20, default=None)
     city = models.ForeignKey(City)
     state = models.CharField(max_length=5, blank=True, null=True)
     walk_score = models.FloatField(max_length=5, blank=True, null=True)
@@ -20,7 +17,7 @@ class Walk(models.Model):
     population = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return '%s %s' % (self.city, self.state)
+        return '%s %s %s' % (self.city, self.state, self.walk_score)
 
 class Weather(models.Model):
     city = models.ForeignKey(City)
@@ -77,6 +74,7 @@ class COL(models.Model):
     def __str__(self):
         return '%s %s' % (self.city, self.state)
 
+''' CURRENTLY DID NOT IMPORT ACADEMIC DATA INTO DB '''
 class academic(models.Model):
     institution_id = models.IntegerField(default=None)
     name = models.CharField(max_length=20, blank=True, null=True)
@@ -126,5 +124,3 @@ class Age(models.Model):
     def __str__(self):
         return '%s %s' % (self.city, self.state)
 
-#use this link to create contenttypes 
-#https://micropyramid.com/blog/understanding-genericforeignkey-in-django/
