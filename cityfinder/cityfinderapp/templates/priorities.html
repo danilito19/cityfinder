@@ -1,11 +1,12 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href={% static "css/bootstrap.css" %}>
+    <link rel="stylesheet" href={% static "css/style.css" %}>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700|Dosis:400,300' rel='stylesheet' type='text/css'>
     <title>CityFinder</title>
 </head>
@@ -26,39 +27,41 @@
                     <p class="instructions">
                         Drag items that matter to you from this list...
                     </p>
-                    <div id="sortFalse" class="list-group">
-                        <div class="list-group-item">Cost of Living</div>
-                        <div class="list-group-item">Walkability</div>
-                        <div class="list-group-item">Bikability</div>
-                        <div class="list-group-item">Public Transit</div>
-                        <div class="list-group-item">Safety</div>
-                        <div class="list-group-item">Cultural Diversity</div>
-                        <div class="list-group-item">Weather</div>
-                    </div>
+                    <ol id="sortFalse" class="list-group">
+                        <li class="list-group-item" id="cost">Cost of Living</li>
+                        <li class="list-group-item" id="walk">Walkability</li>
+                        <li class="list-group-item" id="bike">Bikability</li>
+                        <li class="list-group-item" id="transit">Public Transit</li>
+                        <li class="list-group-item" id="safe">Safety</li>
+                        <li class="list-group-item" id="diverse">Cultural Diversity</li>
+                        <li class="list-group-item" id="weather">Weather</li>
+                    </ol>
                 </div>
                 <div class="col-xs-6">
                     <p class="instructions">
                         And place them in this list, in order of their importance
                     </p>
                     <!-- sort: true -->
-                    <div id="sortTrue" class="list-group">
-                        <div class="list-group-item">Drag here!</div>
-                    </div>
+                    <ol id="sortTrue" class="list-group priorities">
+                    </ol>
                 </div>
             </div>
         </div>
     </main>
     <footer>
+        <form action="/priorities/" method="post">
+            <input type="hidden" id="priorities" name="priorities">
+        </form>
+
         <div class="container-fluid">
-            <a href="">
-                <img src="images/arrow.svg" id="arrow">
-            </a>
+                <img src={% static "images/arrow.svg" %} id="arrow" onclick="get_inputs()">
         </div>
     </footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="js/jquery-2.2.0.js"></script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src={% static "js/jquery-2.2.0.js" %}></script>
 <script src="http://rubaxa.github.io/Sortable/Sortable.js"></script>
-<script src="js/script.js"></script>
-<script src="js/priorities.js"></script>
+<script src={% static "js/script.js" %}></script>
+<script src={% static "js/priorities.js" %}></script>
 </body>
 </html>

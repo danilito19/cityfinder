@@ -1,18 +1,19 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href={% static "css/bootstrap.css" %}>
+    <link rel="stylesheet" href={% static "css/style.css" %}>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/6.0.16/css/bootstrap-slider.css">
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700|Dosis:400,300' rel='stylesheet' type='text/css'>
     <title>CityFinder</title>
 </head>
 <body id="bootstrap-overrides">
     <header>
-         {{ cities }}
+         <!--Can I delete this? Was it just here to signify that these were the moved files? {{ cities }}-->
         <div class="container" id="title_section">
             <h1>CityFinder</h1>
         </div>
@@ -28,11 +29,11 @@
                     <h3 id="slide_header" class="slider_element"> City Size </h3>
                     <p class="slider_element option">Small</p>
                 
-                    <div class="slider_element"><input id="size" type="text" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-value="5" data-slider-enabled="true"/></div>
+                    <div class="slider_element"><input id="size" type="text" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-value="1" data-slider-enabled="true"/></div>
 
                     <p class="slider_element option">Large</p>
                     
-                    <div class="slider_element"><input class="slider_element" id="size-enabled" type="checkbox"/><p>Indifferent</p></div>
+                    <div class="slider_element"><input class="slider_element" id="size-disabled" type="checkbox"/><p>Indifferent</p></div>
                 </div>
             </div>
             <div class="row-centered">
@@ -40,11 +41,11 @@
                     <h3 id="slide_header" class="slider_element"> Sun </h3>
                     <p class="slider_element option">Sunny</p>
                 
-                    <div class="slider_element"><input id="sun" type="text" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-value="5" data-slider-enabled="true"/></div>
+                    <div class="slider_element"><input id="sun" type="text" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-value="1" data-slider-enabled="true"/></div>
 
                     <p class="slider_element option">Overcast</p>
                     
-                    <div class="slider_element"><input class="slider_element" id="sun-enabled" type="checkbox"/><p>Indifferent</p></div>
+                    <div class="slider_element"><input class="slider_element" id="sun-disabled" type="checkbox"/><p>Indifferent</p></div>
                 </div>
             </div>
             <div class="row-centered">
@@ -52,11 +53,11 @@
                     <h3 id="slide_header" class="slider_element"> Temperature </h3>
                     <p class="slider_element option">Warm</p>
                 
-                    <div class="slider_element"><input id="temp" type="text" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-value="5" data-slider-enabled="true"/></div>
+                    <div class="slider_element"><input id="temp" type="text" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-value="1" data-slider-enabled="true"/></div>
 
                     <p class="slider_element option">Cold</p>
                     
-                    <div class="slider_element"><input class="slider_element" id="temp-enabled" type="checkbox"/><p>Indifferent</p></div>
+                    <div class="slider_element"><input class="slider_element" id="temp-disabled" type="checkbox"/><p>Indifferent</p></div>
                 </div>
             </div>
             <div class="row-centered">
@@ -64,27 +65,29 @@
                     <h3 id="slide_header" class="slider_element"> Seasons </h3>
                     <p class="slider_element option">Variation</p>
                 
-                    <div class="slider_element"><input id="seasons" type="text" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-value="5" data-slider-enabled="true"/></div>
+                    <div class="slider_element"><input id="seasons" type="text" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-value="1" data-slider-enabled="true"/></div>
 
                     <p class="slider_element option">Constant</p>
                     
-                    <div class="slider_element"><input class="slider_element" id="seasons-enabled" type="checkbox"/><p>Indifferent</p></div>
+                    <div class="slider_element"><input class="slider_element" id="seasons-disabled" type="checkbox"/><p>Indifferent</p></div>
                 </div>
             </div>
         </div>
     </main>
     <footer>
         <div class="container-fluid">
-            <a href="priorities.html">
-                <img src="images/arrow.svg" id="arrow">
-            </a>
+            <form action="/priorities/" method="post">
+                <input type="hidden" id="preferences" name="preferences">
+            </form>
+            <img src={% static "images/arrow.svg" %} id="arrow" onclick="get_inputs()">
         </div>
     </footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="js/jquery-2.2.0.js"></script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src={% static "js/jquery-2.2.0.js" %}></script>
 <script src="http://rubaxa.github.io/Sortable/Sortable.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/6.0.16/bootstrap-slider.js"></script>
-<script src="js/script.js"></script>
-<script src="js/preferences.js"></script>
+<script src={% static "js/script.js" %}></script>
+<script src={% static "js/preferences.js" %}></script>
 </body>
 </html>
