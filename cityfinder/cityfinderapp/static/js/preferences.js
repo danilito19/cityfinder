@@ -2,42 +2,65 @@
 
 $("#size").slider();
 
-$("#size-enabled").click(function() {
+$("#size-disabled").click(function() {
 	if(this.checked) {
-		$("#ex7").slider("disable");
+		$("#size").slider("disable");
 	}
 	else {
-		$("#ex7").slider("enable");
+		$("#size").slider("enable");
 	}
 });
 
 $("#sun").slider();
 
-$("#sun-enabled").click(function() {
+$("#sun-disabled").click(function() {
 	if(this.checked) {
-		$("#ex7").slider("disable");
+		$("#sun").slider("disable");
 	}
 	else {
-		$("#ex7").slider("enable");
+		$("#sun").slider("enable");
 	}
 });
 $("#temp").slider();
 
-$("#temp-enabled").click(function() {
+$("#temp-disabled").click(function() {
 	if(this.checked) {
-		$("#ex7").slider("disable");
+		$("#temp").slider("disable");
 	}
 	else {
-		$("#ex7").slider("enable");
+		$("#temp").slider("enable");
 	}
 });
 $("#seasons").slider();
 
-$("#seasons-enabled").click(function() {
+$("#seasons-disabled").click(function() {
 	if(this.checked) {
-		$("#ex7").slider("disable");
+		$("#seasons").slider("disable");
 	}
 	else {
-		$("#ex7").slider("enable");
+		$("#seasons").slider("enable");
 	}
 });
+
+function get_inputs() {
+	var preferences = document.getElementsByTagName("input");
+	preference_list = []
+	for(i = 0; i < preferences.length; i++){
+		item_id = preferences[i].id;
+		if (preferences[i].className == "") {
+		item_value = preferences[i].value;
+		};
+		if (preferences[i].className == "slider_element") {
+		item_value = preferences[i].checked
+		};
+		preference_list.push([item_id, item_value])
+	};
+	document.getElementById("preferences").value = preference_list;
+
+	//console.log things are just checks for now printed to console, can be deleted in final
+	console.log(preference_list);
+	console.log(preferences)
+	
+	//document.getElementById("priorities").submit();
+	//window.location.href = "???.html"
+}

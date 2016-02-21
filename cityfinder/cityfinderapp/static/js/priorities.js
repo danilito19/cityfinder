@@ -26,5 +26,5 @@ function get_inputs() {
 	console.log(Array.isArray(priority_list))
 	
 	//document.getElementById("priorities").submit();
-	//window.location.href = "preferences.html"
+	window.location.href = "/preferences/"
 }
