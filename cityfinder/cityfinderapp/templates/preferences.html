@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/6.0.16/css/bootstrap-slider.css">
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700|Dosis:400,300' rel='stylesheet' type='text/css'>
     <title>CityFinder</title>
 </head>
 <body id="bootstrap-overrides">
     <header>
-         {{ cities }}
+         <!--Can I delete this? Was it just here to signify that these were the moved files? {{ cities }}-->
         <div class="container" id="title_section">
             <h1>CityFinder</h1>
         </div>
@@ -76,15 +76,16 @@
     <footer>
         <div class="container-fluid">
             <a href="priorities.html">
-                <img src="images/arrow.svg" id="arrow">
+                <img src="../static/images/arrow.svg" id="arrow">
             </a>
         </div>
     </footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="js/jquery-2.2.0.js"></script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="../static/js/jquery-2.2.0.js"></script>
 <script src="http://rubaxa.github.io/Sortable/Sortable.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/6.0.16/bootstrap-slider.js"></script>
-<script src="js/script.js"></script>
-<script src="js/preferences.js"></script>
+<script src="../static/js/script.js"></script>
+<script src="../static/js/preferences.js"></script>
 </body>
 </html>
