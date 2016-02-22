@@ -49,12 +49,14 @@
         </div>
     </main>
     <footer>
-        <form action="/priorities/" method="post">
+<!--         <form action="/priorities/" method="post">
             <input type="hidden" id="priorities" name="priorities">
         </form>
-
+        would using <a href make it easier to get the right link?-->
         <div class="container-fluid">
-                <img src={% static "images/arrow.svg" %} id="arrow" onclick="get_inputs()">
+            <a href="/preferences">
+                   <img src={% static "images/arrow.svg" %} id="arrow" onclick="get_inputs()">
+            </a>
         </div>
     </footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
