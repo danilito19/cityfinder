@@ -13,15 +13,17 @@ user
 '''
 
 def preferences(request):
-  searchVectors = ['approp_title', 'year', 'county', 'expended_amount_min', 'expended_amount_max']
-  for i in searchVectors:
-    if i in request.GET and request.GET[i]:
+  return HttpResponse("Hello, world. You're at the polls index.")
+  # searchVectors = ['approp_title', 'year', 'county', 'expended_amount_min', 'expended_amount_max']
+  # for i in searchVectors:
+  #   if i in request.GET and request.GET[i]:
 
-      kwargs = {}
+  #     kwargs = {}
 
-      project_name = request.GET.get('approp_title', None)
-      if project_name:
-        kwargs['approp_title__contains'] = project_name
+  #     project_name = request.GET.get('approp_title', None)
+  #     if project_name:
+  #       kwargs['approp_title__contains'] = project_name
+
 
       # year = request.GET.get('year', None)
       # if year:
@@ -58,14 +60,23 @@ def preferences(request):
       #      'searchPath': request.get_full_path(), 
       #      'basePath': request.build_absolute_uri('/')})
 
-      return kwargs
+      # return kwargs
 
 
 def priorities(request):
     # walk_city = Walk.objects.order_by('-city')[:50]
     # return render(request, 'priorities.html', {'cities': walk_city})
-    kwargs = {}
-    return kwargs
+    return HttpResponse("PITOOO")
+    if request.session.test_cookie_worked():
+      request.session.delete_test_cookie()
+      return HttpResponse("You're logged in.")
+    else:
+      return HttpResponse("Please enable cookies and try again.")
+    request.session.set_test_cookie()
+    
+
+    # kwargs = {}
+    # return kwargs
 
 #each view has to return an httpresponse or exception
 '''

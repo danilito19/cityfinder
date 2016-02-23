@@ -11,11 +11,13 @@ and will be removed in Django 1.10. Update your urlpatterns to be a
 list of django.conf.urls.url() instances instead.
 
 '''
-urlpatterns = patterns('', url(r'^$', TemplateView.as_view(template_name='priorities.html'), name="home"))
+# urlpatterns = patterns('', url(r'^$', TemplateView.as_view(template_name='priorities.html'), name="home"))
 
-urlpatterns += patterns('', url(r'^preferences/', TemplateView.as_view(template_name='preferences.html'), name="preferences"))
+# urlpatterns += patterns('', url(r'^preferences$', TemplateView.as_view(template_name='preferences.html'), name="preferences"))
 
-urlpatterns += staticfiles_urlpatterns() #only for testing
+# urlpatterns += staticfiles_urlpatterns() #only for testing
 
-#url(r'^$', views.preferences, name='preferences'),
-#url(r'^priorities/$', views.priorities, name='priorities'),
+urlpatterns = [
+	url(r'^$', views.preferences, name='preferences'),
+]
+# url(r'^priorities/$', views.priorities, name='priorities'),
