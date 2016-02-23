@@ -4,10 +4,11 @@ from django.http import HttpResponse
 from .models import *
 
 #keep this code for example
-# def preferences(request):
-#     walk_city = Walk.objects.order_by('-city')[:50]
-#     return render(request, 'preferences.html', {'cities': walk_city})
-
+def preferences(request):
+  template = loader.get_template('preferences.html')
+  walk_city = Walk.objects.order_by('-city')[:50]
+  return render(request, 'preferences.html', {'cities': walk_city})
+  # return HttpResponse(template.render(context, request))
 '''
 user 
 '''

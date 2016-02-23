@@ -1,21 +1,17 @@
-{% load staticfiles %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href={% static "css/bootstrap.css" %}>
-    <link rel="stylesheet" href={% static "css/style.css" %}>
-    <link href='https://fonts.googleapis.com/css?family=Roboto:400,700|Dosis:400,300' rel='stylesheet' type='text/css'>
-    <title>CityFinder</title>
-</head>
-<body id="bootstrap-overrides">
-    <header>
-        <div class="container" id="title_section">
-            <h1>CityFinder</h1>
-        </div>
-    </header>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Priorities {% endblock %}
+
+{% block header %}
+<header>
+    <div class="container" id="title_section">
+        <h1>CityFinder</h1>
+    </div>
+</header>
+{% endblock %}
+
+{% block body %}
     <main>
         <h2>
             What are your priorities?
@@ -48,22 +44,20 @@
             </div>
         </div>
     </main>
-    <footer>
+{% endblock %}
+
+{% block footer %}
+<footer>
 <!--         <form action="/priorities/" method="post">
-            <input type="hidden" id="priorities" name="priorities">
-        </form>
-        would using <a href make it easier to get the right link?-->
-        <div class="container-fluid">
-            <a href="/preferences">
-                   <img src={% static "images/arrow.svg" %} id="arrow" onclick="get_inputs()">
-            </a>
-        </div>
-    </footer>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script src={% static "js/jquery-2.2.0.js" %}></script>
-<script src="http://rubaxa.github.io/Sortable/Sortable.js"></script>
-<script src={% static "js/script.js" %}></script>
-<script src={% static "js/priorities.js" %}></script>
-</body>
-</html>
+        <input type="hidden" id="priorities" name="priorities">
+    </form>
+    would using <a href make it easier to get the right link?-->
+    
+
+    <div class="container-fluid">
+        <a href="/preferences">
+               <img src={% static "images/arrow.svg" %} id="arrow" onclick="get_inputs()">
+        </a>
+    </div>
+</footer>
+{% endblock %}

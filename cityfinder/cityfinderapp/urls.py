@@ -21,6 +21,7 @@ list of django.conf.urls.url() instances instead.
 
 urlpatterns = [
 	url(r'^$', views.priorities, name='priorities'),
+	url(r'^preferences/$', views.preferences, name='preferences'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
