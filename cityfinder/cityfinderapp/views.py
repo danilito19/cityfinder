@@ -1,5 +1,5 @@
 from django.shortcuts import render, render_to_response
-from django.template import RequestContext
+from django.template import RequestContext, loader
 from django.http import HttpResponse
 from .models import *
 
@@ -12,8 +12,15 @@ from .models import *
 user 
 '''
 
-def preferences(request):
-  return HttpResponse("Hello, world. You're at the polls index.")
+def priorities(request):
+  # return HttpResponse("Hello, world. You're at the polls index.")
+  template = loader.get_template('priorities.html')
+  context = {
+      'test_context': 'hellow!',
+    }
+
+  return HttpResponse(template.render(context, request))
+
   # searchVectors = ['approp_title', 'year', 'county', 'expended_amount_min', 'expended_amount_max']
   # for i in searchVectors:
   #   if i in request.GET and request.GET[i]:
@@ -63,16 +70,16 @@ def preferences(request):
       # return kwargs
 
 
-def priorities(request):
-    # walk_city = Walk.objects.order_by('-city')[:50]
-    # return render(request, 'priorities.html', {'cities': walk_city})
-    return HttpResponse("PITOOO")
-    if request.session.test_cookie_worked():
-      request.session.delete_test_cookie()
-      return HttpResponse("You're logged in.")
-    else:
-      return HttpResponse("Please enable cookies and try again.")
-    request.session.set_test_cookie()
+# def priorities(request):
+#     # walk_city = Walk.objects.order_by('-city')[:50]
+#     # return render(request, 'priorities.html', {'cities': walk_city})
+#     return HttpResponse("PITOOO")
+#     if request.session.test_cookie_worked():
+#       request.session.delete_test_cookie()
+#       return HttpResponse("You're logged in.")
+#     else:
+#       return HttpResponse("Please enable cookies and try again.")
+#     request.session.set_test_cookie()
     
 
     # kwargs = {}

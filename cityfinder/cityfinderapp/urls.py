@@ -1,7 +1,9 @@
 from django.conf.urls import patterns, url, include
 from . import views
-from django.views.generic import TemplateView
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+#  from django.views.generic import TemplateView
+#from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf import settings
+from django.conf.urls.static import static
 
 '''
 Error we get due to url patterns:  need to resolve this
@@ -18,6 +20,8 @@ list of django.conf.urls.url() instances instead.
 # urlpatterns += staticfiles_urlpatterns() #only for testing
 
 urlpatterns = [
-	url(r'^$', views.preferences, name='preferences'),
-]
+	url(r'^$', views.priorities, name='priorities'),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+
 # url(r'^priorities/$', views.priorities, name='priorities'),
