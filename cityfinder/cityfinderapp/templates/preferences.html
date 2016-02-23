@@ -8,7 +8,6 @@
          <!--Can I delete this? Was it just here to signify that these were the moved files? -->
 
         <div class="container" id="title_section">
-            <!-- {{ cities }}  -->
             <h1>CityFinder </h1>
         </div>
     </header>
@@ -82,4 +81,8 @@
         <img src={% static "images/arrow.svg" %} id="arrow" onclick="get_inputs()">
     </div>
 </footer>
+{% endblock %}
+
+{% block additional_js %}
+<script src={% static "js/preferences.js" %}></script>
 {% endblock %}

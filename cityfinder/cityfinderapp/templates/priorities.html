@@ -48,16 +48,21 @@
 
 {% block footer %}
 <footer>
+    
 <!--         <form action="/priorities/" method="post">
         <input type="hidden" id="priorities" name="priorities">
     </form>
-    would using <a href make it easier to get the right link?-->
+    -->
     
 
     <div class="container-fluid">
-        <a href="/preferences">
+        <a href="/cityfinderapp/preferences">
                <img src={% static "images/arrow.svg" %} id="arrow" onclick="get_inputs()">
         </a>
     </div>
 </footer>
+{% endblock %}
+
+{% block additional_js %}
+<script src={% static "js/priorities.js" %}></script>
 {% endblock %}
