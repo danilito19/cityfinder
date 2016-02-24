@@ -3,8 +3,7 @@ from django.template import RequestContext, loader
 from django.http import HttpResponse
 from .models import *
 
-#keep this code for example
-#  walk_city = Walk.objects.order_by('-city')[:50]
+
 
 def priorities(request):
   # All this happens before any HTML is sent to the browser
@@ -21,46 +20,55 @@ def priorities(request):
   #   for priority in request.session['priorities']:
   #     context['previous_priorities'].append(priority)
 
-  # render HTML for browser here
   return render(request, 'priorities.html')
+
+def transform_post_to_dict(post):
+  '''
+  Given a post item, transform values into a dict
+  '''
+
+  d = {}
+  post = post.items()[1]
+  key = str(post[0])
+  values = str(post[1]).split(',')
+
+  d[key] = values
+
+  return d 
 
 
 def preferences(request):
   # we get ordered priorities from revious page via request.POST
-  #get them into a kwargs dict to query db
-
-  kwargs = {}
-  p = request.POST.items()[1]
-  key = str(p[0])
-  priorities = str(p[1]).split(',')
-  kwargs[key] = priorities
-  print kwargs
-
-
   # we now save these priorities for later use, or if user goes back
-  request.session['priorities'] = kwargs
+  request.session['priorities'] = request.POST
 
-  # return render(request, 'preferences.html', {'test_context': stored_variable})
   return render(request, 'preferences.html')
 
 
 def city_results(request):
 
-  #first get priorities list
-  kwargs = request.session['priorities'] 
-  print 'priority values are:', kwargs
+  #first get priorities list and turn it into a dict
+  priorities = transform_post_to_dict(request.session['priorities'])
+  print priorities
 
-  #now get post from preferences view
-  
-  print 'these are preferences', request.POST.items()[1]
+  #now get post from preferences view and turn into dict too
+  preferences = transform_post_to_dict(request.POST)
+  print preferences
 
-  #show city list in bootstrap table
-  return render(request, 'city_results.html')
+  #example to pass in to results to show city data
+  #need to call here a func algorithm // Alden
+  walk_city = Walk.objects.order_by('-city')[:50]
+
+  return render(request, 'city_results.html', {'results': walk_city})
 
 
 #each view has to return an httpresponse or exception
 '''
 func to get kwargs, transform and get data from model objects
+
+#keep this code for example
+#  walk_city = Walk.objects.order_by('-city')[:50]
+
 
 getting data:
 Walk.objects.get(city='Chicago')
