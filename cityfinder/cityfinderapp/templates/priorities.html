@@ -16,6 +16,7 @@
         <h2>
             What are your priorities?
         </h2>
+
         <!-- sort: false -->
         <div class="container-fluid" id="lists">
             <div class="row-centered gutter-60">
@@ -49,16 +50,13 @@
 {% block footer %}
 <footer>
     
-<!--         <form action="/priorities/" method="post">
-        <input type="hidden" id="priorities" name="priorities">
+    <form id="priorities-form" action="preferences/" method="post"> {% csrf_token %}
+        <input type="hidden"  id="priorities" name="priorities">
     </form>
-    -->
-    
+   
 
     <div class="container-fluid">
-        <a href="/cityfinderapp/preferences">
-               <img src={% static "images/arrow.svg" %} id="arrow" onclick="get_inputs()">
-        </a>
+        <img src={% static "images/arrow.svg" %} id="arrow" >
     </div>
 </footer>
 {% endblock %}
