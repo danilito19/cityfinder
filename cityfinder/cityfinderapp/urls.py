@@ -22,7 +22,6 @@ list of django.conf.urls.url() instances instead.
 urlpatterns = [
 	url(r'^$', views.priorities, name='priorities'),
 	url(r'^preferences/$', views.preferences, name='preferences'),
+	url(r'^city_results/$', views.city_results, name='city_results'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
-
-# url(r'^priorities/$', views.priorities, name='priorities'),

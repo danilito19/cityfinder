@@ -15,26 +15,47 @@ def priorities(request):
     return HttpResponse("Please enable cookies and try again.")
   
   # this enables us to show any previous selections if user went back
-  # to the first page. Otherwise no harm done
-  context = {'previous_priorities': []}
-  if request.session['priorities']:
-    for priority in request.session['priorities']:
-      context['previous_priorities'].append(priority)
+  # to the first page. 
+  # context = {'previous_priorities': []}
+  # if request.session and request.session['priorities']:
+  #   for priority in request.session['priorities']:
+  #     context['previous_priorities'].append(priority)
 
   # render HTML for browser here
-  return render(request, 'priorities.html', context)
+  return render(request, 'priorities.html')
 
 
 def preferences(request):
-  # we get priorities from previous page via request.POST
-  print request.POST
+  # we get ordered priorities from revious page via request.POST
+  #get them into a kwargs dict to query db
+
+  kwargs = {}
+  p = request.POST.items()[1]
+  key = str(p[0])
+  priorities = str(p[1]).split(',')
+  kwargs[key] = priorities
+  print kwargs
+
+
   # we now save these priorities for later use, or if user goes back
-  request.session['priorities'] = request.POST['priorities']
-  # stored_variable = request.session['test']
+  request.session['priorities'] = kwargs
+
   # return render(request, 'preferences.html', {'test_context': stored_variable})
   return render(request, 'preferences.html')
 
 
+def city_results(request):
+
+  #first get priorities list
+  kwargs = request.session['priorities'] 
+  print 'priority values are:', kwargs
+
+  #now get post from preferences view
+  
+  print 'these are preferences', request.POST.items()[1]
+
+  #show city list in bootstrap table
+  return render(request, 'city_results.html')
 
 
 #each view has to return an httpresponse or exception
