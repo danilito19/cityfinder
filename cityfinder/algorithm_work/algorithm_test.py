@@ -6,11 +6,12 @@
 import numpy as np
 
 WEIGHT_DECAY = .15
+CITY_DICT = {}
 
 def calculate_weights(n):
     '''
     Calculates a series of weights based of the number of inputted 
-    preferences, n. 
+    preferences, n. N^2 time. 
 
     Input: n
     Output: a list of weights
@@ -22,7 +23,7 @@ def calculate_weights(n):
             rv[j] += -to_add
             rv[i] += to_add
 
-    # Account for rounding error
+    # Account for rounding error so that sum is 100
     if sum(rv) > 100: 
         sub = 100 - sum(rv)
         rv[-1] += sub     
@@ -47,29 +48,64 @@ def calculate_z_scores(array, i = None):
     else:
         return rv
 
-def calculate_city_score(input_dict):
+def calculate_criteria_scores(input_dict):
     '''
-    Calculates the city score based on inputs. 
+    Calculates the city score based on inputs; creates data dictionary.
+
+    Input: input dictionary
+    Output: 
+    - data dictionary mapping criteria: [rank, data_array, score_array]
+    - cities list
     '''
     data = {}
     for entry in input_dict:
         if input_dict[entry] is int:
             data[criteria] = [input_dict[entry]]
 
-    for x in criteria: 
+    for criteria in data: 
         data[criteria].append(get_data(criteria))
+        data[criteria][1] = translate_city_names(data[criteria][1])
+        data[criteria].append(calculate_z_scores(data[criteria][1][:,1]))
 
-    
+    cities = data[data.keys()[0]][1][:,0]
 
+    return (data, cities)
 
 def get_data(criteria):
     '''
     Gets the city name and relevant column for the criteria passed.
 
     Input: criteria name
-    Output: 2xn array
+    Output: 2xn array with (city | score_basis)
     '''
     pass
+
+def translate_city_names(array):
+    '''
+    Takes an array with city names and translates them to a common form.
+    '''
+    pass
+
+def run_calcuations(input_dict):
+    '''
+    Carries out algorithm; returns cities dictionary. 
+
+    Input: dictionary from django app
+    Output: dictionary mapping city: [overall_score, all_score_array, rank]
+    '''
+    data, cities = calculate_criteria_scores(input_dict)
+    weights = calculate_weights(len(data))
+    rv = {}
+
+    for city in cities:
+        for criteria in data:
+            rv[city] = [None, None, None]
+            i = data[criteria][1][:,0].index(city)
+            
+
+
+
+
 
 
 test1 = {
