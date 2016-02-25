@@ -58,9 +58,11 @@ def calculate_criteria_scores(input_dict):
     - cities list
     '''
     data = {}
-    for entry in input_dict:
-        if input_dict[entry] is int:
-            data[criteria] = [input_dict[entry]]
+    priority = len(input_dict[0])
+    
+    for criteria in input_dict[0]:
+        data['criteria'] = 
+        prioirty += -1
 
     for criteria in data: 
         data[criteria].append(get_data(criteria))
@@ -101,19 +103,22 @@ def run_calcuations(input_dict):
         for criteria in data:
             rv[city] = [None, None, None]
             i = data[criteria][1][:,0].index(city)
-            
-
-
-
 
 
 
 test1 = {
-    walk_score: 1,
-    bike_score: 2,
-    hispanic: 3,
-    size: big
+    'priorities': ['walk', 'weather'],
+    'preferences': {'city' : 1,
+                'sun' : 2}
     }
 
-        
+# Output should be a list of Class Object for Cities in order of rank:
+#   rank
+#   score
+#   table of scores
+
+# There is a city name that works across all relations - inside views
+# Pull city, col from relation if city is in key relation
+
+
 
