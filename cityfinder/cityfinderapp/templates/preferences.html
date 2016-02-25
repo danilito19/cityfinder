@@ -74,8 +74,7 @@
 <footer>
     <div class="container-fluid">
         <form action="../city_results/" method="post"> {% csrf_token %}
-            <input id="preferences" name="preferences">
-            <button>submit</button>
+            <input <input type="hidden" id="preferences" name="preferences">
         </form>
         <img src={% static "images/arrow.svg" %} id="arrow" onclick="get_inputs()">
     </div>
