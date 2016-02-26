@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Preferences {% endblock %}
+
+{% block header %}
+    <header>
+        <div class="container" id="title_section">
+            <h1>CityFinder {{ test_context }} </h1>
+        </div>
+    </header>
+{% endblock %}
+
+{% block body %}
+<main>
+    <h2>
+        Do you have a preference as to city size?
+    </h2>
+    <div class="container-fluid text-center" id="lists">
+        <div class="row">
+            <div class = "col-md-9">
+                <div class="slider_element" id="city-slider"><input id="size" type="text" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-value="1" data-slider-enabled="true"/></div>  
+            </div>
+            <div class = "col-xs-3">              
+                <div class="slider_element"><input class="slider_element" id="size-disabled" type="checkbox"/></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class = "col-xs-3">
+                <p class="slider_element option">Small</p>
+            </div>
+            <div class = "col-xs-3">
+                <p class="slider_element option">Mid-Size</p>
+            </div>
+            <div class = "col-xs-3">
+                <p class="slider_element option">Large</p>
+            </div>
+            <div class = "col-xs-3">
+                <p class="slider_element option">I don't really care!</p>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block footer %}
+<footer>
+    <div class="container-fluid">
+        <form action="../city_results/" method="post"> {% csrf_token %}
+            <input <input type="hidden" id="preferences" name="preferences">
+        </form>
+        <button id="bottom-button" type="button" onclick="get_inputs()">
+            <img src={% static "images/arrow.svg" %} id="arrow">
+            <p id="button-label">continue<p>
+        </button>
+    </div>
+</footer>
+{% endblock %}
+
+{% block additional_js %}
+<script src={% static "js/preferences.js" %}></script>
+{% endblock %}

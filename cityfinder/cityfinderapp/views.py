@@ -44,6 +44,14 @@ def preferences(request):
 
   return render(request, 'preferences.html')
 
+def preferences_citysize(request):
+  return render(request, 'preferences_citysize.html')
+
+def preferences_weather(request):
+  return render(request, 'preferences_weather.html')
+
+def preferences_community(request):
+  return render(request, 'preferences_community.html')
 
 def city_results(request):
 
