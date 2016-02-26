@@ -16,6 +16,7 @@
 
 #bootstrap-overrides #lists {
 	width: 865px;
+	margin-bottom: 100px;
 }
 
 #bootstrap-overrides #checkbox {
@@ -47,10 +48,31 @@ body {
 	font-family: 'Dosis', sans-serif;
 	font-weight: 300;
 }
+
+#bootstrap-overrides #bottom-button {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	background: none;
+	border: none;
+}
+
 #bootstrap-overrides #arrow {
 	display: block;
 	width: 100px;
-	margin: 100px auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+#bootstrap-overrides #button-label {
+	display: block;
+	color: #FFA400;
+	text-align: center;
+	margin: 0 auto;
+	font-family:  'Roboto', sans-serif;
+	font-weight: 400;
+	font-size: 1.25em;
 }
 
 #bootstrap-overrides .option {
@@ -58,8 +80,26 @@ body {
 	text-align: center;
 }
 
+#bootstrap-overrides #community_checklist {
+	width: 200px;
+}
+
+#city-slider .slider.slider-horizontal {
+	width: 450px;
+}
+
+#bootstrap-overrides #community_checklist input {
+	margin-top: 20px;
+}
+
 #ex7 .slider-selection {
 	background: #BABABA;
+}
+
+#bootstrap-overrides h3 {
+	color: #00A0B2;
+	font-size: 1.4em;
+	text-align: center;
 }
 
 #bootstrap-overrides .slider_element {
@@ -83,6 +123,7 @@ body {
 	display: inline-block;
 	padding-left: 10px;
 }
+
 /*gutter adjustments from http://arnique.net/web-design/58/a-quick-guide-to-changing-bootstraps-gutter-width/*/
 // 60px gutter
 .gutter-60.row {

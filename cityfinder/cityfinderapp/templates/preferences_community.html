@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Preferences {% endblock %}
+
+{% block header %}
+    <header>
+        <div class="container" id="title_section">
+            <h1>CityFinder {{ test_context }} </h1>
+        </div>
+    </header>
+{% endblock %}
+
+{% block body %}
+<main>
+    <h2>
+        What types of communities are important to you?
+    </h2>
+    <!-- sort: false -->
+    <div class="container-fluid" id="lists">
+        <h3>I care about living where there is...</h3>
+        <div class="center-block" id="community_checklist">
+                <input type="checkbox" name="student">&nbsp;&nbsp;&nbsp;&nbsp;a significant student community<br></input>
+                <input type="checkbox" name="black">&nbsp;&nbsp;&nbsp;&nbsp;a significant black community<br></input>
+                <input type="checkbox" name="asian">&nbsp;&nbsp;&nbsp;&nbsp;a significant asian community<br></input>
+                <input type="checkbox" name="latin">&nbsp;&nbsp;&nbsp;&nbsp;a significant latino community<br></input>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block footer %}
+<footer>
+    <div class="container-fluid">
+        <form action="../city_results/" method="post"> {% csrf_token %}
+            <input <input type="hidden" id="preferences" name="preferences">
+        </form>
+        <button id="bottom-button" type="button" onclick="get_inputs()">
+            <img src={% static "images/arrow.svg" %} id="arrow">
+            <p id="button-label">continue<p>
+        </button>
+    </div>
+</footer>
+{% endblock %}
+
+{% block additional_js %}
+<script src={% static "js/preferences.js" %}></script>
+{% endblock %}
