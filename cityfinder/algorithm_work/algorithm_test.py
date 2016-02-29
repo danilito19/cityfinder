@@ -1,12 +1,20 @@
 # CityFinder
 # Simple recommendation algorithm
-# Limit ten cities
+# Limit 100 cities
 # 2-9-2016
 
 import numpy as np
+import City as city
+## from cityfinderapp.models import *
 
 WEIGHT_DECAY = .15
-CITY_DICT = {}
+RELATION_DICT = {'colleges': 'cityfinderapp_academic', 
+'age':'cityfinderapp_age', 
+'cost':'cityfinderapp_col', 'crime':'cityfinderapp_crime', 
+'hisp':'cityfinderapp_hisp', 'lgbt':'cityfinderapp_lgbt', 
+'rent':'cityfinderapp_rent', 'transit':'cityfinderapp_walk', 
+'walk':'cityfinderapp_walk', 'bike':'cityfinderapp_walk'
+'weather':'cityfinderapp_weather' }
 
 def calculate_weights(n):
     '''
@@ -60,18 +68,12 @@ def calculate_criteria_scores(input_dict):
     data = {}
     priority = len(input_dict[0])
     
-    for criteria in input_dict[0]:
-        data['criteria'] = 
-        prioirty += -1
-
-    for criteria in data: 
-        data[criteria].append(get_data(criteria))
-        data[criteria][1] = translate_city_names(data[criteria][1])
+    for criteria in input_dict['priorities']:
+        data[criteria] = [get_data[criteria]]
         data[criteria].append(calculate_z_scores(data[criteria][1][:,1]))
+        priority += -1
 
-    cities = data[data.keys()[0]][1][:,0]
-
-    return (data, cities)
+    return data
 
 def get_data(criteria):
     '''
@@ -82,29 +84,44 @@ def get_data(criteria):
     '''
     pass
 
-def translate_city_names(array):
+def add_criteria_scores(cities, data):
     '''
-    Takes an array with city names and translates them to a common form.
+    Creates City objects for each city and adds all criteria scores. 
+
+    Input: list of cities, data dictionary
+    Output: city_data dictionary mapping city: City object
+    '''
+    rv = {}
+    for i in range(len(cities)):
+        rv[cities[i]] = city.City(cities[i][1])
+        for criteria in data:
+            city = rv[cities[i]].name
+            i_array = data[criteria][1] is city
+            city_score = data[criteria][1][i_array]
+            np.concatenate((rv[i].all_scores, city_score), axis = 1)
+
+def calculate_rank(city_dict):
+    '''
     '''
     pass
 
-def run_calcuations(input_dict):
+def run_calculations(input_dict):
     '''
     Carries out algorithm; returns cities dictionary. 
 
     Input: dictionary from django app
-    Output: dictionary mapping city: [overall_score, all_score_array, rank]
+    Output: list of ranked cities, dictionary mapping city: city object, 
     '''
-    data, cities = calculate_criteria_scores(input_dict)
+    data = calculate_criteria_scores(input_dict)
+    cities = get_data('cities')
+    city_data = add_criteria_scores(cities, data)
     weights = calculate_weights(len(data))
-    rv = {}
 
-    for city in cities:
-        for criteria in data:
-            rv[city] = [None, None, None]
-            i = data[criteria][1][:,0].index(city)
+    for entry in city_data:
+        city_data[entry].calculate_score(weights)
 
-
+    ranked_list = calculate_rank(city_dict)
+    return ranked_list, city_data
 
 test1 = {
     'priorities': ['walk', 'weather'],
@@ -119,6 +136,11 @@ test1 = {
 
 # There is a city name that works across all relations - inside views
 # Pull city, col from relation if city is in key relation
+
+# City.objects_all() <- all city names
+# Loop through these
+#   Loop through preferences
+#       grab, store in new class
 
 
 
