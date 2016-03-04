@@ -45,23 +45,39 @@ def preferences(request):
   return render(request, 'preferences.html')
 
 def preferences_citysize(request):
+
+  request.session['preferences'] = request.POST
   return render(request, 'preferences_citysize.html')
 
 def preferences_weather(request):
+  request.session['preferences_citysize'] = request.POST
+
   return render(request, 'preferences_weather.html')
 
 def preferences_community(request):
+  request.session['preferences_weather'] = request.POST
+
   return render(request, 'preferences_community.html')
 
 def city_results(request):
 
-  #first get priorities list and turn it into a dict
-  priorities = transform_post_to_dict(request.session['priorities'])
-  print priorities
+  request.session['preferences_community'] = request.POST
 
-  #now get post from preferences view and turn into dict too
-  preferences = transform_post_to_dict(request.POST)
-  print preferences
+  #first get user input from sessions and turn into a dict
+
+  print request.session['priorities']
+  print request.session['preferences_community'] 
+  # priorities = transform_post_to_dict(request.session['priorities'])
+  # preferences = transform_post_to_dict(request.session['preferences'])
+  # preferences_citysize = transform_post_to_dict(request.session['preferences_citysize'])
+  # preferences_weather = transform_post_to_dict(request.session['preferences_weather'])
+  # preferences_community = transform_post_to_dict(request.session['preferences_community'])
+
+  # print priorities
+  # print preferences
+  # print preferences_citysize
+  # print preferences_weather
+  # print preferences_community
 
   #example to pass in to results to show city data
   #need to call here a func algorithm // Alden
