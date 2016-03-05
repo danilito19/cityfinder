@@ -22,9 +22,10 @@ $('#arrow').on("click", function(e){
 		priority_list.push(list_item.id)
 	}
 
+	console.log(priority_list)
+
 	document.getElementById('priorities').value = priority_list;
-	$('#priorities-form').attr('action', "./preferences/").submit();
-	// window.location.href = "/preferences/"
+	$('#priorities-form').attr('action', "./preferences_citysize/").submit();
 });
 
 

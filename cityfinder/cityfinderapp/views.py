@@ -34,8 +34,27 @@ def transform_post_to_dict(post):
 
   d[key] = values
 
-  return d 
+  return d
 
+def process_slider_input(post):
+  '''
+  Given a list from JS like so ["sun", 2, "temp", 0]
+  Change to dict like so {"sun" : 2, "temp" : 0}
+  '''
+  attribute_dict = {}
+  post = post.items()[1]
+  attribute_list = str(post[1]).split(",")
+
+  for i, item in enumerate(attribute_list):
+    if i%2 == 0:
+      key = attribute_list[i]
+      score = int(attribute_list[i+1])
+      attribute_dict[key] = score
+
+  return attribute_dict
+
+
+# No longer using the pure preferences page
 
 def preferences(request):
   # we get ordered priorities from revious page via request.POST
@@ -45,8 +64,7 @@ def preferences(request):
   return render(request, 'preferences.html')
 
 def preferences_citysize(request):
-
-  request.session['preferences'] = request.POST
+  request.session['priorities'] = request.POST
   return render(request, 'preferences_citysize.html')
 
 def preferences_weather(request):
@@ -59,14 +77,29 @@ def preferences_community(request):
 
   return render(request, 'preferences_community.html')
 
+def city_results_experimental(request):
+  cities = ["New York", "Minneapolis", "Chicago", "Seattle", "Miami", "Austin", "Dallas", "San Francisco", "San Diego", "Salt Lake City"]
+  match_scores = [98, 76, 74, 53, 32, 31, 30, 25, 20, 10, 5]
+  fall_temp = [12, 65, 78, 32, 65, 78, 98, 90, 12, 65]
+  winter_temp = [12, 65, 78, 32, 12, 65, 78, 32, 12, 65]
+  spring_temp = [78, 32, 12, 65, 78, 32, 12, 65, 78, 32]
+  summer_temp = [80, 89, 70, 67, 47, 89, 90, 50, 70, 77]
+  bike_score = [80, 89, 70, 67, 47, 89, 90, 50, 70, 77]
+  transit_score = [78, 32, 12, 65, 78, 32, 12, 65, 78, 32]
+  walk_score = [12, 65, 78, 32, 65, 78, 98, 90, 12, 65]
+
+  return render(request, 'city_results_experimental.html', {"cities": cities})
+
 def city_results(request):
 
   request.session['preferences_community'] = request.POST
 
   #first get user input from sessions and turn into a dict
 
-  print request.session['priorities']
-  print request.session['preferences_community'] 
+  print "priorites raw", request.session['priorities']
+  print "city size raw", request.session["preferences_citysize"]
+  print "weather raw", request.session["preferences_weather"]
+  print "community raw", request.session['preferences_community']
   # priorities = transform_post_to_dict(request.session['priorities'])
   # preferences = transform_post_to_dict(request.session['preferences'])
   # preferences_citysize = transform_post_to_dict(request.session['preferences_citysize'])
@@ -78,6 +111,37 @@ def city_results(request):
   # print preferences_citysize
   # print preferences_weather
   # print preferences_community
+
+  priorities = transform_post_to_dict(request.session["priorities"])
+  print "priorites", priorities
+
+  #city size preference to dictionary
+  citysize_preference = process_slider_input(request.session["preferences_citysize"])
+  print "city size prefs", citysize_preference
+
+  #weather preferences to dictionary
+  weather_preferences = process_slider_input(request.session["preferences_weather"])
+  print "weather prefs", weather_preferences
+
+  #community preferences to dictionary
+  community_preferences = transform_post_to_dict(request.session["preferences_community"])
+  print "comm prefs", community_preferences
+
+  #building query dict
+
+  query_dict = {}
+
+  if "community" in priorities["priorities"]:
+    query_dict.update(community_preferences)
+
+  if "weather" in priorities["priorities"]:
+    query_dict.update(weather_preferences)
+
+  query_dict.update(priorities)
+  query_dict.update(citysize_preference)
+
+  print "QUERY DICTIONARY", query_dict
+
 
   #example to pass in to results to show city data
   #need to call here a func algorithm // Alden
