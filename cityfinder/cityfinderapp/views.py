@@ -34,7 +34,16 @@ def transform_post_to_dict(post):
 
   d[key] = values
 
-  return d 
+  return d
+
+def process_weather_input(post):
+  '''
+  Given a list from JS like so ["sun", 2, "temp", 0]
+  Change to dict like so {"sun" : 2, "temp" : 0}
+  '''
+  print post
+  print type(post)
+  weather_dict = {}
 
 
 def preferences(request):
@@ -45,13 +54,29 @@ def preferences(request):
   return render(request, 'preferences.html')
 
 def preferences_citysize(request):
+  request.session["priorities"] = request.POST
   return render(request, 'preferences_citysize.html')
 
 def preferences_weather(request):
+  request.session["citysize"] = request.POST
   return render(request, 'preferences_weather.html')
 
 def preferences_community(request):
+  request.session["weather"] = request.Post
   return render(request, 'preferences_community.html')
+
+def city_results_experimental(request):
+  cities = ["New York", "Minneapolis", "Chicago", "Seattle", "Miami", "Austin", "Dallas", "San Francisco", "San Diego", "Salt Lake City"]
+  match_scores = [98, 76, 74, 53, 32, 31, 30, 25, 20, 10, 5]
+  fall_temp = [12, 65, 78, 32, 65, 78, 98, 90, 12, 65]
+  winter_temp = [12, 65, 78, 32, 12, 65, 78, 32, 12, 65]
+  spring_temp = [78, 32, 12, 65, 78, 32, 12, 65, 78, 32]
+  summer_temp = [80, 89, 70, 67, 47, 89, 90, 50, 70, 77]
+  bike_score = [80, 89, 70, 67, 47, 89, 90, 50, 70, 77]
+  transit_score = [78, 32, 12, 65, 78, 32, 12, 65, 78, 32]
+  walk_score = [12, 65, 78, 32, 65, 78, 98, 90, 12, 65]
+
+  return render(request, 'city_results_experimental.html', {"cities": cities})
 
 def city_results(request):
 
@@ -62,6 +87,18 @@ def city_results(request):
   #now get post from preferences view and turn into dict too
   preferences = transform_post_to_dict(request.POST)
   print preferences
+
+  #city size preference to dictionary
+  citysize_preference = process_weather_input[request.session["citysize"]]
+  print citysize_preference
+
+  #weather preferences to dictionary
+  weather_preferences = process_weather_input(request.session["weather"])
+  print weather_preferences
+
+  #community preferences to dictionary
+  community_preferences = transform_post_to_dict(request.POST)
+  print community_preferences
 
   #example to pass in to results to show city data
   #need to call here a func algorithm // Alden

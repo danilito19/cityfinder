@@ -32,10 +32,10 @@
 {% block footer %}
 <footer>
     <div class="container-fluid">
-        <form action="../city_results/" method="post"> {% csrf_token %}
+        <form id="community-form" action="../city_results/" method="post"> {% csrf_token %}
             <input <input type="hidden" id="preferences" name="preferences">
         </form>
-        <button id="bottom-button" type="button" onclick="get_inputs()">
+        <button id="bottom-button" type="button" onclick="get_community_inputs()">
             <img src={% static "images/arrow.svg" %} id="arrow">
             <p id="button-label">continue<p>
         </button>
@@ -44,5 +44,5 @@
 {% endblock %}
 
 {% block additional_js %}
-<script src={% static "js/preferences.js" %}></script>
+<script src={% static "js/communities.js" %}></script>
 {% endblock %}

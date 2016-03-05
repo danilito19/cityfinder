@@ -46,10 +46,10 @@
 {% block footer %}
 <footer>
     <div class="container-fluid">
-        <form action="../city_results/" method="post"> {% csrf_token %}
-            <input <input type="hidden" id="preferences" name="preferences">
+        <form id="citysize-form" action="../city_results/" method="post"> {% csrf_token %}
+            <input <input id = "citysize" type="hidden" id="preferences" name="preferences">
         </form>
-        <button id="bottom-button" type="button" onclick="get_inputs()">
+        <button id="bottom-button" type="button" onclick="get_city_size()">
             <img src={% static "images/arrow.svg" %} id="arrow">
             <p id="button-label">continue<p>
         </button>

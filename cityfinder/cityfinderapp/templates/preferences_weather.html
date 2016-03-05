@@ -23,11 +23,16 @@
                 <h3 id="slide_header" class="slider_element">Sun</h3>
                 <p class="slider_element option">Sunny</p>
             
-                <div class="slider_element"><input id="sun" type="text" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-value="1" data-slider-enabled="true"/></div>
+                <div class="slider_element">
+                    <input id="sun" type="text" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-value="1" data-slider-enabled="true"/>
+                </div>
 
                 <p class="slider_element option">Overcast</p>
                 
-                <div class="slider_element"><input class="slider_element" id="sun-disabled" type="checkbox"/><p>Indifferent</p></div>
+                <div class="slider_element">
+                    <input class="slider_element" id="sun-disabled" type="checkbox"/>
+                    <p>Indifferent</p>
+                </div>
             </div>
         </div>
         <div class="row-centered">
@@ -35,11 +40,16 @@
                 <h3 id="slide_header" class="slider_element">Temperature</h3>
                 <p class="slider_element option">Warm</p>
             
-                <div class="slider_element"><input id="temp" type="text" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-value="1" data-slider-enabled="true"/></div>
+                <div class="slider_element">
+                    <input id="temp" type="text" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-value="1" data-slider-enabled="true"/>
+                </div>
 
                 <p class="slider_element option">Cold</p>
                 
-                <div class="slider_element"><input class="slider_element" id="temp-disabled" type="checkbox"/><p>Indifferent</p></div>
+                <div class="slider_element">
+                    <input class="slider_element" id="temp-disabled" type="checkbox"/>
+                    <p>Indifferent</p>
+                </div>
             </div>
         </div>
         <div class="row-centered">
@@ -47,11 +57,16 @@
                 <h3 id="slide_header" class="slider_element">Seasons</h3>
                 <p class="slider_element option">Variation</p>
             
-                <div class="slider_element"><input id="seasons" type="text" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-value="1" data-slider-enabled="true"/></div>
+                <div class="slider_element">
+                    <input id="seasons" type="text" data-slider-min="0" data-slider-max="2" data-slider-step="1" data-slider-value="1" data-slider-enabled="true"/>
+                </div>
 
                 <p class="slider_element option">Constant</p>
                 
-                <div class="slider_element"><input class="slider_element" id="seasons-disabled" type="checkbox"/><p>Indifferent</p></div>
+                <div class="slider_element">
+                    <input class="slider_element" id="seasons-disabled" type="checkbox"/>
+                    <p>Indifferent</p>
+                </div>
             </div>
         </div>
     </div>
@@ -61,10 +76,10 @@
 {% block footer %}
 <footer>
     <div class="container-fluid">
-        <form action="../city_results/" method="post"> {% csrf_token %}
-            <input <input type="hidden" id="preferences" name="preferences">
+        <form id="weather-form" action="../city_results/" method="post"> {% csrf_token %}
+            <input <input type="hidden" id="weather" name="weather-form">
         </form>
-        <button id="bottom-button" type="button" onclick="get_inputs()">
+        <button id="bottom-button" type="button" onclick="get_weather_inputs()">
             <img src={% static "images/arrow.svg" %} id="arrow">
             <p id="button-label">continue<p>
         </button>
