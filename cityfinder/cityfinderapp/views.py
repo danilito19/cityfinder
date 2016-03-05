@@ -5,36 +5,20 @@ from .models import *
 
 
 
-def priorities(request):
-  # All this happens before any HTML is sent to the browser
-  request.session.set_test_cookie()
-  if request.session.test_cookie_worked():
-    request.session.delete_test_cookie()
-  else:
-    return HttpResponse("Please enable cookies and try again.")
-  
-  # this enables us to show any previous selections if user went back
-  # to the first page. 
-  # context = {'previous_priorities': []}
-  # if request.session and request.session['priorities']:
-  #   for priority in request.session['priorities']:
-  #     context['previous_priorities'].append(priority)
-
-  return render(request, 'priorities.html')
-
-def transform_post_to_dict(post):
+def process_user_list(post):
   '''
-  Given a post item, transform values into a dict
+  Given a post item, transform strings into a dict
+  with a list of priorities or preferences.
   '''
 
-  d = {}
+  attribute_dict = {}
   post = post.items()[1]
   key = str(post[0])
   values = str(post[1]).split(',')
 
-  d[key] = values
+  attribute_dict[key] = values
 
-  return d
+  return attribute_dict
 
 def process_slider_input(post):
   '''
@@ -53,15 +37,22 @@ def process_slider_input(post):
 
   return attribute_dict
 
+def priorities(request):
+  # All this happens before any HTML is sent to the browser
+  request.session.set_test_cookie()
+  if request.session.test_cookie_worked():
+    request.session.delete_test_cookie()
+  else:
+    return HttpResponse("Please enable cookies and try again.")
+  
+  # this enables us to show any previous selections if user went back
+  #to the first page. 
+  # context = {'previous_priorities': []}
+  # if request.session and request.session['priorities']:
+  #   for priority in request.session['priorities']:
+  #     context['previous_priorities'].append(priority)
 
-# No longer using the pure preferences page
-
-def preferences(request):
-  # we get ordered priorities from revious page via request.POST
-  # we now save these priorities for later use, or if user goes back
-  request.session['priorities'] = request.POST
-
-  return render(request, 'preferences.html')
+  return render(request, 'priorities.html')
 
 def preferences_citysize(request):
   request.session['priorities'] = request.POST
@@ -95,24 +86,12 @@ def city_results(request):
   request.session['preferences_community'] = request.POST
 
   #first get user input from sessions and turn into a dict
-
   print "priorites raw", request.session['priorities']
   print "city size raw", request.session["preferences_citysize"]
   print "weather raw", request.session["preferences_weather"]
   print "community raw", request.session['preferences_community']
-  # priorities = transform_post_to_dict(request.session['priorities'])
-  # preferences = transform_post_to_dict(request.session['preferences'])
-  # preferences_citysize = transform_post_to_dict(request.session['preferences_citysize'])
-  # preferences_weather = transform_post_to_dict(request.session['preferences_weather'])
-  # preferences_community = transform_post_to_dict(request.session['preferences_community'])
 
-  # print priorities
-  # print preferences
-  # print preferences_citysize
-  # print preferences_weather
-  # print preferences_community
-
-  priorities = transform_post_to_dict(request.session["priorities"])
+  priorities = process_user_list(request.session["priorities"])
   print "priorites", priorities
 
   #city size preference to dictionary
@@ -124,11 +103,10 @@ def city_results(request):
   print "weather prefs", weather_preferences
 
   #community preferences to dictionary
-  community_preferences = transform_post_to_dict(request.session["preferences_community"])
+  community_preferences = process_user_list(request.session["preferences_community"])
   print "comm prefs", community_preferences
 
   #building query dict
-
   query_dict = {}
 
   if "community" in priorities["priorities"]:
@@ -143,31 +121,10 @@ def city_results(request):
   print "QUERY DICTIONARY", query_dict
 
 
+  #now pass in QUERY DICT TO ALDEN'S WORK
+  #then render in results page
   #example to pass in to results to show city data
   #need to call here a func algorithm // Alden
   walk_city = Walk.objects.order_by('-city')[:50]
 
   return render(request, 'city_results.html', {'results': walk_city})
-
-
-#each view has to return an httpresponse or exception
-'''
-func to get kwargs, transform and get data from model objects
-
-#keep this code for example
-#  walk_city = Walk.objects.order_by('-city')[:50]
-
-
-getting data:
-Walk.objects.get(city='Chicago')
-.filter(**kwargs)
-.exlucde(**kwargs)
-.get().filter()
-.filter(something __lt=10)
-.filter(city__inexact="Chicago")
-.filter(city__icontains="Chicago")
-
-get data from multiple table objects
-
-'''
-
