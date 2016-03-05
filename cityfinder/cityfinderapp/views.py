@@ -36,7 +36,7 @@ def transform_post_to_dict(post):
 
   return d
 
-def process_weather_input(post):
+def process_slider_input(post):
   '''
   Given a list from JS like so ["sun", 2, "temp", 0]
   Change to dict like so {"sun" : 2, "temp" : 0}
@@ -116,11 +116,11 @@ def city_results(request):
   print "priorites", priorities
 
   #city size preference to dictionary
-  citysize_preference = process_weather_input(request.session["preferences_citysize"])
+  citysize_preference = process_slider_input(request.session["preferences_citysize"])
   print "city size prefs", citysize_preference
 
   #weather preferences to dictionary
-  weather_preferences = process_weather_input(request.session["preferences_weather"])
+  weather_preferences = process_slider_input(request.session["preferences_weather"])
   print "weather prefs", weather_preferences
 
   #community preferences to dictionary
