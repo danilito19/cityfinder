@@ -20,9 +20,9 @@
     <div class="container-fluid" id="lists">
         <h3>I care about living where there is...</h3>
         <div class="center-block" id="community_checklist">
-                <input type="checkbox" name="student">&nbsp;&nbsp;&nbsp;&nbsp;a significant student community<br></input>
-                <input type="checkbox" name="black">&nbsp;&nbsp;&nbsp;&nbsp;a significant black community<br></input>
-                <input type="checkbox" name="asian">&nbsp;&nbsp;&nbsp;&nbsp;a significant asian community<br></input>
+                <input type="checkbox" name="lgbtq">&nbsp;&nbsp;&nbsp;&nbsp;a significant lgbtq community<br></input>
+                <input type="checkbox" name="old">&nbsp;&nbsp;&nbsp;&nbsp;a significant retired community<br></input>
+                <input type="checkbox" name="young">&nbsp;&nbsp;&nbsp;&nbsp;a lot of young people and families<br></input>
                 <input type="checkbox" name="hispanic">&nbsp;&nbsp;&nbsp;&nbsp;a significant hispanic community<br></input>
         </div>
     </div>
@@ -33,7 +33,7 @@
 <footer>
     <div class="container-fluid">
         <form id="community-form" action="../city_results/" method="post"> {% csrf_token %}
-            <input <input type="hidden" id="preferences" name="preferences">
+            <input <input type="hidden" id="community" name="preferences">
         </form>
         <button id="bottom-button" type="button" onclick="get_community_inputs()">
             <img src={% static "images/arrow.svg" %} id="arrow">

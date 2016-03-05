@@ -6,5 +6,6 @@ function get_community_inputs () {
 			communities_checked.push(communities[i].name)
 		}
 	console.log(communities_checked)
-	$('#community-form').attr('action', "./city_results/").submit();
+	document.getElementById('community').value = communities_checked;
+	$('#community-form').attr('action', "../city_results/").submit();
 }
