@@ -6,7 +6,6 @@ import random
 import numpy as np
 import pandas as pd
 import City as city
-import sqlite3
 from .models import *
 
 WEIGHT_DECAY = .15
@@ -15,7 +14,7 @@ CALCULATED_SCORES = ['safe', 'lgbtq', 'hisp', 'weather', 'community']
 RELATION_DICT = { 
 'cost': [COL, 'total_index'], 
 'safe':[Crime, 'bulglary'], 
-'community': {hispanic: ['Hisp', 'hisp_count'], 
+'community': {"hispanic": [Hisp, 'hisp_count'], 
  'lgbtq': [LGBT, 'Male_Male_HH', 'Female_Female_HH', 'Total_HH'],
  'young': [Age, 'median_age'], 
  'old': [Age, 'old_age_depend_ratio']},
@@ -88,7 +87,7 @@ def construct_dataframe(input_dict):
     priorities = input_dict['priorities']
     weather = {k:v for (k,v) in test1.items() if 'pr' not in k}
     size = weather.pop('size')
-    communities = input_dict['preferences']
+    communities = input_dict['communities']
 
     for criteria in priorities:
         if criteria not in SPECIAL_CRITERIA:
