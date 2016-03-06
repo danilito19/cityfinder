@@ -49,11 +49,15 @@
 
 {% block footer %}
 <footer>
-    <form id="priorities-form" action="preferences/" method="post"> {% csrf_token %}
-        <input type="hidden"  id="priorities" name="priorities">
-    </form>
+
     <div class="container-fluid">
-        <img src={% static "images/arrow.svg" %} id="arrow" >
+        <form id="priorities-form" action="preferences/" method="post"> {% csrf_token %}
+            <input type="hidden"  id="priorities" name="priorities">
+        </form>
+        <button id="bottom-button" type="button" onclick="get_weather_inputs()">
+            <img src={% static "images/arrow.svg" %} id="arrow">
+            <p id="button-label">continue<p>
+        </button>
     </div>
 </footer>
 {% endblock %}
