@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from .models import *
 import numpy as np
 import pandas as pd
+import algorithm as algo
 
 proper_names = {'cost': 'Cost of Living',
                 'walk': "Walkability",
@@ -126,14 +127,31 @@ def city_results(request):
   #need to call here a func algorithm // Alden
   #walk_city = Walk.objects.order_by('-city')[:50]
 
+  city_objects = algo.run_calculations(query_dict)
 
+  cities_list = []
+  match_score_list = []
+
+  for city in enumerate(city_objects):
+    cities_list.append(city_objects[i].name)
+    match_score_list.append(city_objects[i].score)
+
+  labels = labels = ["city", "match_score"]
+  headers = ["city_1", "city_2", "city_3", "city_4", "city_5", "city_6", "city_7", "city_8", "city_9", "city_10"]
+
+  data = [cities_list, match_score_list]
+  np.array(data)
+  results = pd.DataFrame(data, index = labels, columns = headers)
+  results_json = results.to_json(results)
+
+  '''
   ##### Experimental Data Block for Data Viz. Dummy Data for now, but data should be formated like so before it is rendered ######
 
   labels = ["city", "match_score", "fall_temp", "winter_temp", "spring_temp", "summer_temp", "bike_score", "transit_score", "walk_score", "rank"]
   headers = ["city_1", "city_2", "city_3", "city_4", "city_5", "city_6", "city_7", "city_8", "city_9", "city_10"]
   
   sample_data = [["New York", "Minneapolis", "Chicago", "Seattle", "Miami", "Austin", "Dallas", "San Francisco", "San Diego", "Salt Lake City"],\
-  [.98, .76, .74, .53, .32, .31, .30, .25, .20, -.10],\
+  [.98, .76, .74, .53, .32, .31, .30, .25, .20, .10],\
   [12, 65, 78, 32, 65, 78, 98, 90, 12, 65],\
   [12, 65, 78, 32, 12, 65, 78, 32, 12, 65],\
   [78, 32, 12, 65, 78, 32, 12, 65, 78, 32],\
@@ -149,8 +167,7 @@ def city_results(request):
 
   results_json = results.to_json()
 
-  results_csv = results.to_csv()
-
   ##### End Experimental Block ########
+  '''
 
   return render(request, 'city_results.html', {'results': results_json})
