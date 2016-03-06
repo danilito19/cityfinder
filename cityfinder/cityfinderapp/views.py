@@ -146,7 +146,7 @@ def city_results(request):
   #walk_city = Walk.objects.order_by('-city')[:50]
 
 
-  ##### Experimental Data Block for Data Viz. Dummy Data for now, but real data should be formated like so before it is rendered ######
+  ##### Experimental Data Block for Data Viz. Dummy Data for now, but data should be formated like so before it is rendered ######
 
   labels = ["city", "match_score", "fall_temp", "winter_temp", "spring_temp", "summer_temp", "bike_score", "transit_score", "walk_score", "rank"]
   headers = ["city_1", "city_2", "city_3", "city_4", "city_5", "city_6", "city_7", "city_8", "city_9", "city_10"]
