@@ -26,7 +26,7 @@ RELATION_DICT = {
  'temp': [Weather, 'avg_temp_jan'],
  'seasons' : [Weather, 'avg_temp_jan', 'avg_temp_april', 
     'avg_temp_july', 'avg_temp_oct']},
-'cities' : [City, 'id', 'city', 'state'], 
+'cities' : [City, 'city', 'state'], 
 'size': [Crime, 'population']}
 CATEGORIES = {'seasons': ([0, 10, 20, float('inf')], [0, 1, 2]), 
               'sun': ([0, 75, 125, float('inf')], [0, 1, 2]),
@@ -121,15 +121,27 @@ def get_data(criteria_info):
     Output: pandas dataframe
     '''
     # For use in django:
-    data = []
-    for col in criteria_info[1:]:
-        data.append(criteria_info[0].objects.values('city_id', col))
-    
-    rv = data[0]
-    for df in data[1:]:
-        rv = pd.merge(rv, df, on='city_id')
+    if criteria_info == RELATION_DICT['cities']:
+        data = []
+        for col in criteria_info[1:]:
+            data.append(criteria_info[0].objects.values('id', col))
+        rv = pd.DataFrame(data[0])
+        for df in data[1:]:
+            df = pd.DataFrame(df)
+            rv = pd.merge(rv, df, on='id')
 
-    return pd.DataFrame(rv)
+        return rv
+
+    else:
+        data = []
+        for col in criteria_info[1:]:
+            data.append(criteria_info[0].objects.values('city_id', col))
+        rv = pd.DataFrame(data[0])
+        for df in data[1:]:
+            df = pd.DataFrame(df)
+            rv = pd.merge(rv, df, on='city_id')
+
+        return rv
 
 def add_categorical_information(data, weather):
     '''
