@@ -13,21 +13,117 @@
 
 {% block body %}
 <main>
-    <container>
-        <row>
-            <h2>Here are your results:</h2>
-        </row>
-        <row>
-            {{ results }}
-        </row>
-    </container>
+    <div class="row-centered gutter-60">
+        <div class="col-m-12">
+            <div id="chart_area">
+            </div>
+        </div>
+    </div>
 </main>
 {% endblock %}
 
 {% block footer %}
 <footer>
+
     <div class="container-fluid">
-        <a href="../">Start over again one more time</a>
+        <button id="bottom-button" type="button" onclick="window.location.href='../'">
+            <img src={% static "images/arrow.svg" %} id="arrow">
+            <p id="button-label">start over!<p>
+        </button>
     </div>
+
 </footer>
+{% endblock %}
+
+{% block additional_js %}
+    <script type="text/javascript">
+
+    var results = JSON.parse("{{ results | safe | escapejs }}")
+
+    var results_string = JSON.stringify(results)
+
+    var city_list = []
+
+    for (city in results) {
+        city_list.push(results[city])
+    }
+
+    console.log(city_list)
+
+    /*d3.select("#chart_area").selectAll("p").data(city_list).enter().append("p").text(city_list[0].city)*/
+
+    /* bar chart adapted from: https://bl.ocks.org/mbostock/3885304 */
+
+    var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 700 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+    var barPad = .2
+
+    var barOuterPad = .3
+
+    var x = d3.scale.ordinal()
+        .rangeRoundBands([0, width], barPad, barOuterPad);
+
+    var y = d3.scale.linear()
+        .range([height, 0]);
+
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left")
+        .ticks(10, "%");
+
+    var svg = d3.select("#chart_area").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("id", "main_chart")
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    /*d3.tsv("data.tsv", type, function(error, data) {
+      if (error) throw error;*/
+
+      x.domain(city_list.map(function(d) { return d.city; }));
+      y.domain([0, d3.max(city_list, function(d) { return d.match_score; })]);
+
+      var colors = ["#FFB125", "#FF0C70", "#B21A49", "#1EC2CC", "#00A0B2", "#FFB125", "#FF0C70", "#B21A49", "#1EC2CC", "#00A0B2"]
+
+      svg.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + height + ")")
+          .call(xAxis);
+
+      svg.append("g")
+          .attr("class", "y axis")
+          .call(yAxis)
+        .append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 6)
+          .attr("dy", ".71em")
+          .style("text-anchor", "end")
+          .text("% Match to Your Preferences");
+
+      svg.selectAll(".bar")
+          .data(city_list)
+        .enter().append("rect")
+          .attr("class", "bar")
+          .attr("x", function(d) { return x(d.city); })
+          .attr("width", x.rangeBand())
+          .attr("y", function(d) { return y(d.match_score); })
+          .attr("height", function(d) { return height - y(d.match_score); })
+          .attr("fill", function(d, i) {return colors[i]; });
+
+    //});
+
+    function type(d) {
+      d.match_score = +d.match_score;
+      return d;
+    }
+
+        </script>
+    <!-- <script src={% static "js/results.js" %}></script>-->
 {% endblock %}

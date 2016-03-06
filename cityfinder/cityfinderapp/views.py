@@ -2,6 +2,8 @@ from django.shortcuts import render, render_to_response
 from django.template import RequestContext, loader
 from django.http import HttpResponse
 from .models import *
+import numpy as np
+import pandas as pd
 
 proper_names = {'cost': 'Cost of Living',
                 'walk': "Walkability",
@@ -45,6 +47,10 @@ def process_slider_input(post):
   return attribute_dict
 
 def priorities(request):
+
+  #Added here for going back to beginning
+  request.session.flush()
+
   request.session.set_test_cookie()
   if request.session.test_cookie_worked():
     request.session.delete_test_cookie()
@@ -52,6 +58,7 @@ def priorities(request):
     return HttpResponse("Please enable cookies and try again.")
   
   # this enables us to show any previous selections if user went back to page
+
   if request.session and 'priorities' in request.session:
     previous_priorities = []
     priorities = [str(p) for p in request.session['priorities']['priorities'].split(',')]
@@ -76,19 +83,6 @@ def preferences_community(request):
   request.session['preferences_weather'] = request.POST
 
   return render(request, 'preferences_community.html')
-
-def city_results_experimental(request):
-  cities = ["New York", "Minneapolis", "Chicago", "Seattle", "Miami", "Austin", "Dallas", "San Francisco", "San Diego", "Salt Lake City"]
-  match_scores = [98, 76, 74, 53, 32, 31, 30, 25, 20, 10, 5]
-  fall_temp = [12, 65, 78, 32, 65, 78, 98, 90, 12, 65]
-  winter_temp = [12, 65, 78, 32, 12, 65, 78, 32, 12, 65]
-  spring_temp = [78, 32, 12, 65, 78, 32, 12, 65, 78, 32]
-  summer_temp = [80, 89, 70, 67, 47, 89, 90, 50, 70, 77]
-  bike_score = [80, 89, 70, 67, 47, 89, 90, 50, 70, 77]
-  transit_score = [78, 32, 12, 65, 78, 32, 12, 65, 78, 32]
-  walk_score = [12, 65, 78, 32, 65, 78, 98, 90, 12, 65]
-
-  return render(request, 'city_results_experimental.html', {"cities": cities})
 
 def city_results(request):
 
@@ -130,14 +124,41 @@ def city_results(request):
 
   print "QUERY DICTIONARY", query_dict
 
-  #delete sessions 
-  request.session.flush()
 
+  #delete sessions ## NOTE (Anna Hazard) I am disabling this for my own purposes for now because I need to refresh a lot for the viz
+  #request.session.flush()
 
   #now pass in QUERY DICT TO ALDEN'S WORK
   #then render in results page
   #example to pass in to results to show city data
   #need to call here a func algorithm // Alden
-  walk_city = Walk.objects.order_by('-city')[:50]
+  #walk_city = Walk.objects.order_by('-city')[:50]
 
-  return render(request, 'city_results.html', {'results': walk_city})
+
+  ##### Experimental Data Block for Data Viz. Dummy Data for now, but data should be formated like so before it is rendered ######
+
+  labels = ["city", "match_score", "fall_temp", "winter_temp", "spring_temp", "summer_temp", "bike_score", "transit_score", "walk_score", "rank"]
+  headers = ["city_1", "city_2", "city_3", "city_4", "city_5", "city_6", "city_7", "city_8", "city_9", "city_10"]
+  
+  sample_data = [["New York", "Minneapolis", "Chicago", "Seattle", "Miami", "Austin", "Dallas", "San Francisco", "San Diego", "Salt Lake City"],\
+  [.98, .76, .74, .53, .32, .31, .30, .25, .20, .10],\
+  [12, 65, 78, 32, 65, 78, 98, 90, 12, 65],\
+  [12, 65, 78, 32, 12, 65, 78, 32, 12, 65],\
+  [78, 32, 12, 65, 78, 32, 12, 65, 78, 32],\
+  [80, 89, 70, 67, 47, 89, 90, 50, 70, 77],\
+  [80, 89, 70, 67, 47, 89, 90, 50, 70, 77],\
+  [78, 32, 12, 65, 78, 32, 12, 65, 78, 32],\
+  [12, 65, 78, 32, 65, 78, 98, 90, 12, 65],\
+  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+  
+  np.array(sample_data)
+  
+  results = pd.DataFrame(sample_data, index = labels, columns = headers)
+
+  results_json = results.to_json()
+
+  results_csv = results.to_csv()
+
+  ##### End Experimental Block ########
+
+  return render(request, 'city_results.html', {'results': results_json})
