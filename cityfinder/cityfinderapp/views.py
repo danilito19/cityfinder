@@ -106,8 +106,8 @@ def city_results(request):
 
   query_dict['priorities'] = priorities
 
-  if "community" in priorities and len(communities) > 1:
-    query_dict['communities'] = communities
+  #if "community" in priorities and len(communities) > 1:
+  query_dict['communities'] = communities
 
   if "weather" in priorities and weather_preferences:
     query_dict.update(weather_preferences)
