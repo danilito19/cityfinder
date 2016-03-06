@@ -14,21 +14,6 @@ proper_names = {'cost': 'Cost of Living',
                 "weather": 'Weather'}
 
 
-def process_user_list(post):
-  '''
-  Given a post item, transform strings into a dict
-  with a list of priorities or preferences.
-  '''
-
-  attribute_dict = {}
-  post = post.items()[1]
-  key = str(post[0])
-  values = str(post[1]).split(',')
-
-  attribute_dict[key] = values
-
-  return attribute_dict
-
 def process_slider_input(post):
   '''
   Given a list from JS like so ["sun", 2, "temp", 0]
@@ -37,6 +22,10 @@ def process_slider_input(post):
   attribute_dict = {}
   post = post.items()[1]
   attribute_list = str(post[1]).split(",")
+
+  #FOR WHEN USER PUTS ALL AS INDIFFERENT
+  if len(attribute_list) <2:
+    return []
 
   for i, item in enumerate(attribute_list):
     if i%2 == 0:
@@ -49,6 +38,8 @@ def process_slider_input(post):
 def priorities(request):
 
   #Added here for going back to beginning
+  #need to decide where flush goes , ideally when user doesn't get
+  #any results or is in the last page bc then this doesn't save any sessions
   request.session.flush()
 
   request.session.set_test_cookie()
@@ -57,7 +48,7 @@ def priorities(request):
   else:
     return HttpResponse("Please enable cookies and try again.")
   
-  # this enables us to show any previous selections if user went back to page
+  # this enables us to show  previous selections if user went back to priorities page
 
   if request.session and 'priorities' in request.session:
     previous_priorities = []
@@ -95,8 +86,10 @@ def city_results(request):
   print "community raw", request.session['preferences_community']
 
   priorities = priorities = [str(p) for p in request.session['priorities']['priorities'].split(',')]
-
   print "PRIORITIES", priorities
+
+  communities = communities = [str(p) for p in request.session['preferences_community']['preferences'].split(',')]
+  print "comm prefs", communities
 
   #city size preference to dictionary
   citysize_preference = process_slider_input(request.session["preferences_citysize"])
@@ -106,21 +99,20 @@ def city_results(request):
   weather_preferences = process_slider_input(request.session["preferences_weather"])
   print "weather prefs", weather_preferences
 
-  #community preferences to dictionary
-  community_preferences = process_user_list(request.session["preferences_community"])
-  print "comm prefs", community_preferences
 
   #building query dict
   query_dict = {}
 
-  if "community" in priorities:
-    query_dict.update(community_preferences)
+  query_dict['priorities'] = priorities
 
-  if "weather" in priorities:
+  if "community" in priorities and len(communities) > 1:
+    query_dict['communities'] = communities
+
+  if "weather" in priorities and weather_preferences:
     query_dict.update(weather_preferences)
 
-  query_dict['priorities'] = priorities
-  query_dict.update(citysize_preference)
+  if citysize_preference:
+    query_dict.update(citysize_preference)
 
   print "QUERY DICTIONARY", query_dict
 
