@@ -40,6 +40,11 @@
                     </p>
                     <!-- sort: true -->
                     <ol id="sortTrue" class="list-group priorities">
+                    {% if previous_priorities %}
+                        {% for p in previous_priorities %}
+                            <li class="list-group-item" id="{{ p }}" draggable="false">{{ p }}</li>
+                        {% endfor %}
+                    {% endif %}
                     </ol>
                 </div>
             </div>
