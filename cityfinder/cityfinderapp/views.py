@@ -5,6 +5,14 @@ from .models import *
 import numpy as np
 import pandas as pd
 
+proper_names = {'cost': 'Cost of Living',
+                'walk': "Walkability",
+                "bike": 'Bikability',
+                "transit": 'Public Transit',
+                "safe": 'Safety',
+                "community": 'Community',
+                "weather": 'Weather'}
+
 
 def process_user_list(post):
   '''
@@ -39,24 +47,26 @@ def process_slider_input(post):
   return attribute_dict
 
 def priorities(request):
-  # All this happens before any HTML is sent to the browser
   request.session.set_test_cookie()
   if request.session.test_cookie_worked():
     request.session.delete_test_cookie()
   else:
     return HttpResponse("Please enable cookies and try again.")
   
-  # this enables us to show any previous selections if user went back
-  #to the first page. 
-  # context = {'previous_priorities': []}
-  # if request.session and request.session['priorities']:
-  #   for priority in request.session['priorities']:
-  #     context['previous_priorities'].append(priority)
+  # this enables us to show any previous selections if user went back to page
+  if request.session and 'priorities' in request.session:
+    previous_priorities = []
+    priorities = [str(p) for p in request.session['priorities']['priorities'].split(',')]
+    for priority in priorities:
+        previous_priorities.append(proper_names[priority])
+    return render(request, 'priorities.html', {'previous_priorities': previous_priorities})
 
   return render(request, 'priorities.html')
 
 def preferences_citysize(request):
+
   request.session['priorities'] = request.POST
+
   return render(request, 'preferences_citysize.html')
 
 def preferences_weather(request):
@@ -95,8 +105,9 @@ def city_results(request):
   print "weather raw", request.session["preferences_weather"]
   print "community raw", request.session['preferences_community']
 
-  priorities = process_user_list(request.session["priorities"])
-  print "priorites", priorities
+  priorities = priorities = [str(p) for p in request.session['priorities']['priorities'].split(',')]
+
+  print "PRIORITIES", priorities
 
   #city size preference to dictionary
   citysize_preference = process_slider_input(request.session["preferences_citysize"])
@@ -113,16 +124,20 @@ def city_results(request):
   #building query dict
   query_dict = {}
 
-  if "community" in priorities["priorities"]:
+  if "community" in priorities:
     query_dict.update(community_preferences)
 
-  if "weather" in priorities["priorities"]:
+  if "weather" in priorities:
     query_dict.update(weather_preferences)
 
-  query_dict.update(priorities)
+  query_dict['priorities'] = priorities
   query_dict.update(citysize_preference)
 
   print "QUERY DICTIONARY", query_dict
+
+
+  #delete sessions 
+  request.session.flush()
 
   #now pass in QUERY DICT TO ALDEN'S WORK
   #then render in results page
