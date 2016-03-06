@@ -141,7 +141,7 @@ def city_results(request):
   headers = ["city_1", "city_2", "city_3", "city_4", "city_5", "city_6", "city_7", "city_8", "city_9", "city_10"]
   
   sample_data = [["New York", "Minneapolis", "Chicago", "Seattle", "Miami", "Austin", "Dallas", "San Francisco", "San Diego", "Salt Lake City"],\
-  [.98, .76, .74, .53, .32, .31, .30, .25, .20, .10],\
+  [.98, .76, .74, .53, .32, .31, .30, .25, .20, -.10],\
   [12, 65, 78, 32, 65, 78, 98, 90, 12, 65],\
   [12, 65, 78, 32, 12, 65, 78, 32, 12, 65],\
   [78, 32, 12, 65, 78, 32, 12, 65, 78, 32],\
