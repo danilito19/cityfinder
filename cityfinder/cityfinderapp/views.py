@@ -84,22 +84,6 @@ def preferences_community(request):
 
   return render(request, 'preferences_community.html')
 
-def city_results_experimental(request):
-  labels = ["city", "match_score", "fall_temp", "winter_temp", "spring_temp", "summer_temp", "bike_score", "transit_score", "walk_score"]
-  sample_data = [["New York", "Minneapolis", "Chicago", "Seattle", "Miami", "Austin", "Dallas", "San Francisco", "San Diego", "Salt Lake City"],\
-  [.98, .76, .74, .53, .32, .31, .30, .25, .20, .10],\
-  [12, 65, 78, 32, 65, 78, 98, 90, 12, 65],\
-  [12, 65, 78, 32, 12, 65, 78, 32, 12, 65],\
-  [78, 32, 12, 65, 78, 32, 12, 65, 78, 32],\
-  [80, 89, 70, 67, 47, 89, 90, 50, 70, 77],\
-  [80, 89, 70, 67, 47, 89, 90, 50, 70, 77],\
-  [78, 32, 12, 65, 78, 32, 12, 65, 78, 32],\
-  [12, 65, 78, 32, 65, 78, 98, 90, 12, 65]]
-  np.array(sample_data)
-  results_df = pd.DataFrame(sample_data, index = labels)
-
-  return render(request, 'city_results_experimental.html', {"cities": cities})
-
 def city_results(request):
 
   request.session['preferences_community'] = request.POST

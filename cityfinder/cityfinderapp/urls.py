@@ -10,6 +10,5 @@ urlpatterns = [
 	url(r'^preferences_weather/$', views.preferences_weather, name='preferences_weather'),
 	url(r'^preferences_community/$', views.preferences_community, name='preferences_community'),
 	url(r'^city_results/$', views.city_results, name='city_results'),
-	url(r'^city_results_experimental/$', views.city_results_experimental, name='city_results_experimental'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
