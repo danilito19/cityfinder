@@ -14,7 +14,7 @@ CALCULATED_SCORES = ['safe', 'lgbtq', 'hisp', 'weather', 'community']
 RELATION_DICT = { 
 'cost': [COL, 'total_index'], 
 'safe':[Crime, 'bulglary'], 
-'community': {"hispanic": [Hisp, 'hisp_count'], 
+'community': {'hispanic': [Hisp, 'hisp_count'], 
  'lgbtq': [LGBT, 'Male_Male_HH', 'Female_Female_HH', 'Total_HH'],
  'young': [Age, 'median_age'], 
  'old': [Age, 'old_age_depend_ratio']},
@@ -121,11 +121,15 @@ def get_data(criteria_info):
     Output: pandas dataframe
     '''
     # For use in django:
-    if criteria_info[0] is not 'City':
-        criteria_info.append('city_id')
-    data = criteria_info[0].objects.values(str(criteria_info[1:])[1:-1])
+    data = []
+    for col in criteria_info[1:]:
+        data.append(criteria_info[0].objects.values('city_id', col))
+    
+    rv = data[0]
+    for df in data[1:]:
+        rv = pd.merge(rv, df, on='city_id')
 
-    return pd.DataFrame(data)
+    return pd.DataFrame(rv)
 
 def add_categorical_information(data, weather):
     '''
