@@ -126,38 +126,7 @@ def get_data(criteria_info):
         criteria_info.append('city_id')
     data = criteria_info[0].objects.values(str(criteria_info[1:])[1:-1])
 
-    # PRODUCE FAKE DATA
-    '''
-    if criteria_info[0] == 'City':
-        connection = sqlite3.connect('city_data.db')
-        c = connection.cursor()
-        data1 = c.execute('SELECT * FROM cityfinderapp_city').fetchall()
-        data = []
-        for triple in data1:
-            data.append((triple[0], str(triple[1]), str(triple[2])))
-        data = pd.DataFrame(data)
-        data.columns = ['id', 'city', 'state']
-        return data
-
-    else:
-        data = {}
-        data['city_id'] = [i for i in range(109)]
-        for x in criteria_info[1:]:
-            data[x] = []
-            if x is 'population':
-                for i in range(109):
-                    data[x].append(random.uniform(10000, 5000000))
-            elif 'avg_temp_jan' in x: 
-                for i in range(109):
-                    data[x].append(random.uniform(20, 50))
-            elif 'avg_temp' in x: 
-                for i in range(109):
-                    data[x].append(random.uniform(40, 100))
-            else:
-                for i in range(109):
-                    data[x].append(random.uniform(0, 100))
-        return pd.DataFrame(data)
-    '''
+    return pd.DataFrame(data)
 
 def add_categorical_information(data, weather):
     '''
@@ -252,7 +221,7 @@ def add_criteria_scores(data, priorities, weather, size):
     Creates City objects for each city and adds all criteria scores. 
 
     Input: list of cities, data dictionary
-    Output: city_data dictionary mapping city: City object
+    Output: city_data list
     '''
     rv = []
     for row in data.iterrows():
