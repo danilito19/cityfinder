@@ -13,7 +13,11 @@
 
 {% block body %}
 <main>
-    <div id="chart_area">
+    <div class="row-centered gutter-60">
+        <div class="col-m-12">
+            <div id="chart_area">
+            </div>
+        </div>
     </div>
 </main>
 {% endblock %}
@@ -22,7 +26,7 @@
 <footer>
 
     <div class="container-fluid">
-        <button id="bottom-button" type="button" href="..">
+        <button id="bottom-button" type="button" onclick="window.location.href='../'">
             <img src={% static "images/arrow.svg" %} id="arrow">
             <p id="button-label">start over!<p>
         </button>
@@ -51,11 +55,15 @@
     /* bar chart adapted from: https://bl.ocks.org/mbostock/3885304 */
 
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
+    width = 700 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
+    var barPad = .2
+
+    var barOuterPad = .3
+
     var x = d3.scale.ordinal()
-        .rangeRoundBands([0, width], .1);
+        .rangeRoundBands([0, width], barPad, barOuterPad);
 
     var y = d3.scale.linear()
         .range([height, 0]);
@@ -71,6 +79,7 @@
 
     var svg = d3.select("#chart_area").append("svg")
         .attr("width", width + margin.left + margin.right)
+        .attr("id", "main_chart")
         .attr("height", height + margin.top + margin.bottom)
       .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -80,6 +89,8 @@
 
       x.domain(city_list.map(function(d) { return d.city; }));
       y.domain([0, d3.max(city_list, function(d) { return d.match_score; })]);
+
+      var colors = ["#FFB125", "#FF0C70", "#B21A49", "#1EC2CC", "#00A0B2", "#FFB125", "#FF0C70", "#B21A49", "#1EC2CC", "#00A0B2"]
 
       svg.append("g")
           .attr("class", "x axis")
@@ -103,7 +114,9 @@
           .attr("x", function(d) { return x(d.city); })
           .attr("width", x.rangeBand())
           .attr("y", function(d) { return y(d.match_score); })
-          .attr("height", function(d) { return height - y(d.match_score); });
+          .attr("height", function(d) { return height - y(d.match_score); })
+          .attr("fill", function(d, i) {return colors[i]; });
+
     //});
 
     function type(d) {

@@ -164,12 +164,18 @@ body {
 
 /* D3 Visualizations style */
 
-.bar {
+/*.bar {
   fill: steelblue;
 }
 
 .bar:hover {
   fill: brown;
+}*/
+
+#main_chart {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
 }
 
 .axis {
