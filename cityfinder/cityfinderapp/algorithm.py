@@ -124,10 +124,13 @@ def get_data(criteria_info):
     if criteria_info == RELATION_DICT['cities']:
         data = []
         for col in criteria_info[1:]:
-            data.append(criteria_info[0].objects.values('id', col))
-        rv = pd.DataFrame(data[0])
+            print('CRITERIA', col)
+            pull = criteria_info[0].objects.values('id', col)
+            print('PULLED', pull)
+            data.append(pull)
+        rv = pd.DataFrame.from_records(data[0])
         for df in data[1:]:
-            df = pd.DataFrame(df)
+            df = pd.DataFrame.from_records(df)
             rv = pd.merge(rv, df, on='id')
 
         return rv
@@ -136,9 +139,9 @@ def get_data(criteria_info):
         data = []
         for col in criteria_info[1:]:
             data.append(criteria_info[0].objects.values('city_id', col))
-        rv = pd.DataFrame(data[0])
+        rv = pd.DataFrame.from_records(data[0])
         for df in data[1:]:
-            df = pd.DataFrame(df)
+            df = pd.DataFrame.from_records(df)
             rv = pd.merge(rv, df, on='city_id')
 
         return rv
