@@ -92,7 +92,7 @@ def construct_dataframe(input_dict):
     for criteria in priorities:
         if criteria not in SPECIAL_CRITERIA:
             criteria_info = RELATION_DICT[criteria]
-            data[criteria] = (get_data(criteria_info))
+            data[criteria] = get_data(criteria_info)
         elif criteria in SPECIAL_CRITERIA:
             for key in RELATION_DICT[criteria]:
                 if criteria is 'weather':
@@ -104,12 +104,16 @@ def construct_dataframe(input_dict):
 
     data['size'] = get_data(RELATION_DICT['size'])
     data['cities'] = get_data(RELATION_DICT['cities'])
-
+    
     rv = data['cities']
-    rv.columns = ['city_id', 'city', 'state']
+    rv.columns = ['city', 'city_id', 'state']
+    print('BEFORE MERGE:,', rv)
+
     for key in data:
         if key is not 'cities':
+            print('DATA TO MERGE', data[key])
             rv = pd.merge(rv, data[key], on='city_id')
+            print('AFTER MERGE:', rv)
 
     return (rv, priorities, communities, weather, size)
 
@@ -124,9 +128,7 @@ def get_data(criteria_info):
     if criteria_info == RELATION_DICT['cities']:
         data = []
         for col in criteria_info[1:]:
-            print('CRITERIA', col)
             pull = criteria_info[0].objects.values('id', col)
-            print('PULLED', pull)
             data.append(pull)
         rv = pd.DataFrame.from_records(data[0])
         for df in data[1:]:
@@ -146,43 +148,44 @@ def get_data(criteria_info):
 
         return rv
 
-def add_categorical_information(data, weather):
+def add_categorical_information(data, weather, priorities):
     '''
     Converts several columns into categorical information for filtering
     purposes.
     '''
     # Convert weather attributes to categorical data
-    for key in weather: 
-        if key is 'seasons':
-            cols = []
-            concat = []
-            for x in data.columns:
-                if 'avg_temp' in x: 
-                    cols.append(x)
-            if len(cols) > 4: 
-                cols.remove('avg_temp_jan_y')    
-            for col in cols: 
-                concat.append(data[col])
-            temps = pd.concat(concat, axis = 1)
-            temps['temp_variation'] = temps.var(axis = 1)
-            temps['temp_sd'] = temps['temp_variation'].apply(math.sqrt)
-            temps['seasons'] = pd.cut(temps['temp_variation'], 
-                CATEGORIES[key][0], labels = CATEGORIES[key][1], 
-                right = True)
-            temps = temps['seasons']
-            data = pd.concat([data, temps], axis = 1)
-        elif key is 'sun':
-            data['sun'] = pd.cut(data['avg_annual_precip_in_days'],  
-             CATEGORIES[key][0], labels = CATEGORIES[key][1], right = True)
-        elif key is 'temp':
-            for x in data.columns: 
-                if 'avg_temp_jan' in x: 
-                    col = x
-                    break
-            temp_level = pd.cut(data[col], CATEGORIES[key][0],
-              labels = CATEGORIES[key][1], right = True)
-            temp_level.name = 'temp'
-            data = pd.concat([data, temp_level], axis = 1)
+    if 'weather' in priorities:
+        for key in weather: 
+            if key is 'seasons':
+                cols = []
+                concat = []
+                for x in data.columns:
+                    if 'avg_temp' in x: 
+                        cols.append(x)
+                if len(cols) > 4: 
+                    cols.remove('avg_temp_jan_y')    
+                for col in cols: 
+                    concat.append(data[col])
+                temps = pd.concat(concat, axis = 1)
+                temps['temp_variation'] = temps.var(axis = 1)
+                temps['temp_sd'] = temps['temp_variation'].apply(math.sqrt)
+                temps['seasons'] = pd.cut(temps['temp_variation'], 
+                    CATEGORIES[key][0], labels = CATEGORIES[key][1], 
+                    right = True)
+                temps = temps['seasons']
+                data = pd.concat([data, temps], axis = 1)
+            elif key is 'sun':
+                data['sun'] = pd.cut(data['avg_annual_precip_in_days'],  
+                 CATEGORIES[key][0], labels = CATEGORIES[key][1], right = True)
+            elif key is 'temp':
+                for x in data.columns: 
+                    if 'avg_temp_jan' in x: 
+                        col = x
+                        break
+                temp_level = pd.cut(data[col], CATEGORIES[key][0],
+                  labels = CATEGORIES[key][1], right = True)
+                temp_level.name = 'temp'
+                data = pd.concat([data, temp_level], axis = 1)
 
     # Convert size to categorical data
     data['size'] = pd.cut(data['population'], CATEGORIES['size'][0], labels = 
@@ -190,21 +193,28 @@ def add_categorical_information(data, weather):
 
     return data
 
-def calculate_rates(data, weather, community):
+def calculate_rates(data, weather, community, priorities):
     '''
     Calculates safety, hispanic, and lgbtq rates. Renames old, flips age 
     cardinality so that younger median age is a higher score.
     '''
-    data['safe'] = data['bulglary'] / (data['population'] / 1000)
-    data['hisp'] = data['hisp_count'] / (data['population'] / 1000)
-    data['lgbtq'] = (data['Female_Female_HH'] + data['Male_Male_HH']) / \
-    (data['population'] / 1000)
-    data['old'] = 'old_age_depend_ratio'
-    data['young'] = ((-1 * pd.DataFrame(calculate_z_scores(data['median_age']
+    if 'safe' in priorities:
+        data['safe'] = data['bulglary'] / (data['population'] / 1000)
+    if 'hisp' in community:
+        data['hisp'] = data['hisp_count'] / (data['population'] / 1000)
+    if 'lgbtq' in community:
+        data['lgbtq'] = (data['Female_Female_HH'] + data['Male_Male_HH']) / \
+         (data['population'] / 1000)
+    if 'old' in community:
+        data['old'] = 'old_age_depend_ratio'
+    if 'young' in community:
+        data['young'] = ((-1 * pd.DataFrame(calculate_z_scores(data['median_age'] \
          ))) * np.std(data['median_age'])) + np.average(data['median_age'])
     
-    data = calculate_weather(data, weather)
-    data = calculate_community(data, community)
+    if 'weather' in priorities:
+        data = calculate_weather(data, weather)
+    if 'community' in priorities:
+        data = calculate_community(data, community)
 
     return data
 
@@ -285,8 +295,8 @@ def run_calculations(input_dict):
     Output: list of ranked cities, dictionary mapping city: city object, 
     '''
     data, priorities, communities, weather, size = construct_dataframe(input_dict)
-    data = add_categorical_information(data, weather)
-    data = calculate_rates(data, weather, communities)
+    data = add_categorical_information(data, weather, priorities)
+    data = calculate_rates(data, weather, communities, priorities)
     city_data = add_criteria_scores(data, priorities, weather, size)
     weights = calculate_weights(len(priorities))
     ranked_list = calculate_rank(city_data, weights, priorities)
