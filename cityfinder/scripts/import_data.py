@@ -15,10 +15,10 @@ def to_float(el, null_value):
 def transform_walk(line):
     result = {}
     result["state"] = line[1]
-    result["walk_score"] = to_float(line[2])
-    result["transit_score"] = to_float(line[3])
-    result["bike_score"] = to_float(line[4])
-    result["population"] = to_float(line[5])
+    result["walk_score"] = to_float(line[2], '')
+    result["transit_score"] = to_float(line[3], '')
+    result["bike_score"] = to_float(line[4], '')
+    result["population"] = to_float(line[5], '')
 
     return result
 
@@ -40,8 +40,8 @@ def transform_rents(line):
     result = {}
 
     result["state"]=line[1]
-    result["bed_1_med_price"]=to_float(line[2])
-    result["bed_2_med_price"]=to_float(line[3])
+    result["bed_1_med_price"]=to_float(line[2], '')
+    result["bed_2_med_price"]=to_float(line[3], '')
 
     return result
 
@@ -129,23 +129,26 @@ def import_data(file_name, model):
         next(data)
         for line in data:
             count += 1
-            city = City.objects.filter(city__icontains=line[0])
+            print('lINE 0, LINE 1'), line[0], line[1]
+            city = City.objects.filter(city__icontains=line[0], state__icontains=line[1])
             if city:
                 print('Found city', city)
                 print('curr count ', count)
-                #ob = model(city=city[0], **kwargs)
+                ob = model(city=city[0], **transform_walk(line))
+                #ob = model(city=city[0], **transform_weather(line))
+                #ob = model(city=city[0], **transform_rents(line))
                 #ob = model(city=city[0], **transform_crime(line))
-#                ob = model(city=city[0], **transform_COL(line))
-                # ob = model(city=city[0], **transform_LGBT(line))
-                # ob = model(city=city[0], **transform_hisp(line))
-                ob = model(city=city[0], **transform_ages(line))
+                #ob = model(city=city[0], **transform_COL(line))
+                #ob = model(city=city[0], **transform_LGBT(line))
+                #ob = model(city=city[0], **transform_hisp(line))
+                #ob = model(city=city[0], **transform_ages(line))
 
                 ob.save()
 
 
 if __name__=="__main__":
-    #w = 'walk-transit-bike-score.csv'
-    #import_data(w, Walk)
+    w = 'walk-transit-bike-score.csv'
+    import_data(w, Walk)
 
     # w = 'weather-cities.csv'
     # import_data(w, Weather)
@@ -155,7 +158,6 @@ if __name__=="__main__":
 
     # w = 'crime_2014.csv'
     # import_data(w, Crime)
-
 
     # w = 'COLindex.csv'
     # import_data(w, COL)

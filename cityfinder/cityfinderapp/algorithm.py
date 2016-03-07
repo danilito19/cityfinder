@@ -68,6 +68,7 @@ def calculate_z_scores(array, i = None):
     for x in array: 
         rv.append((x - np.average(array)) / np.std(array))
     if i != None: 
+        print 'THIS IS RV AND I', rv, i
         return rv[i]
     else:
         return rv
