@@ -200,7 +200,7 @@ def calculate_rates(data, weather, community):
     data['lgbtq'] = (data['Female_Female_HH'] + data['Male_Male_HH']) / \
     (data['population'] / 1000)
     data['old'] = 'old_age_depend_ratio'
-    data['young'] = ((-1 * pd.DataFrame(calculate_z_scores(data['median_age']
+    data['young'] = ((-1 * pd.DataFrame(calculate_z_scores(data['median_age']\
          ))) * np.std(data['median_age'])) + np.average(data['median_age'])
     
     data = calculate_weather(data, weather)
