@@ -68,7 +68,6 @@ def calculate_z_scores(array, i = None):
     for x in array: 
         rv.append((x - np.average(array)) / np.std(array))
     if i != None: 
-        print 'THIS IS RV AND I', rv, i
         return rv[i]
     else:
         return rv
@@ -86,7 +85,7 @@ def construct_dataframe(input_dict):
     '''
     data = {}
     priorities = input_dict['priorities']
-    weather = {k:v for (k,v) in test1.items() if 'pr' not in k}
+    weather = {k:v for (k,v) in input_dict.items() if 'pr' not in k}
     size = weather.pop('size')
     communities = input_dict['communities']
 
@@ -100,6 +99,7 @@ def construct_dataframe(input_dict):
                     criteria_info = RELATION_DICT[criteria][key]
                     data[key] = get_data(criteria_info)
                 else: 
+                    print('GETTING THIS CRITERIA FROM DATA: ', criteria)
                     criteria_info = RELATION_DICT[criteria][key]
                     data[key] = get_data(criteria_info)                    
 
@@ -201,14 +201,14 @@ def calculate_rates(data, weather, community, priorities):
     '''
     if 'safe' in priorities:
         data['safe'] = data['bulglary'] / (data['population'] / 1000)
-    if 'hisp' in community:
+    if 'hisp' in community and 'community' in priorities:
         data['hisp'] = data['hisp_count'] / (data['population'] / 1000)
-    if 'lgbtq' in community:
+    if 'lgbtq' in community and 'community' in priorities:
         data['lgbtq'] = (data['Female_Female_HH'] + data['Male_Male_HH']) / \
          (data['population'] / 1000)
-    if 'old' in community:
+    if 'old' in community and 'community' in priorities:
         data['old'] = 'old_age_depend_ratio'
-    if 'young' in community:
+    if 'young' in community and 'community' in priorities:
         data['young'] = ((-1 * pd.DataFrame(calculate_z_scores(data['median_age'] \
          ))) * np.std(data['median_age'])) + np.average(data['median_age'])
     
@@ -259,14 +259,21 @@ def add_criteria_scores(data, priorities, weather, size):
         scores = {}
         for key in priorities:
             if key not in SPECIAL_CRITERIA and key not in CALCULATED_SCORES:
+                index = data[data['city_id'] == [row[1]['city_id']]].index[0]
                 scores[key] = calculate_z_scores(data[RELATION_DICT[key][1]],
-                    int(cit.city_id) - 1)
+                    index)
             elif key in CALCULATED_SCORES:
-                scores[key] = [calculate_z_scores(data[key], cit.city_id - 1)]
+                index = data[data['city_id'] == [row[1]['city_id']]].index[0]
+                scores[key] = [calculate_z_scores(data[key], index)]
         scores['safe'] = scores['safe'] * np.asarray(-1.0)
         cit.all_scores = pd.DataFrame.from_dict(scores)
+        print ('CALLED SCORES FOR {}'.format(row[1]['city']))
         if cit.size == int(size):
             rv.append(cit)
+            print('ADD CRIT: ADDED TO RV')
+        else:
+            print('ADD CRIT: NOT ADDED TO RV')
+            print('Size: {}, Required: {}'.format(cit.size, size))
 
     return rv
 
@@ -301,6 +308,7 @@ def run_calculations(input_dict):
     city_data = add_criteria_scores(data, priorities, weather, size)
     weights = calculate_weights(len(priorities))
     ranked_list = calculate_rank(city_data, weights, priorities)
+    print("RETURNING RESULTS LIST, ", ranked_list)
     return ranked_list
 
 test1 = {
