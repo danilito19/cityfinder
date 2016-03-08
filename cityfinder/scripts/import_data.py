@@ -2,6 +2,9 @@ import os
 import csv
 import django
 
+
+## ORIGINAL CODE
+
 # these need to be set up for us to use our models
 os.environ["DJANGO_SETTINGS_MODULE"] = "cityfinder.settings"
 django.setup()
@@ -147,6 +150,16 @@ def import_data(file_name, model):
 
 
 if __name__=="__main__":
+
+    '''
+    info = {'Walk': ('walk-transit-bike-score.csv', transform_walk)
+    }
+
+    for key, val in info:
+        mport_data(val[0], key, val[1])
+
+
+    '''
     w = 'walk-transit-bike-score.csv'
     import_data(w, Walk)
 

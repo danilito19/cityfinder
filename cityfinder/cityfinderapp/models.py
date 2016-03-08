@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 from django.db import models
 
+## ORIGINAL CODE, heavily modified from Django documentation
+
 class City(models.Model):
     city = models.CharField(max_length=20, default=None)
     state = models.CharField(max_length=5, blank=True, null=True)

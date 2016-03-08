@@ -10,59 +10,20 @@ An application to recommend US cities to move to based on user preferences.
 Requirements
 -----------
 
-* You are running OSX.
-* You are using Python 2.7. 
-* You have [virtualenv](https://pypi.python.org/pypi/virtualenv) and, if you'd like, [virtualenvwrapper](https://pypi.python.org/pypi/virtualenvwrapper) installed and working.
+* You are running OSX or unix machine.
+* You are using Python 2.7.
+* You are using a VirtualMachine where you will download requirements OR you have [virtualenv](https://pypi.python.org/pypi/virtualenv) and, if you'd like, [virtualenvwrapper](https://pypi.python.org/pypi/virtualenvwrapper) installed and working.
 
 
 Set Up
 ---------------
 
-Assuming you already have a fork of this project, just pull from upstream
-
-```
-git pull upstream master
-```
-
-Get pip and virtualenv
-```
-easy_install pip
-```
-or,  
-```
-sudo easy_install pip
-```
-then 
-```
-pip install virtualenv
-```
-go to cityfinder directory and create a virtualenvironment called cityfinderenv
-```
-virtualenv cityfinderenv
-```
-To activate the environment
-
-```
-source cityfinderenv/bin/activate
-```
-
-To get all packages, run
+Either from your VM or within your virtualenv, to get all required packages, run
 ```
 pip install -r requirements.txt
 ```
-Run this command frequently when you pull the repo again to make sure you have all the requirements up to date.
 
-IMPORTANT NOTE:
-run ```cat .gitignore``` to see the gitignore file. This file tells git to not include certain files. We never want to include the virtualenv file because it contains an entire version of Python. We also never want to include database (db, sql) files or large csv because it will take forever to load them. Work with these files through our Drive.
-
-Add this point, you may choose to download and use virtualenvwrapper - I have not yet.
-But to activate your virtualenv, you always have to run
-```
-source cityfinderenv/bin/activate
-```
-You will know you are working inside the virtualenv when the name of the env is in parenthesis at the beginning of the terminal command.
-
-Using Django front-end
+Using cityfinder
 ---------------
 
 ```cd ``` to the /cityfinder dir (where the file manage.py is) and run
@@ -72,7 +33,11 @@ python manage.py runserver
 ```
 You can now open up localhost/8000/cityfinderapp in your browser and see the front-end
 
-Using Django models and data
+Code description
 ---------------
+All relevant project code is within cityfinder directory.
+/scripts contains code we used to clean or transform the data to put it into django's database. db_transform.py is legacy code, while import_data.py was the latest we used to update the database.
 
-Make sure you have our city_data.db (currently in our drive) inside cityfinder/cityfinder (same dir where manage.py is). With this file, you can now use the cityfinderapp_table_name tables as Django models.
+/cityfinderapp contains most of our work, including the Django application. algorithms.py and City.py are files with code we created to run a weighted-scores algorithm to rank cities according to user preference.
+
+** INCLUDE DB IF NOT LARGE*

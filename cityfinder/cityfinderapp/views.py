@@ -6,6 +6,8 @@ import numpy as np
 import pandas as pd
 import algorithm as algo
 
+
+# ORIGINAL CODE
 proper_names = {'cost': 'Cost of Living',
                 'walk': "Walkability",
                 "bike": 'Bikability',
@@ -35,6 +37,10 @@ def process_slider_input(post):
       attribute_dict[key] = score
 
   return attribute_dict
+
+# END OF ORIGINAL CODE
+
+# MODIFIED CODE - followed Django documentation
 
 def priorities(request):
 
