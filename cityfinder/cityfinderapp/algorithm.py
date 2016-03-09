@@ -265,15 +265,11 @@ def add_criteria_scores(data, priorities, weather, size):
             elif key in CALCULATED_SCORES:
                 index = data[data['city_id'] == [row[1]['city_id']]].index[0]
                 scores[key] = [calculate_z_scores(data[key], index)]
-        scores['safe'] = scores['safe'] * np.asarray(-1.0)
+        if 'safe' in priorities:
+            scores['safe'] = scores['safe'] * np.asarray(-1.0)
         cit.all_scores = pd.DataFrame.from_dict(scores)
-        print ('CALLED SCORES FOR {}'.format(row[1]['city']))
         if cit.size == int(size):
             rv.append(cit)
-            print('ADD CRIT: ADDED TO RV')
-        else:
-            print('ADD CRIT: NOT ADDED TO RV')
-            print('Size: {}, Required: {}'.format(cit.size, size))
 
     return rv
 
