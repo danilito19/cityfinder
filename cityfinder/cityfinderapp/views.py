@@ -138,17 +138,18 @@ def city_results(request):
   cities_list = []
   match_score_list = []
 
-  for city in enumerate(city_objects):
+  for i, city in enumerate(city_objects):
     cities_list.append(city_objects[i].name)
-    match_score_list.append(city_objects[i].score)
+    match_score_list.append(round(city_objects[i].score/100, 3))
 
   labels = labels = ["city", "match_score"]
   headers = ["city_1", "city_2", "city_3", "city_4", "city_5", "city_6", "city_7", "city_8", "city_9", "city_10"]
+  headers_chopped = headers[:len(city_objects)]
 
   data = [cities_list, match_score_list]
   np.array(data)
-  results = pd.DataFrame(data, index = labels, columns = headers)
-  results_json = results.to_json(results)
+  results = pd.DataFrame(data, index = labels, columns = headers_chopped)
+  results_json = results.to_json()
 
   '''
   ##### Experimental Data Block for Data Viz. Dummy Data for now, but data should be formated like so before it is rendered ######
