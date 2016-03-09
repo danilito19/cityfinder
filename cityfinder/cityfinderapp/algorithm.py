@@ -207,7 +207,7 @@ def calculate_rates(data, weather, community, priorities):
         data['lgbtq'] = (data['Female_Female_HH'] + data['Male_Male_HH']) / \
          (data['population'] / 1000)
     if 'old' in community and 'community' in priorities:
-        data['old'] = 'old_age_depend_ratio'
+        data['old'] = data['old_age_depend_ratio']
     if 'young' in community and 'community' in priorities:
         data['young'] = ((-1 * pd.DataFrame(calculate_z_scores(data['median_age'] \
          ))) * np.std(data['median_age'])) + np.average(data['median_age'])
@@ -241,8 +241,11 @@ def calculate_community(data, communities):
     count = 0
     for x in communities:
         count += 1
-    data['community'] = pd.concat([data[x] for x in communities], axis = 1
-        ).sum(axis=1) / count
+    if count > 1:
+        data['community'] = pd.concat([data[x] for x in communities], axis = 1
+            ).sum(axis=1) / count
+    else:
+        data['community'] = data[communities[0]]
     return data
 
 def add_criteria_scores(data, priorities, weather, size):
@@ -267,7 +270,9 @@ def add_criteria_scores(data, priorities, weather, size):
                 scores[key] = [calculate_z_scores(data[key], index)]
         if 'safe' in priorities:
             scores['safe'] = scores['safe'] * np.asarray(-1.0)
+
         cit.all_scores = pd.DataFrame.from_dict(scores)
+
         if cit.size == int(size):
             rv.append(cit)
 
