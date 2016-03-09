@@ -87,7 +87,7 @@ def construct_dataframe(input_dict):
     priorities = input_dict['priorities']
     weather = {k:v for (k,v) in input_dict.items() if 'pr' not in k}
     size = weather.pop('size')
-    communities = input_dict['communities']
+    communities = weather.pop('communities')
 
     for criteria in priorities:
         if criteria not in SPECIAL_CRITERIA:
@@ -111,7 +111,7 @@ def construct_dataframe(input_dict):
     print('BEFORE MERGE:,', rv)
 
     for key in data:
-        if key is not 'cities':
+        if key != 'cities':
             print('DATA TO MERGE', data[key])
             rv = pd.merge(rv, data[key], on='city_id')
             print('AFTER MERGE:', rv)
@@ -157,7 +157,7 @@ def add_categorical_information(data, weather, priorities):
     # Convert weather attributes to categorical data
     if 'weather' in priorities:
         for key in weather: 
-            if key is 'seasons':
+            if key == 'seasons':
                 cols = []
                 concat = []
                 for x in data.columns:
@@ -175,10 +175,10 @@ def add_categorical_information(data, weather, priorities):
                     right = True)
                 temps = temps['seasons']
                 data = pd.concat([data, temps], axis = 1)
-            elif key is 'sun':
+            elif key == 'sun':
                 data['sun'] = pd.cut(data['avg_annual_precip_in_days'],  
                  CATEGORIES[key][0], labels = CATEGORIES[key][1], right = True)
-            elif key is 'temp':
+            elif key == 'temp':
                 for x in data.columns: 
                     if 'avg_temp_jan' in x: 
                         col = x
@@ -227,7 +227,9 @@ def calculate_weather(data, weather):
     cols = []
     for x in weather:
         col = 'weather_' + str(count)
-        data[col] = data[x] == int(weather[x])
+        print('x: {}, col: {}, weather: {}'.format(x, col, weather))
+        print(data[x])
+        data[col] = data[data[x] == int(weather[x])]
         data[col] = data[col].astype(int, copy = False)
         count += 1
     data['weather'] = pd.concat([data['weather_' + str(i)] for i in 
