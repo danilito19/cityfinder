@@ -227,9 +227,7 @@ def calculate_weather(data, weather):
     cols = []
     for x in weather:
         col = 'weather_' + str(count)
-        print('x: {}, col: {}, weather: {}'.format(x, col, weather))
-        print(data[x])
-        data[col] = data[data[x] == int(weather[x])]
+        data[col] = (data[x] == int(weather[x]))
         data[col] = data[col].astype(int, copy = False)
         count += 1
     data['weather'] = pd.concat([data['weather_' + str(i)] for i in 
