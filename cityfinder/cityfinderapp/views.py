@@ -138,13 +138,19 @@ def city_results(request):
   cities_list = []
   match_score_list = []
 
-  for i, city in enumerate(city_objects):
-    cities_list.append(city_objects[i].name)
-    match_score_list.append(round(city_objects[i].score/100, 3))
+  if len(city_objects) <= 10:
+    count = len(city_objects)
+  else:
+    count = 10
+
+  for i in range(count):
+    if city_objects[i].score >= 0.001:
+      cities_list.append(city_objects[i].name)
+      match_score_list.append(round(city_objects[i].score/100, 3))
 
   labels = labels = ["city", "match_score"]
   headers = ["city_1", "city_2", "city_3", "city_4", "city_5", "city_6", "city_7", "city_8", "city_9", "city_10"]
-  headers_chopped = headers[:len(city_objects)]
+  headers_chopped = headers[:len(cities_list)]
 
   data = [cities_list, match_score_list]
   np.array(data)
