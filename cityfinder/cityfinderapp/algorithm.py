@@ -65,6 +65,9 @@ def calculate_z_scores(array, i = None):
     Output: array or scores OR score for single index
     '''
     rv = []
+    for j in range(len(array)): 
+        if np.isnan(array[j]):
+            array[j] = np.average(array[~np.isnan(array)])
     for x in array: 
         rv.append((x - np.average(array)) / np.std(array))
     if i != None: 
@@ -117,7 +120,6 @@ def construct_dataframe(input_dict):
     for key in data:
         if key != 'cities':
             rv = pd.merge(rv, data[key], on='city_id')
-            print('LENGTH OF MERGE AFTER {}: {}'.format(key, len(rv)))
 
     return (rv, priorities, communities, weather, size)
 
@@ -204,20 +206,20 @@ def calculate_rates(data, weather, communities, priorities):
     '''
     if 'safe' in priorities:
         data['safe'] = data['bulglary'] / (data['population'] / 1000)
-    if 'hisp' in communities and len(communities) > 0:
+    if 'hisp' in communities and 'community' in priorities:
         data['hisp'] = data['hisp_count'] / (data['population'] / 1000)
-    if 'lgbtq' in communities and len(communities) > 0:
+    if 'lgbtq' in communities and 'community' in priorities:
         data['lgbtq'] = (data['Female_Female_HH'] + data['Male_Male_HH']) / \
          (data['population'] / 1000)
-    if 'old' in communities and len(communities) > 0:
+    if 'old' in communities and 'community' in priorities:
         data['old'] = data['old_age_depend_ratio']
-    if 'young' in communities and len(communities) > 0:
+    if 'young' in communities and 'community' in priorities:
         data['young'] = ((-1 * pd.DataFrame(calculate_z_scores(data['median_age'] \
          ))) * np.std(data['median_age'])) + np.average(data['median_age'])
     
     if 'weather' in priorities:
         data = calculate_weather(data, weather)
-    if len(communities) > 0:
+    if len(communities) > 0 and 'community' in priorities:
         data = calculate_community(data, communities)
 
     return data
@@ -243,6 +245,8 @@ def calculate_community(data, communities):
     '''
     Calculates community agreement.
     '''
+    if communities[0] == '':
+        return data
     count = 0
     for x in communities:
         count += 1
@@ -253,7 +257,7 @@ def calculate_community(data, communities):
         data['community'] = data[communities[0]]
     return data
 
-def add_criteria_scores(data, priorities, weather, size):
+def add_criteria_scores(data, priorities, weather, size, communities):
     '''
     Creates City objects for each city and adds all criteria scores. 
 
@@ -265,16 +269,22 @@ def add_criteria_scores(data, priorities, weather, size):
         cit = city.City(row[1]['city'], row[1]['state'], row[1]['city_id'], 
             row[1]['size'])
         scores = {}
+        index = data[data['city_id'] == [row[1]['city_id']]].index[0]
         for key in priorities:
             if key not in SPECIAL_CRITERIA and key not in CALCULATED_SCORES:
-                index = data[data['city_id'] == [row[1]['city_id']]].index[0]
-                scores[key] = calculate_z_scores(data[RELATION_DICT[key][1]],
-                    index)
+                scores[key] = [calculate_z_scores(data[RELATION_DICT[key][1]],
+                    index)]
             elif key in CALCULATED_SCORES:
-                index = data[data['city_id'] == [row[1]['city_id']]].index[0]
-                scores[key] = [calculate_z_scores(data[key], index)]
+                if key == 'community' and communities[0] != '':
+                    scores[key] = [calculate_z_scores(data[key], index)]
+                elif key == 'community' and communities[0] == '':
+                    scores[key] = [1]
         if 'safe' in priorities:
-            scores['safe'] = scores['safe'] * np.asarray(-1.0)
+            scores['safe'] = [calculate_z_scores(data['safe'], index)] * np.asarray(-1.0)
+
+        for key in scores:
+            if str(scores[key]) == 'nan':
+                scores[key] = [0]
 
         cit.all_scores = pd.DataFrame.from_dict(scores)
 
@@ -341,9 +351,10 @@ def run_calculations(input_dict):
     data, priorities, communities, weather, size = construct_dataframe(input_dict)
     data = add_categorical_information(data, weather, priorities)
     data = calculate_rates(data, weather, communities, priorities)
-    city_data = add_criteria_scores(data, priorities, weather, size)
+    city_data = add_criteria_scores(data, priorities, weather, size, communities)
     weights = calculate_weights(len(priorities))
     ranked_list = calculate_rank(city_data, weights, priorities)
+    print('RANKED LIST: ', ranked_list)
     rv = make_scores_100(ranked_list)
     print("RETURNING RESULTS LIST, ", rv)
 
