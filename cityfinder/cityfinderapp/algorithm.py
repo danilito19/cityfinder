@@ -27,7 +27,7 @@ RELATION_DICT = {
  'seasons' : [Weather, 'avg_temp_jan', 'avg_temp_april', 
     'avg_temp_july', 'avg_temp_oct']},
 'cities' : [City, 'city', 'state'], 
-'size': [Crime, 'population']}
+'size': [Walk, 'population']}
 CATEGORIES = {'seasons': ([0, 10, 20, float('inf')], [0, 1, 2]), 
               'sun': ([0, 75, 125, float('inf')], [0, 1, 2]),
               'temp': ([0, 40, 50, float('inf')], [2, 1, 0]), 
@@ -86,8 +86,14 @@ def construct_dataframe(input_dict):
     data = {}
     priorities = input_dict['priorities']
     weather = {k:v for (k,v) in input_dict.items() if 'pr' not in k}
-    size = weather.pop('size')
-    communities = weather.pop('communities')
+    if 'size' in weather:
+        size = weather.pop('size')
+    else: 
+        size = None
+    if 'communities' in weather:
+        communities = weather.pop('communities')
+    else:
+        communities = None
 
     for criteria in priorities:
         if criteria not in SPECIAL_CRITERIA:
@@ -99,7 +105,6 @@ def construct_dataframe(input_dict):
                     criteria_info = RELATION_DICT[criteria][key]
                     data[key] = get_data(criteria_info)
                 else: 
-                    print('GETTING THIS CRITERIA FROM DATA: ', criteria)
                     criteria_info = RELATION_DICT[criteria][key]
                     data[key] = get_data(criteria_info)                    
 
@@ -108,13 +113,11 @@ def construct_dataframe(input_dict):
     
     rv = data['cities']
     rv.columns = ['city', 'city_id', 'state']
-    print('BEFORE MERGE:,', rv)
 
     for key in data:
         if key != 'cities':
-            print('DATA TO MERGE', data[key])
             rv = pd.merge(rv, data[key], on='city_id')
-            print('AFTER MERGE:', rv)
+            print('LENGTH OF MERGE AFTER {}: {}'.format(key, len(rv)))
 
     return (rv, priorities, communities, weather, size)
 
@@ -194,28 +197,28 @@ def add_categorical_information(data, weather, priorities):
 
     return data
 
-def calculate_rates(data, weather, community, priorities):
+def calculate_rates(data, weather, communities, priorities):
     '''
     Calculates safety, hispanic, and lgbtq rates. Renames old, flips age 
     cardinality so that younger median age is a higher score.
     '''
     if 'safe' in priorities:
         data['safe'] = data['bulglary'] / (data['population'] / 1000)
-    if 'hisp' in community and 'community' in priorities:
+    if 'hisp' in communities and len(communities) > 0:
         data['hisp'] = data['hisp_count'] / (data['population'] / 1000)
-    if 'lgbtq' in community and 'community' in priorities:
+    if 'lgbtq' in communities and len(communities) > 0:
         data['lgbtq'] = (data['Female_Female_HH'] + data['Male_Male_HH']) / \
          (data['population'] / 1000)
-    if 'old' in community and 'community' in priorities:
+    if 'old' in communities and len(communities) > 0:
         data['old'] = data['old_age_depend_ratio']
-    if 'young' in community and 'community' in priorities:
+    if 'young' in communities and len(communities) > 0:
         data['young'] = ((-1 * pd.DataFrame(calculate_z_scores(data['median_age'] \
          ))) * np.std(data['median_age'])) + np.average(data['median_age'])
     
     if 'weather' in priorities:
         data = calculate_weather(data, weather)
-    if 'community' in priorities:
-        data = calculate_community(data, community)
+    if len(communities) > 0:
+        data = calculate_community(data, communities)
 
     return data
 
@@ -230,8 +233,10 @@ def calculate_weather(data, weather):
         data[col] = (data[x] == int(weather[x]))
         data[col] = data[col].astype(int, copy = False)
         count += 1
+
     data['weather'] = pd.concat([data['weather_' + str(i)] for i in 
         range(1, count)], axis=1).sum(axis=1) / 3
+
     return data
 
 def calculate_community(data, communities):
@@ -244,7 +249,7 @@ def calculate_community(data, communities):
     if count > 1:
         data['community'] = pd.concat([data[x] for x in communities], axis = 1
             ).sum(axis=1) / count
-    else:
+    elif count == 1:
         data['community'] = data[communities[0]]
     return data
 
@@ -273,7 +278,10 @@ def add_criteria_scores(data, priorities, weather, size):
 
         cit.all_scores = pd.DataFrame.from_dict(scores)
 
-        if cit.size == int(size):
+        if size:
+            if cit.size == int(size):
+                rv.append(cit)
+        else: 
             rv.append(cit)
 
     return rv
@@ -296,6 +304,33 @@ def calculate_rank(city_data, weights, priorities):
         rank += 1
     return city_data
 
+def make_scores_100(ranked_list):
+    '''
+    Converts the scores from the final ranked_list cities into a 
+    scale of 0-100, for comprehension.
+    '''
+    scores_list = []
+    for city in ranked_list:
+        scores_list.append(city.score)
+
+    scores = np.array(scores_list)
+    if scores.min() < 0:
+        max_score = scores.max() - scores.min()
+        min_score = 0
+    else:
+        max_score = scores.max()
+        min_score = scores.min()
+
+    for i in range(len(scores_list)):
+        if scores.min() < 0:
+            ranked_list[i].score = 100 * ((scores_list[i] - scores.min()) / \
+            (max_score - min_score))
+        else:
+            ranked_list[i].score = 100 * (scores_list[i] / \
+            (max_score - min_score))
+
+    return ranked_list
+
 def run_calculations(input_dict):
     '''
     Carries out algorithm; returns cities dictionary. 
@@ -309,17 +344,13 @@ def run_calculations(input_dict):
     city_data = add_criteria_scores(data, priorities, weather, size)
     weights = calculate_weights(len(priorities))
     ranked_list = calculate_rank(city_data, weights, priorities)
-    print("RETURNING RESULTS LIST, ", ranked_list)
-    return ranked_list
+    rv = make_scores_100(ranked_list)
+    print("RETURNING RESULTS LIST, ", rv)
 
-test1 = {
-    'priorities': ['walk', 'weather', 'safe', 'community', 'cost', 'bike', 'transit'],
-    'preferences': ['lgbtq', 'hisp', 'old', 'young'],
-    'sun' : 1,
-    'temp' : 2,
-    'size' : 2, 
-    'seasons': 0
-    }
+    if len(rv) > 10:
+        rv = rv[:10]
+    return rv
+
 
 
 
