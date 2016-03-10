@@ -272,8 +272,12 @@ def add_criteria_scores(data, priorities, weather, size, communities):
         index = data[data['city_id'] == [row[1]['city_id']]].index[0]
         for key in priorities:
             if key not in SPECIAL_CRITERIA and key not in CALCULATED_SCORES:
-                scores[key] = [calculate_z_scores(data[RELATION_DICT[key][1]],
-                    index)]
+                if key is 'cost':
+                    scores[key] = [calculate_z_scores(data[RELATION_DICT[key][1]],
+                        index) * np.asarray(-1.0)]
+                else:   
+                    scores[key] = [calculate_z_scores(data[RELATION_DICT[key][1]],
+                        index) * np.asarray(-1.0)] 
             elif key in CALCULATED_SCORES:
                 if key == 'community' and communities[0] != '':
                     scores[key] = [calculate_z_scores(data[key], index)]
@@ -353,13 +357,13 @@ def run_calculations(input_dict):
     data = calculate_rates(data, weather, communities, priorities)
     city_data = add_criteria_scores(data, priorities, weather, size, communities)
     weights = calculate_weights(len(priorities))
-    ranked_list = calculate_rank(city_data, weights, priorities)
-    print('RANKED LIST: ', ranked_list)
+    ranked_list = calculate_rank(city_data, weights, priorities)    
     rv = make_scores_100(ranked_list)
     print("RETURNING RESULTS LIST, ", rv)
 
     if len(rv) > 10:
         rv = rv[:10]
+
     return rv
 
 
