@@ -288,7 +288,7 @@ def add_criteria_scores(data, priorities, weather, size, communities):
 
         cit.all_scores = pd.DataFrame.from_dict(scores)
 
-        if size:
+        if size != None:
             if cit.size == int(size):
                 rv.append(cit)
         else: 
