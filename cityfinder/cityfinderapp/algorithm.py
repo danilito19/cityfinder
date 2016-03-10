@@ -197,28 +197,28 @@ def add_categorical_information(data, weather, priorities):
 
     return data
 
-def calculate_rates(data, weather, community, priorities):
+def calculate_rates(data, weather, communities, priorities):
     '''
     Calculates safety, hispanic, and lgbtq rates. Renames old, flips age 
     cardinality so that younger median age is a higher score.
     '''
     if 'safe' in priorities:
         data['safe'] = data['bulglary'] / (data['population'] / 1000)
-    if 'hisp' in community and 'community' in priorities:
+    if 'hisp' in communities and len(communities) > 0:
         data['hisp'] = data['hisp_count'] / (data['population'] / 1000)
-    if 'lgbtq' in community and 'community' in priorities:
+    if 'lgbtq' in communities and len(communities) > 0:
         data['lgbtq'] = (data['Female_Female_HH'] + data['Male_Male_HH']) / \
          (data['population'] / 1000)
-    if 'old' in community and 'community' in priorities:
+    if 'old' in communities and len(communities) > 0:
         data['old'] = data['old_age_depend_ratio']
-    if 'young' in community and 'community' in priorities:
+    if 'young' in communities and len(communities) > 0:
         data['young'] = ((-1 * pd.DataFrame(calculate_z_scores(data['median_age'] \
          ))) * np.std(data['median_age'])) + np.average(data['median_age'])
     
     if 'weather' in priorities:
         data = calculate_weather(data, weather)
-    if 'community' in priorities:
-        data = calculate_community(data, community)
+    if len(communities) > 0:
+        data = calculate_community(data, communities)
 
     return data
 
@@ -249,7 +249,7 @@ def calculate_community(data, communities):
     if count > 1:
         data['community'] = pd.concat([data[x] for x in communities], axis = 1
             ).sum(axis=1) / count
-    else:
+    elif count == 1:
         data['community'] = data[communities[0]]
     return data
 
