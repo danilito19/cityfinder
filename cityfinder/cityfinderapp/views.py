@@ -44,9 +44,6 @@ def process_slider_input(post):
 
 def priorities(request):
 
-  #Added here for going back to beginning
-  #need to decide where flush goes , ideally when user doesn't get
-  #any results or is in the last page bc then this doesn't save any sessions
   request.session.flush()
 
   request.session.set_test_cookie()
@@ -55,15 +52,6 @@ def priorities(request):
   else:
     return HttpResponse("Please enable cookies and try again.")
   
-  # this enables us to show  previous selections if user went back to priorities page
-
-  if request.session and 'priorities' in request.session:
-    previous_priorities = []
-    priorities = [str(p) for p in request.session['priorities']['priorities'].split(',')]
-    for priority in priorities:
-        previous_priorities.append(proper_names[priority])
-    return render(request, 'priorities.html', {'previous_priorities': previous_priorities})
-
   return render(request, 'priorities.html')
 
 def preferences_citysize(request):
@@ -112,7 +100,6 @@ def city_results(request):
 
   query_dict['priorities'] = priorities
 
-  #if "community" in priorities and len(communities) > 1:
   query_dict['communities'] = communities
 
   if "weather" in priorities and weather_preferences:
@@ -122,16 +109,6 @@ def city_results(request):
     query_dict.update(citysize_preference)
 
   print "QUERY DICTIONARY", query_dict
-
-
-  #delete sessions ## NOTE (Anna Hazard) I am disabling this for my own purposes for now because I need to refresh a lot for the viz
-  #request.session.flush()
-
-  #now pass in QUERY DICT TO ALDEN'S WORK
-  #then render in results page
-  #example to pass in to results to show city data
-  #need to call here a func algorithm // Alden
-  #walk_city = Walk.objects.order_by('-city')[:50]
 
   city_objects = algo.run_calculations(query_dict)
 
