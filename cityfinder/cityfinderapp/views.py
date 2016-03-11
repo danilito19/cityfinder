@@ -43,6 +43,9 @@ def process_slider_input(post):
 # MODIFIED CODE - followed Django documentation
 
 def priorities(request):
+  '''
+  View function for the priorities page. User required to have cookies on.
+  '''
 
   request.session.flush()
 
@@ -55,22 +58,37 @@ def priorities(request):
   return render(request, 'priorities.html')
 
 def preferences_citysize(request):
+  '''
+  View function for city size page.
+  '''
 
   request.session['priorities'] = request.POST
 
   return render(request, 'preferences_citysize.html')
 
 def preferences_weather(request):
+  '''
+  View function for weather selections page.
+  '''
   request.session['preferences_citysize'] = request.POST
 
   return render(request, 'preferences_weather.html')
 
 def preferences_community(request):
+  '''
+  View function for communities selection page.
+  '''
   request.session['preferences_weather'] = request.POST
 
   return render(request, 'preferences_community.html')
 
 def city_results(request):
+  '''
+  View function for results page. This function builds a query 
+  dictionary according to user preferences saved in sessions. 
+  Once query dict is built, it is passed to the algorithm, which
+  returns a list of candidate cities to render.
+  '''
 
   request.session['preferences_community'] = request.POST
 
