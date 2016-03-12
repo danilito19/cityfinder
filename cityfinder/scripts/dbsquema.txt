@@ -1,0 +1,20 @@
+
+CREATE TABLE "cityfinderapp_city" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "city" varchar(20) NOT NULL, "state" varchar(5) NULL);
+CREATE TABLE "cityfinderapp_academic" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "institution_id" integer NOT NULL, "name" varchar(20) NULL, "add" varchar(20) NULL, "state" integer NULL, "zip_code" varchar(7) NULL, "city_id" integer NOT NULL REFERENCES "cityfinderapp_city" ("id"));
+CREATE INDEX "cityfinderapp_academic_c7141997" ON "cityfinderapp_academic" ("city_id");
+CREATE TABLE "cityfinderapp_age" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "state" varchar(20) NOT NULL, "population" integer NULL, "median_age" real NULL, "age_depend_ratio" real NULL, "old_age_depend_ratio" real NULL, "child_depend_ratio" real NULL, "city_id" integer NOT NULL REFERENCES "cityfinderapp_city" ("id"));
+CREATE INDEX "cityfinderapp_age_c7141997" ON "cityfinderapp_age" ("city_id");
+CREATE TABLE "cityfinderapp_col" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "state" varchar(5) NULL, "total_index" real NULL, "grocery" real NULL, "housing" real NULL, "utilities" real NULL, "transport" real NULL, "health" real NULL, "misc" real NULL, "city_id" integer NOT NULL REFERENCES "cityfinderapp_city" ("id"));
+CREATE INDEX "cityfinderapp_col_c7141997" ON "cityfinderapp_col" ("city_id");
+CREATE TABLE "cityfinderapp_crime" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "state" varchar(5) NULL, "population" integer NULL, "violent_crime" integer NULL, "murder" integer NULL, "rape" integer NULL, "robbery" integer NULL, "aggrev_assault" integer NULL, "property_crime" integer NULL, "bulglary" integer NULL, "larceny_theft" integer NULL, "car_theft" integer NULL, "arson" integer NULL, "city_id" integer NOT NULL REFERENCES "cityfinderapp_city" ("id"));
+CREATE INDEX "cityfinderapp_crime_c7141997" ON "cityfinderapp_crime" ("city_id");
+CREATE TABLE "cityfinderapp_hisp" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "state" varchar(20) NOT NULL, "hisp_count" integer NULL, "hisp_MOE" integer NULL, "city_id" integer NOT NULL REFERENCES "cityfinderapp_city" ("id"));
+CREATE INDEX "cityfinderapp_hisp_c7141997" ON "cityfinderapp_hisp" ("city_id");
+CREATE TABLE "cityfinderapp_lgbt" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "state" varchar(20) NOT NULL, "Total_HH" integer NULL, "THH_MOE" integer NULL, "Total_Unmarried" integer NULL, "TU_MOE" integer NULL, "Male_Male_HH" integer NULL, "MMHH_MOE" integer NULL, "Female_Female_HH" integer NULL, "FFHH_MOE" integer NULL, "All_Other_HH" integer NULL, "AOH_MOE" integer NULL, "city_id" integer NOT NULL REFERENCES "cityfinderapp_city" ("id"));
+CREATE INDEX "cityfinderapp_lgbt_c7141997" ON "cityfinderapp_lgbt" ("city_id");
+CREATE TABLE "cityfinderapp_rent" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "state" varchar(5) NULL, "bed_1_med_price" real NULL, "bed_2_med_price" real NULL, "city_id" integer NOT NULL REFERENCES "cityfinderapp_city" ("id"));
+CREATE INDEX "cityfinderapp_rent_c7141997" ON "cityfinderapp_rent" ("city_id");
+CREATE TABLE "cityfinderapp_walk" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "state" varchar(5) NULL, "walk_score" real NULL, "transit_score" real NULL, "bike_score" real NULL, "population" integer NULL, "city_id" integer NOT NULL REFERENCES "cityfinderapp_city" ("id"));
+CREATE INDEX "cityfinderapp_walk_c7141997" ON "cityfinderapp_walk" ("city_id");
+CREATE TABLE "cityfinderapp_weather" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "state" varchar(5) NULL, "avg_temp_jan" real NULL, "avg_temp_april" real NULL, "avg_temp_july" real NULL, "avg_temp_oct" real NULL, "avg_annual_precip_in" real NULL, "avg_annual_precip_in_days" real NULL, "avg_annual_precip_snowfall" real NULL, "city_id" integer NOT NULL REFERENCES "cityfinderapp_city" ("id"));
+CREATE INDEX "cityfinderapp_weather_c7141997" ON "cityfinderapp_weather" ("city_id");
