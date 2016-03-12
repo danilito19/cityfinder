@@ -5,17 +5,22 @@ import django
 
 ## ORIGINAL CODE
 
-# these need to be set up for us to use our models
 os.environ["DJANGO_SETTINGS_MODULE"] = "cityfinder.settings"
 django.setup()
 from cityfinderapp.models import *
 
 d = '~/Dropbox/city-data/'
 
-def to_float(el, null_value):
-    return float(el) if el != null_value else None    
+def to_float(val, null_value):
+    '''
+    Transform a val to a float, else use null_value
+    '''
+    return float(val) if val != null_value else None    
 
 def transform_walk(line):
+    '''
+    Transform the walk score data to use django models.
+    '''
     result = {}
     result["state"] = line[1]
     result["walk_score"] = to_float(line[2], '')
@@ -26,6 +31,10 @@ def transform_walk(line):
     return result
 
 def transform_weather(line):
+    '''
+    Transform the weather data to use django models.
+    '''
+
     result = {}
     
     result["state"] = line[1]
@@ -40,6 +49,9 @@ def transform_weather(line):
     return result
 
 def transform_rents(line):
+    '''
+    Transform the rents data to use django models.
+    '''
     result = {}
 
     result["state"]=line[1]
@@ -49,7 +61,9 @@ def transform_rents(line):
     return result
 
 def transform_crime(line):
-
+    '''
+    Transform the crime data to use django models.
+    '''
     result = {}
 
     result["state"]=line[1]
@@ -68,7 +82,9 @@ def transform_crime(line):
     return result
 
 def transform_COL(line):
-
+    '''
+    Transform the cost of living data to use django models.
+    '''
     result = {}
 
     result["state"]=line[1]
@@ -83,6 +99,9 @@ def transform_COL(line):
     return result
 
 def transform_LGBT(line):
+    '''
+    Transform the lgbt data to use django models.
+    '''
 
     result = {}
 
@@ -101,6 +120,10 @@ def transform_LGBT(line):
     return result
 
 def transform_hisp(line):
+    '''
+    Transform the hispanic population data to use django models.
+    '''
+
     result = {}
 
     result["state"]=line[1]
@@ -110,6 +133,9 @@ def transform_hisp(line):
     return result
 
 def transform_ages(line):
+    '''
+    Transform the age data to use django models.
+    '''
 
     result = {}
 
@@ -122,7 +148,11 @@ def transform_ages(line):
 
     return result
 
-def import_data(file_name, model):
+def import_data(model, file_name, func):
+    '''
+    Import data from csv and adds data to the appropriate model by relating
+    it to a city id if the city in the data matches by city name and state.
+    '''
 
     path = os.path.expanduser(d + file_name)
 
@@ -131,56 +161,25 @@ def import_data(file_name, model):
         count = 0
         next(data)
         for line in data:
-            count += 1
             print('lINE 0, LINE 1'), line[0], line[1]
             city = City.objects.filter(city__icontains=line[0], state__icontains=line[1])
             if city:
                 print('Found city', city)
-                print('curr count ', count)
-                #ob = model(city=city[0], **transform_walk(line))
-                #ob = model(city=city[0], **transform_weather(line))
-                #ob = model(city=city[0], **transform_rents(line))
-                ob = model(city=city[0], **transform_crime(line))
-                #ob = model(city=city[0], **transform_COL(line))
-                #ob = model(city=city[0], **transform_LGBT(line))
-                #ob = model(city=city[0], **transform_hisp(line))
-                #ob = model(city=city[0], **transform_ages(line))
-
+                ob = model(city=city[0], **func(line))
                 ob.save()
 
 
 if __name__=="__main__":
 
-    '''
-    info = {'Walk': ('walk-transit-bike-score.csv', transform_walk)
-    }
+    info = {Walk: ('walk-transit-bike-score.csv', transform_walk),
+            Weather: ('weather-cities.csv', transform_weather),
+            Rent: ('MedianRents.csv', transform_rents),
+            Crime: ('crime_2014.csv', transform_crime),
+            COL: ('COLindex.csv', transform_COL),
+            LGBT: ('LGBT_households.csv', transform_LGBT),
+            Hisp: ('hisp.csv', transform_hisp),
+            Age: ('ages.csv', transform_ages)}
 
     for key, val in info:
-        mport_data(val[0], key, val[1])
-
-
-    '''
-    # w = 'walk-transit-bike-score.csv'
-    # import_data(w, Walk)
-
-    # w = 'weather-cities.csv'
-    # import_data(w, Weather)
-
-    # w = 'MedianRents.csv'
-    # import_data(w, Rent)
-
-    w = 'crime_2014.csv'
-    import_data(w, Crime)
-
-    # w = 'COLindex.csv'
-    # import_data(w, COL)
-
-    # w = 'LGBT_households.csv'
-    # import_data(w, LGBT)
-
-    # w = 'hisp.csv'
-    # import_data(w, Hisp)
-
-    # w = 'ages.csv'
-    # import_data(w, Age)
+        import_data(key, val[0], val[1])
 
