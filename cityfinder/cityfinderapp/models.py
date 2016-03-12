@@ -76,17 +76,6 @@ class COL(models.Model):
     def __str__(self):
         return '%s %s' % (self.city, self.state)
 
-''' CURRENTLY DID NOT IMPORT ACADEMIC DATA INTO DB '''
-class academic(models.Model):
-    institution_id = models.IntegerField(default=None)
-    name = models.CharField(max_length=20, blank=True, null=True)
-    add = models.CharField(max_length=20, blank=True, null=True)
-    city = models.ForeignKey(City)
-    state = models.IntegerField( blank=True, null=True)
-    zip_code = models.CharField(max_length=7, blank=True, null=True)
-    
-    def __str__(self):
-        return '%s %s' % (self.city, self.state)
 
 class LGBT(models.Model):
     city = models.ForeignKey(City)
