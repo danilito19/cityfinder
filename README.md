@@ -55,7 +55,7 @@ There are still many interesting things we'd like to do with this project that w
 
 
 **CONTRIBUTORS**
-- [Alden Gobal](https://github.com/aldengolab)
+- [Alden Golab](https://github.com/aldengolab)
 - [Anna Hazard](https://github.com/annalizhaz)
 - [Dani Litovsky Alcala](https://github.com/danilito19)
 
