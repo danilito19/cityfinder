@@ -52,3 +52,10 @@ There are still many interesting things we'd like to do with this project that w
 * more visualizations
 * having 2 users input preferences (partners)
 * cities near each other feature
+
+
+**CONTRIBUTORS**
+[Alden Gobal](https://github.com/aldengolab)
+[Anna Hazard](https://github.com/annalizhaz)
+[Dani Litovsky Alcala](https://github.com/danilito19)
+
