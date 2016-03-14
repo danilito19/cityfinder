@@ -10,15 +10,15 @@ An application to recommend US cities to move to based on user preferences.
 Requirements
 -----------
 
-* You are running OSX or unix machine.
 * You are using Python 2.7.
-* You are using a VirtualMachine where you will download requirements OR you have [virtualenv](https://pypi.python.org/pypi/virtualenv) and, if you'd like, [virtualenvwrapper](https://pypi.python.org/pypi/virtualenvwrapper) installed and working.
+* You are using a VirtualMachine where you will download requirements OR you have [virtualenv](https://pypi.python.org/pypi/virtualenv)
+* All Python packages required are within requirements.txt
 
 
 Set Up
 ---------------
 
-Either from your VM or within your virtualenv, to get all required packages, run
+To get all required packages, run
 ```
 pip install -r requirements.txt
 ```
@@ -40,4 +40,15 @@ All relevant project code is within cityfinder directory.
 
 /cityfinderapp contains most of our work, including the Django application. algorithms.py and City.py are files with code we created to run a weighted-scores algorithm to rank cities according to user preference.
 
-** INCLUDE DB IF NOT LARGE*
+**How the database was made**
+The data came in multiple csvs, which we had to clean-up to be able to put in the database. We used short bash scripts as well as some manual work in Sublime text (regex find-replace) to delete columns, change cities and states which were clearly wrong (Chicago was listed in Indiana!). The more data cleaning we did, the more cities were able to match when we created the relationship to the City model. We wanted to get close to having as many cities as the walk score file has (108), although some files, such as crime data, did not provide information for many of our 108 cities.
+
+TODO:
+---------------
+There are still many interesting things we'd like to do with this project that we were unable to finish by our deadline.
+* use sessions to save user input in the html so user can see it if she goes back pages
+* improvements to the algorithm
+* additional city data
+* more visualizations
+* having 2 users input preferences (partners)
+* cities near each other feature
