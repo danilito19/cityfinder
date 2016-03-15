@@ -36,14 +36,17 @@ CATEGORIES = {'seasons': ([0, 10, 20, float('inf')], [0, 1, 2]),
 
 def run_calculations(input_dict):
     '''
-    Carries out algorithm; returns cities dictionary. 
+    Carries out algorithm; returns list of ranked cities. 
 
     Input: dictionary from django app
-    Output: list of ranked cities, dictionary mapping city: city object, 
+    Output: list of ranked city objects 
     '''
     # Construct the full dataframe of necessary data
     data, priorities, communities, weather, size = construct_dataframe(
         input_dict)
+    # If no preferences are selected by user, no calculations are done
+    if len(priorities) == 0:
+        return []
     # Re-code weather and size to be categorical using CATEGORIES global
     data = add_categorical_information(data, weather, priorities)
     # Do any calculations necessary (rates, agreement, renaming)
@@ -127,9 +130,16 @@ def construct_dataframe(input_dict):
     else: 
         size = None
     if 'communities' in weather:
+        # If user does not select comm prefs, community score not calculated
         communities = weather.pop('communities')
+        if len(communities) == 1 and communities[0] == '' and 'community' in\
+         priorities:
+            priorities.remove('community')
     else:
         communities = None
+    if len(weather) == 0 and 'weather' in priorities:
+        # If user does not select weather prefs, weather score not calculated
+        priorities.remove('weather')
 
     # Get all the data and stick it into a dictionary
     for criteria in priorities:
@@ -251,7 +261,10 @@ def calculate_rates(data, weather, communities, priorities):
     '''
     # Runs necessary transformation if user preferences require it
     if 'safe' in priorities:
-        data['safe'] = data['bulglary'] / (data['population'] / 1000)
+        # Inverts score so that lower rates are better
+        data['burg_rate'] = data['bulglary'] / (data['population'] / 1000)
+        data['safe'] = ((-1 * pd.DataFrame(calculate_z_scores(data['burg_rate'] \
+         ))) * np.std(data['burg_rate'])) + np.average(data['burg_rate'])
     if 'hisp' in communities and 'community' in priorities:
         data['hisp'] = data['hisp_count'] / (data['population'] / 1000)
     if 'lgbtq' in communities and 'community' in priorities:
@@ -269,7 +282,7 @@ def calculate_rates(data, weather, communities, priorities):
          ))) * np.std(data['total_index'])) + np.average(data['total_index'])
     if 'weather' in priorities:
         data = calculate_weather(data, weather)
-    if len(communities) > 0 and 'community' in priorities:
+    if 'community' in priorities:
         data = calculate_community(data, communities)
     return data
 
@@ -308,7 +321,7 @@ def calculate_community(data, communities):
          data[x])) for x in communities], axis = 1).sum(axis=1) /\
          len(communities)
     # Input gives '' when no communities are selected, adjustment
-    elif len(communities) == 1 and communities[0] != '':
+    elif len(communities) == 1:
         data['community'] = data[communities[0]]
     return data
 
@@ -323,8 +336,8 @@ def add_criteria_scores(data, priorities, weather, size, communities):
     for row in data.iterrows():
         cit = city.City(row[1]['city'], row[1]['state'], row[1]['city_id'], 
             row[1]['size'])
-        scores = {}
         index = data[data['city_id'] == [row[1]['city_id']]].index[0]
+        scores = {}
         for key in priorities:
             # For each priority inputted, calculate the z-scores for this city
             if key not in SPECIAL_CRITERIA and key not in CALCULATED_SCORES:
@@ -334,14 +347,13 @@ def add_criteria_scores(data, priorities, weather, size, communities):
                 if key == 'community' and communities[0] != '':
                     scores[key] = [calculate_z_scores(data[key], index)]
                 elif key == 'community' and communities[0] == '':
+                    # Quirk of data passing; throw in a value
                     scores[key] = [1]
                 else: 
                     scores[key] = [calculate_z_scores(data[key], index)]
             # Set NaNs equal to average
             if str(scores[key]) == 'nan':
                 scores[key] = [0]
-        if 'safe' in priorities:
-            scores['safe'] = [calculate_z_scores(data['safe'], index)] * np.asarray(-1.0)
 
         cit.all_scores = pd.DataFrame.from_dict(scores)
 
@@ -357,19 +369,20 @@ def calculate_rank(city_data, weights, priorities):
     '''
     Calculates rank from a list of cities with scores.
     '''
-    to_sort = []
+    # Create tuple, use list sort
+    rv = []
     for entry in city_data:
         entry.calculate_score(weights, priorities)
-        to_sort.append((entry.score, entry))
-    to_sort = sorted(to_sort, reverse = True)
-
-    city_data = []
+        rv.append((entry.score, entry))
+    rv = sorted(rv, reverse = True)
+    # Add rank
     rank = 1
-    for entry in to_sort: 
+    for i in range(len(rv)): 
+        entry = rv.pop(0)
         entry[1].rank = rank
-        city_data.append(entry[1])
         rank += 1
-    return city_data
+        rv.append(entry[1])
+    return rv
 
 def make_scores_100(ranked_list):
     '''
@@ -379,7 +392,7 @@ def make_scores_100(ranked_list):
     scores_list = []
     for city in ranked_list:
         scores_list.append(city.score)
-
+    # Calculate current range
     scores = np.array(scores_list)
     if scores.min() < 0:
         max_score = scores.max() - scores.min()
@@ -387,7 +400,7 @@ def make_scores_100(ranked_list):
     else:
         max_score = scores.max()
         min_score = scores.min()
-
+    # Map old values onto 0-100 range
     for i in range(len(scores_list)):
         if scores.min() < 0:
             ranked_list[i].score = 100 * ((scores_list[i] - scores.min()) / \
@@ -395,7 +408,6 @@ def make_scores_100(ranked_list):
         else:
             ranked_list[i].score = 100 * (scores_list[i] / \
             (max_score - min_score))
-
     return ranked_list
 
 
