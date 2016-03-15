@@ -56,7 +56,6 @@ def run_calculations(input_dict):
     # Create a list of City objects for each city in the dataset
     city_data = add_criteria_scores(data, priorities, weather, size, 
         communities)
-    print(city_data)
     # Calculate the weights for each score
     weights = calculate_weights(len(priorities))
     # Use the weights to calculate each City object's score, then rank
