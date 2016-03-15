@@ -149,6 +149,7 @@ body {
 	width: 700px;
 	display: block;
 	margin: 20px auto;
+	text-align: center;
 }
 
 /*bootstrap gutter adjustments adapted from http://arnique.net/web-design/58/a-quick-guide-to-changing-bootstraps-gutter-width/*/

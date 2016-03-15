@@ -5,6 +5,7 @@ from .models import *
 import numpy as np
 import pandas as pd
 import algorithm as algo
+import decimal
 
 
 # ORIGINAL CODE
@@ -188,9 +189,9 @@ def city_results(request):
 
     if city_objects[i].score >= 0.001:
       cities_list.append(city_objects[i].name)
-      match_score_list.append(float("{0:.4f}".format(city_objects[i].score/100)))
+      match_score_list.append(round(float('{0:.10f}'.format(city_objects[i].score/100)), 2))
 
-  labels = labels = ["city", "match_score"]
+  labels = ["city", "match_score"]
   headers = ["city_1", "city_2", "city_3", "city_4", "city_5", "city_6", "city_7", "city_8", "city_9", "city_10"]
   headers_chopped = headers[:len(cities_list)]
 
