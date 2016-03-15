@@ -1,3 +1,4 @@
+/*Original except in sections where otherwise noted*/
 
 #bootstrap-overrides h1 {
 	font-family: 'Roboto', sans-serif;
@@ -188,7 +189,9 @@ body {
   padding-left: 0;
 }
 
-/* D3 Visualizations style */
+/*End gutter adjustments*/
+
+/* D3 Visualizations style adapted from https://bl.ocks.org/mbostock/3885304*/
 
 
 .bar:hover {
@@ -216,6 +219,7 @@ body {
 .x.axis path {
   display: none;
 }
+/*Begin tooltip style adapted from http://bl.ocks.org/Caged/6476579 */
 
 /*Tool tip style*/
 .d3-tip {
@@ -246,3 +250,5 @@ body {
   top: 100%;
   left: 0;
 }
+
+/*End tooltip style*/

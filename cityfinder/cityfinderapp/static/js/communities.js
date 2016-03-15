@@ -1,3 +1,5 @@
+//Original
+
 function get_community_inputs () {
 	var communities = document.getElementsByTagName("input")
 	var communities_checked = []

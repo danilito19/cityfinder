@@ -1,3 +1,5 @@
+//We did not alter this file in any way
+
 /*!
  * jQuery JavaScript Library v2.2.0
  * http://jquery.com/
