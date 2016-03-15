@@ -8,6 +8,8 @@ import pandas as pd
 import City as city
 from .models import *
 
+## ORIGINAL CODE
+
 # Hard coded globals for our implementation
 WEIGHT_DECAY = .15
 SPECIAL_CRITERIA = ['weather', 'community']
@@ -409,7 +411,3 @@ def make_scores_100(ranked_list):
             ranked_list[i].score = 100 * (scores_list[i] / \
             (max_score - min_score))
     return ranked_list
-
-
-
-
