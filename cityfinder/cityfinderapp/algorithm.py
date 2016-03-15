@@ -31,7 +31,7 @@ RELATION_DICT = {
     'avg_temp_july', 'avg_temp_oct']},
 'cities' : [City, 'city', 'state'], 
 'size': [Walk, 'population']}
-CATEGORIES = {'seasons': ([0, 10, 20, float('inf')], [0, 1, 2]), 
+CATEGORIES = {'seasons': ([0, 100, 250, float('inf')], [2, 1, 0]), 
               'sun': ([0, 75, 125, float('inf')], [0, 1, 2]),
               'temp': ([0, 40, 50, float('inf')], [2, 1, 0]), 
               'size': ([0, 299999, 999999, float('inf')],[0, 1, 2])}
@@ -56,7 +56,6 @@ def run_calculations(input_dict):
     # Create a list of City objects for each city in the dataset
     city_data = add_criteria_scores(data, priorities, weather, size, 
         communities)
-    print(city_data)
     # Calculate the weights for each score
     weights = calculate_weights(len(priorities))
     # Use the weights to calculate each City object's score, then rank
