@@ -82,6 +82,13 @@ def preferences_community(request):
 
   return render(request, 'preferences_community.html')
 
+def error(request):
+  '''
+  Page displayed in case user preferences do not yield useful results.
+  error_message displayed on page. Message varies by error type.
+  '''
+  return render(request, 'error.html')
+
 def city_results(request):
   '''
   View function for results page. This function builds a query 
@@ -98,10 +105,10 @@ def city_results(request):
   print "weather raw", request.session["preferences_weather"]
   print "community raw", request.session['preferences_community']
 
-  priorities = priorities = [str(p) for p in request.session['priorities']['priorities'].split(',')]
+  priorities = [str(p) for p in request.session['priorities']['priorities'].split(',')]
   print "PRIORITIES", priorities
 
-  communities = communities = [str(p) for p in request.session['preferences_community']['preferences'].split(',')]
+  communities = [str(p) for p in request.session['preferences_community']['preferences'].split(',')]
   print "comm prefs", communities
 
   #city size preference to dictionary
@@ -112,21 +119,46 @@ def city_results(request):
   weather_preferences = process_slider_input(request.session["preferences_weather"])
   print "weather prefs", weather_preferences
 
+  #check validity of input and redirect to error if invalid
+
+  if priorities == ['']:
+    error_message = "It looks like you didn't include any priorities! Make sure you drag some \
+    priorities into your list on the first page!"
+    return render(request, "error.html", {"error_message" : error_message})
+
+  if (("community" in priorities) and (communities == [''])):
+    error_message = "It looks like you listed community as a priority, but didn't specify which \
+    communities are important to you. Try again without community in your priorities on the \
+    first page, or specify which communities you care about on the last page."
+    return render(request, "error.html", {"error_message" : error_message})
 
   #building query dict
   query_dict = {}
 
-  query_dict['priorities'] = priorities
+  if "weather" in priorities:
+    if weather_preferences:
+      query_dict.update(weather_preferences)
+    else:
+      priorities.remove("weather")
 
-  query_dict['communities'] = communities
-
-  if "weather" in priorities and weather_preferences:
-    query_dict.update(weather_preferences)
+  if "community" in priorities:
+    if communities != ['']:
+      query_dict['communities'] = communities
+    else:
+      priorities.remove("community")
 
   if citysize_preference:
     query_dict.update(citysize_preference)
 
+  query_dict['priorities'] = priorities
+
   print "QUERY DICTIONARY", query_dict
+
+  if len(priorities) == 0:
+    error_message = "It looks like you only included weather and/or community in your priorities list, \
+    but didn't specify what kind of weather or communities you meant. Be sure to specify your weather and \
+    community preferences if you include them in your priorities!"
+    return render(request, "error.html", {"error_message" : error_message})  
 
   city_objects = algo.run_calculations(query_dict)
 
@@ -138,7 +170,20 @@ def city_results(request):
   else:
     count = 10
 
+  #check that algorithm returned something
+  if len(city_objects) == 0:
+    error_message = "It looks like there weren't any cities that matched your \
+    preferences. Try again without specifying city size, or with fewer preferences."
+    return render(request, "error.html", {"error_message" : error_message})
+
   for i in range(count):
+    #checking for false results list, infinity
+    if city_objects[i].score > 100:
+      error_message = "It looks like you didn't enter enough preference to \
+      get useful results. Try again with more preferences!"
+
+      return render(request, "error.html", {"error_message" : error_message})
+
     if city_objects[i].score >= 0.001:
       cities_list.append(city_objects[i].name)
       match_score_list.append(round(city_objects[i].score/100, 3))
@@ -151,31 +196,5 @@ def city_results(request):
   np.array(data)
   results = pd.DataFrame(data, index = labels, columns = headers_chopped)
   results_json = results.to_json()
-
-  '''
-  ##### Experimental Data Block for Data Viz. Dummy Data for now, but data should be formated like so before it is rendered ######
-
-  labels = ["city", "match_score", "fall_temp", "winter_temp", "spring_temp", "summer_temp", "bike_score", "transit_score", "walk_score", "rank"]
-  headers = ["city_1", "city_2", "city_3", "city_4", "city_5", "city_6", "city_7", "city_8", "city_9", "city_10"]
-  
-  sample_data = [["New York", "Minneapolis", "Chicago", "Seattle", "Miami", "Austin", "Dallas", "San Francisco", "San Diego", "Salt Lake City"],\
-  [.98, .76, .74, .53, .32, .31, .30, .25, .20, .10],\
-  [12, 65, 78, 32, 65, 78, 98, 90, 12, 65],\
-  [12, 65, 78, 32, 12, 65, 78, 32, 12, 65],\
-  [78, 32, 12, 65, 78, 32, 12, 65, 78, 32],\
-  [80, 89, 70, 67, 47, 89, 90, 50, 70, 77],\
-  [80, 89, 70, 67, 47, 89, 90, 50, 70, 77],\
-  [78, 32, 12, 65, 78, 32, 12, 65, 78, 32],\
-  [12, 65, 78, 32, 65, 78, 98, 90, 12, 65],\
-  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
-  
-  np.array(sample_data)
-  
-  results = pd.DataFrame(sample_data, index = labels, columns = headers)
-
-  results_json = results.to_json()
-
-  ##### End Experimental Block ########
-  '''
 
   return render(request, 'city_results.html', {'results': results_json})
