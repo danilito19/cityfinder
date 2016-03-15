@@ -4,22 +4,25 @@
 	font-weight: 700;
 	color: #FF0C70; /*fuschia*/
 	text-align: center;
-	padding: 100px;
+	padding: 50px;
 	
 }
 
 #bootstrap-overrides h2 {
 	color: #00A0B2;
 	text-align: center;
-	padding-bottom: 80px;
+	padding-bottom: 40px;
 }
 
 #bootstrap-overrides #lists {
-	width: 865px;
-	margin-bottom: 100px;
+	margin-bottom: 50px;
+	width: 830px;
+
 }
 
-#bootstrap-overrides #checkbox {
+#bootstrap-overrides #weather_slides {
+	margin-bottom: 50px;
+	width: 890px;
 
 }
 
@@ -47,6 +50,7 @@
 body {
 	font-family: 'Dosis', sans-serif;
 	font-weight: 300;
+	font-size: 1.75em;
 }
 
 #bootstrap-overrides #bottom-button {
@@ -81,7 +85,7 @@ body {
 }
 
 #bootstrap-overrides #community_checklist {
-	width: 200px;
+	width: 250px;
 }
 
 #city-slider .slider.slider-horizontal {
@@ -124,7 +128,23 @@ body {
 	padding-left: 10px;
 }
 
-/*gutter adjustments from http://arnique.net/web-design/58/a-quick-guide-to-changing-bootstraps-gutter-width/*/
+#sad_face {
+	padding: 20px 0;
+}
+
+#sad_face_container {
+	width: 400px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+#sad_face_container p{
+	padding: 20px 0;
+}
+
+/*bootstrap gutter adjustments adapted from http://arnique.net/web-design/58/a-quick-guide-to-changing-bootstraps-gutter-width/*/
 // 60px gutter
 .gutter-60.row {
   margin-right: -60px;
@@ -219,29 +239,4 @@ body {
   margin: -1px 0 0 0;
   top: 100%;
   left: 0;
-}
-/* Map style */
-
-@import url(https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.5/leaflet.css);
-@import url(https://bost.ocks.org/mike/style.css?aea6f0a);
-
-#map {
-  width: 960px;
-  height: 500px;
-}
-
-svg {
-  position: relative;
-}
-
-path {
-  fill: #000;
-  fill-opacity: .2;
-  stroke: #fff;
-  stroke-width: 1.5px;
-}
-
-path:hover {
-  fill: blue;
-  fill-opacity: .7;
 }
