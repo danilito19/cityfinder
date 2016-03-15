@@ -56,6 +56,7 @@ def run_calculations(input_dict):
     # Create a list of City objects for each city in the dataset
     city_data = add_criteria_scores(data, priorities, weather, size, 
         communities)
+    print(city_data)
     # Calculate the weights for each score
     weights = calculate_weights(len(priorities))
     # Use the weights to calculate each City object's score, then rank
@@ -134,11 +135,10 @@ def construct_dataframe(input_dict):
     if 'communities' in weather:
         # If user does not select comm prefs, community score not calculated
         communities = weather.pop('communities')
-        if len(communities) == 1 and communities[0] == '' and 'community' in\
-         priorities:
+        if len(communities) == 1 and 'community' in priorities:
             priorities.remove('community')
     else:
-        communities = None
+        communities = []
     if len(weather) == 0 and 'weather' in priorities:
         # If user does not select weather prefs, weather score not calculated
         priorities.remove('weather')
@@ -263,23 +263,21 @@ def calculate_rates(data, weather, communities, priorities):
     '''
     # Runs necessary transformation if user preferences require it
     if 'safe' in priorities:
-
         # Inverts score so that lower rates are better
         data['burg_rate'] = data['bulglary'] / (data['population'] / 1000)
         data['safe'] = ((-1 * pd.DataFrame(calculate_z_scores(data['burg_rate'] \
          ))) * np.std(data['burg_rate'])) + np.average(data['burg_rate'])
-    if communities:
-        if 'hisp' in communities and 'community' in priorities:
-            data['hisp'] = data['hisp_count'] / (data['population'] / 1000)
-        if 'lgbtq' in communities and 'community' in priorities:
-            data['lgbtq'] = (data['Female_Female_HH'] + data['Male_Male_HH']) / \
-             (data['population'] / 1000)
-        if 'old' in communities and 'community' in priorities:
-            data['old'] = data['old_age_depend_ratio']
-        if 'young' in communities and 'community' in priorities:
-            # Inverts score so that younger median age is a higher score
-            data['young'] = ((-1 * pd.DataFrame(calculate_z_scores(data['median_age'] \
-             ))) * np.std(data['median_age'])) + np.average(data['median_age'])
+    if 'hisp' in communities and 'community' in priorities:
+        data['hisp'] = data['hisp_count'] / (data['population'] / 1000)
+    if 'lgbtq' in communities and 'community' in priorities:
+        data['lgbtq'] = (data['Female_Female_HH'] + data['Male_Male_HH']) / \
+         (data['population'] / 1000)
+    if 'old' in communities and 'community' in priorities:
+        data['old'] = data['old_age_depend_ratio']
+    if 'young' in communities and 'community' in priorities:
+        # Inverts score so that younger median age is a higher score
+        data['young'] = ((-1 * pd.DataFrame(calculate_z_scores(data['median_age'] \
+         ))) * np.std(data['median_age'])) + np.average(data['median_age'])
     if 'cost' in priorities:
         # Inverts CPI so that lower CPI is a higher score
         data['cost'] = ((-1 * pd.DataFrame(calculate_z_scores(data['total_index'] \
@@ -348,9 +346,9 @@ def add_criteria_scores(data, priorities, weather, size, communities):
                 scores[key] = [calculate_z_scores(data[RELATION_DICT[key][1]],
                     index)] 
             elif key in CALCULATED_SCORES:
-                if key == 'community' and communities[0] != '':
+                if key == 'community':
                     scores[key] = [calculate_z_scores(data[key], index)]
-                elif key == 'community' and communities[0] == '':
+                elif key == 'community':
                     # Quirk of data passing; throw in a value
                     scores[key] = [1]
                 else: 
