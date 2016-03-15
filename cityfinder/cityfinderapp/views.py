@@ -40,7 +40,6 @@ def process_slider_input(post):
   return attribute_dict
 
 # END OF ORIGINAL CODE
-
 # MODIFIED CODE - followed Django documentation
 
 def priorities(request):
@@ -97,32 +96,22 @@ def city_results(request):
   Once query dict is built, it is passed to the algorithm, which
   returns a list of candidate cities to render.
   '''
-  misstep_messages = ["Voila! Here are the top cities for you, in order of how well they match your preferences."]
+  misstep_messages = ['''Voila! Here are the top cities for you, in order 
+  of how well they match your preferences.''']
 
   request.session['preferences_community'] = request.POST
 
   #first get user input from sessions and turn into a dict
-  print "priorites raw", request.session['priorities']
-  print "city size raw", request.session["preferences_citysize"]
-  print "weather raw", request.session["preferences_weather"]
-  print "community raw", request.session['preferences_community']
-
   priorities = [str(p) for p in request.session['priorities']['priorities'].split(',')]
-  print "PRIORITIES", priorities
-
   communities = [str(p) for p in request.session['preferences_community']['preferences'].split(',')]
-  print "comm prefs", communities
 
   #city size preference to dictionary
   citysize_preference = process_slider_input(request.session["preferences_citysize"])
-  print "city size prefs", citysize_preference
 
   #weather preferences to dictionary
   weather_preferences = process_slider_input(request.session["preferences_weather"])
-  print "weather prefs", weather_preferences
 
   #check validity of input and redirect to error if invalid
-
   if priorities == ['']:
     error_message = "It looks like you didn't include any priorities! Make sure you drag some \
     priorities into your list on the first page!"
@@ -144,7 +133,6 @@ def city_results(request):
 
   #building query dict
   query_dict = {}
-
   if "weather" in priorities:
     if weather_preferences:
       query_dict.update(weather_preferences)
@@ -169,8 +157,6 @@ def city_results(request):
     query_dict.update(citysize_preference)
 
   query_dict['priorities'] = priorities
-
-  print "QUERY DICTIONARY", query_dict
 
   if len(priorities) == 0:
     error_message = "It looks like you only included weather and/or community in your priorities list, \
@@ -199,7 +185,6 @@ def city_results(request):
     if city_objects[i].score > 100:
       error_message = "It looks like you didn't enter enough preference to \
       get useful results. Try again with more preferences!"
-
       return render(request, "error.html", {"error_message" : error_message})
 
     if city_objects[i].score >= 0.001:
