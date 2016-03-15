@@ -27,7 +27,10 @@ class City:
 		self.score = float(weights_df.sum(axis = 0)['weighted_score'])
 
 	def __str__(self):
-		return ('{} : {}, {:.2f}'.format(self.name, self.rank, self.score))
+		if self.score != None:
+			return ('{} : {}, {:.2f}'.format(self.name, self.rank, self.score))
+		else:
+			return ('{} : {}, {}'.format(self.name, self.rank, self.score))
 
 	def __repr__(self):
 		return str(self)
