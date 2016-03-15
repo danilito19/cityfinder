@@ -263,21 +263,23 @@ def calculate_rates(data, weather, communities, priorities):
     '''
     # Runs necessary transformation if user preferences require it
     if 'safe' in priorities:
+
         # Inverts score so that lower rates are better
         data['burg_rate'] = data['bulglary'] / (data['population'] / 1000)
         data['safe'] = ((-1 * pd.DataFrame(calculate_z_scores(data['burg_rate'] \
          ))) * np.std(data['burg_rate'])) + np.average(data['burg_rate'])
-    if 'hisp' in communities and 'community' in priorities:
-        data['hisp'] = data['hisp_count'] / (data['population'] / 1000)
-    if 'lgbtq' in communities and 'community' in priorities:
-        data['lgbtq'] = (data['Female_Female_HH'] + data['Male_Male_HH']) / \
-         (data['population'] / 1000)
-    if 'old' in communities and 'community' in priorities:
-        data['old'] = data['old_age_depend_ratio']
-    if 'young' in communities and 'community' in priorities:
-        # Inverts score so that younger median age is a higher score
-        data['young'] = ((-1 * pd.DataFrame(calculate_z_scores(data['median_age'] \
-         ))) * np.std(data['median_age'])) + np.average(data['median_age'])
+    if communities:
+        if 'hisp' in communities and 'community' in priorities:
+            data['hisp'] = data['hisp_count'] / (data['population'] / 1000)
+        if 'lgbtq' in communities and 'community' in priorities:
+            data['lgbtq'] = (data['Female_Female_HH'] + data['Male_Male_HH']) / \
+             (data['population'] / 1000)
+        if 'old' in communities and 'community' in priorities:
+            data['old'] = data['old_age_depend_ratio']
+        if 'young' in communities and 'community' in priorities:
+            # Inverts score so that younger median age is a higher score
+            data['young'] = ((-1 * pd.DataFrame(calculate_z_scores(data['median_age'] \
+             ))) * np.std(data['median_age'])) + np.average(data['median_age'])
     if 'cost' in priorities:
         # Inverts CPI so that lower CPI is a higher score
         data['cost'] = ((-1 * pd.DataFrame(calculate_z_scores(data['total_index'] \

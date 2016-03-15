@@ -96,6 +96,7 @@ def city_results(request):
   Once query dict is built, it is passed to the algorithm, which
   returns a list of candidate cities to render.
   '''
+  misstep_messages = ["Voila! Here are the top cities for you, in order of how well they match your preferences."]
 
   request.session['preferences_community'] = request.POST
 
@@ -126,11 +127,19 @@ def city_results(request):
     priorities into your list on the first page!"
     return render(request, "error.html", {"error_message" : error_message})
 
-  if (("community" in priorities) and (communities == [''])):
-    error_message = "It looks like you listed community as a priority, but didn't specify which \
-    communities are important to you. Try again without community in your priorities on the \
-    first page, or specify which communities you care about on the last page."
-    return render(request, "error.html", {"error_message" : error_message})
+  if weather_preferences and "weather" not in priorities:
+    misstep_messages.append("It looks like you expressed some preferences \
+      about what kind of weather you like, but didn't include weather in your \
+      list of priorities. If you'd like your weather preferences to be \
+      considered in your results, include weather in your priorities list \
+      next time.")
+
+  if communities != [''] and "community" not in priorities:
+    misstep_messages.append("It looks like you expressed some preferences \
+      about what kind of communities matter to you, but didn't include community in your \
+      list of priorities. If you'd like your community preferences to be \
+      considered in your results, include community in your priorities list \
+      next time.")
 
   #building query dict
   query_dict = {}
@@ -139,12 +148,20 @@ def city_results(request):
     if weather_preferences:
       query_dict.update(weather_preferences)
     else:
+      misstep_messages.append("It looks like you listed weather as a priority, but didn't specify what \
+      kind of weather you like, so your weather preference was not taken into account. \
+      If you want to include weather as a priority, specify your weather preferences \
+      on the weather page next time.")
       priorities.remove("weather")
 
   if "community" in priorities:
     if communities != ['']:
       query_dict['communities'] = communities
     else:
+      misstep_messages.append("It looks like you listed community as a priority, but didn't specify which \
+      communities are important to you, so your community preference was not taken into account. \
+      If you want to include community as a priority, specify which communities you care about \
+      on the last page next time.")
       priorities.remove("community")
 
   if citysize_preference:
@@ -197,4 +214,4 @@ def city_results(request):
   results = pd.DataFrame(data, index = labels, columns = headers_chopped)
   results_json = results.to_json()
 
-  return render(request, 'city_results.html', {'results': results_json})
+  return render(request, 'city_results.html', {'results': results_json, "missteps": misstep_messages})

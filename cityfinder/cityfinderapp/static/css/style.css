@@ -144,6 +144,12 @@ body {
 	padding: 20px 0;
 }
 
+#missteps {
+	width: 700px;
+	display: block;
+	margin: 20px auto;
+}
+
 /*bootstrap gutter adjustments adapted from http://arnique.net/web-design/58/a-quick-guide-to-changing-bootstraps-gutter-width/*/
 // 60px gutter
 .gutter-60.row {
