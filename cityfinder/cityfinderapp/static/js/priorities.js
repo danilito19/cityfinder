@@ -1,4 +1,6 @@
-//Sortable List
+//Parts adapted from other sources, as marked
+
+//Sortable list adapted from https://github.com/RubaXa/Sortable
 
 // sort: true
 Sortable.create(sortTrue, {
@@ -11,6 +13,11 @@ Sortable.create(sortFalse, {
   group: "sorting",
   sort: false
 });
+
+/*(Original) This function collects the values that the user has dragged
+to their priority list upon clicking the "continue" button and returns this
+ordered list to the back end. The user is then moved to the next page.
+*/
 
 $('#arrow').on("click", function(e){
     e.preventDefault();

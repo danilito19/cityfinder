@@ -1,3 +1,6 @@
+//We did not alter this file in any way
+//It's taken from https://d3js.org/
+
 !function() {
   var d3 = {
     version: "3.5.16"

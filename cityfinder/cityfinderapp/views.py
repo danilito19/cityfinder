@@ -203,7 +203,7 @@ def city_results(request):
 
     if city_objects[i].score >= 0.001:
       cities_list.append(city_objects[i].name)
-      match_score_list.append(round(city_objects[i].score/100, 3))
+      match_score_list.append(float("{0:.4f}".format(city_objects[i].score/100)))
 
   labels = labels = ["city", "match_score"]
   headers = ["city_1", "city_2", "city_3", "city_4", "city_5", "city_6", "city_7", "city_8", "city_9", "city_10"]
