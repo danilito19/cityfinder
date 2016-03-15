@@ -31,7 +31,7 @@ RELATION_DICT = {
     'avg_temp_july', 'avg_temp_oct']},
 'cities' : [City, 'city', 'state'], 
 'size': [Walk, 'population']}
-CATEGORIES = {'seasons': ([0, 10, 20, float('inf')], [0, 1, 2]), 
+CATEGORIES = {'seasons': ([0, 100, 250, float('inf')], [2, 1, 0]), 
               'sun': ([0, 75, 125, float('inf')], [0, 1, 2]),
               'temp': ([0, 40, 50, float('inf')], [2, 1, 0]), 
               'size': ([0, 299999, 999999, float('inf')],[0, 1, 2])}
