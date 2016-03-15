@@ -206,21 +206,23 @@ def calculate_rates(data, weather, communities, priorities):
     '''
     if 'safe' in priorities:
         data['safe'] = data['bulglary'] / (data['population'] / 1000)
-    if 'hisp' in communities and 'community' in priorities:
-        data['hisp'] = data['hisp_count'] / (data['population'] / 1000)
-    if 'lgbtq' in communities and 'community' in priorities:
-        data['lgbtq'] = (data['Female_Female_HH'] + data['Male_Male_HH']) / \
-         (data['population'] / 1000)
-    if 'old' in communities and 'community' in priorities:
-        data['old'] = data['old_age_depend_ratio']
-    if 'young' in communities and 'community' in priorities:
-        data['young'] = ((-1 * pd.DataFrame(calculate_z_scores(data['median_age'] \
-         ))) * np.std(data['median_age'])) + np.average(data['median_age'])
+    if communities:
+        if 'hisp' in communities and 'community' in priorities:
+            data['hisp'] = data['hisp_count'] / (data['population'] / 1000)
+        if 'lgbtq' in communities and 'community' in priorities:
+            data['lgbtq'] = (data['Female_Female_HH'] + data['Male_Male_HH']) / \
+             (data['population'] / 1000)
+        if 'old' in communities and 'community' in priorities:
+            data['old'] = data['old_age_depend_ratio']
+        if 'young' in communities and 'community' in priorities:
+            data['young'] = ((-1 * pd.DataFrame(calculate_z_scores(data['median_age'] \
+             ))) * np.std(data['median_age'])) + np.average(data['median_age'])
     
     if 'weather' in priorities:
         data = calculate_weather(data, weather)
-    if len(communities) > 0 and 'community' in priorities:
-        data = calculate_community(data, communities)
+    if communities:
+        if len(communities) > 0 and 'community' in priorities:
+            data = calculate_community(data, communities)
 
     return data
 

@@ -6,20 +6,27 @@
 {% block header %}
     <header>
         <div class="container" id="title_section">
-            <h1>Results</h1>
+            <h1>CityFinder</h1>
         </div>
     </header>
 {% endblock %}
 
 {% block body %}
 <main>
-
-    <div class="row-centered gutter-60">
-        <div class="col-m-12">
-            <div id="chart_area">
-            </div>
-        </div>
-    </div>
+    <h2>
+      Results
+  </h2>
+  <div id="missteps">
+    {% for misstep in missteps %}
+    <p>{{misstep}}</p>
+    {% endfor %}
+  </div>
+  <div class="row-centered gutter-60">
+      <div class="col-m-12">
+          <div id="chart_area">
+          </div>
+      </div>
+  </div>
 
 </main>
 {% endblock %}
@@ -56,10 +63,10 @@
   /* bar chart adapted from: https://bl.ocks.org/mbostock/3885304 */
 
   var margin = {top: 20, right: 20, bottom: 30, left: 40},
-  width = 700 - margin.left - margin.right,
+  width = 850 - margin.left - margin.right,
   height = 500 - margin.top - margin.bottom;
 
-  var barPad = .2
+  var barPad = .3
 
   var barOuterPad = .3
 
@@ -131,10 +138,6 @@
       .on("mouseover", tip.show)
       .on("mouseout", tip.hide)
 
-/* .on("mouseover", function(d, i) { d3.select(this).style("fill", light_colors[i]); })
-    .on("mouseout", function(d, i) { d3.select(this).style("fill", colors[i]); });
-*/
-
     function type(d) {
       d.match_score = +d.match_score;
       return d;
@@ -144,5 +147,4 @@
 
         </script>
 
-    <!-- <script src={% static "js/results.js" %}></script>-->
 {% endblock %}
