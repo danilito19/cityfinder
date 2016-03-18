@@ -45,11 +45,12 @@ Data
 We downloaded our data in csv format from
 
 * US Census
+* American Housing Survey for median rents data
 * WalkScore website
 * NOAA weather website
 * American Communities Survey
-* FBI Crime Statistics
-* Zumper for median rents data
+* US Department of Justice, Uniform Crime Statistics
+* US Bureau of Labor Statistics for cost of living
 
 These sites either have a user interface /portal or we were able to easily copy-paste the data into a csv.
 
