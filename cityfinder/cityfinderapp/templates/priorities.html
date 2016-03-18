@@ -60,7 +60,7 @@
         <form id="priorities-form" action="preferences/" method="post"> {% csrf_token %}
             <input type="hidden"  id="priorities" name="priorities">
         </form>
-        <button id="bottom-button" type="button" onclick="get_weather_inputs()">
+        <button id="bottom-button" type="button">
             <img src={% static "images/arrow.svg" %} id="arrow">
             <p id="button-label">continue<p>
         </button>
