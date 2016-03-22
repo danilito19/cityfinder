@@ -1,0 +1,101 @@
+City,State,Med_Price_1Bed,Med_Price_2bed
+Akron,OH,540,600
+Albuquerque,NM,650,820
+Anchorage,AK,930,1250
+Atlanta,GA,1300,1500
+Aurora,CO,1060,1330
+Aurora,IL,1040,1330
+Austin,TX,1100,1400
+Bakersfield,CA,600,750
+Baltimore,MD,900,1160
+Baton Rouge,LA,660,900
+Birmingham,AL,,680
+Boise City,ID,680,900
+Boston,MA,2150,2650
+Charlotte,NC,,1000
+Chesapeake,VA,,1000
+Cheyenne,WY,610,780
+Chicago,IL,1650,1800
+Cincinnati,OH,550,730
+Cleveland,OH,540,630
+Colorado Springs,CO,630,930
+Columbus,GA,460,600
+Columbus,OH,650,860
+Corpus Christi,TX,700,860
+Dallas,TX,1310,1640
+Denver,CO,1170,1600
+Des Moines,IA,600,740
+Detroit,MI,530,630
+Durham,NC,970,1150
+El Paso,TX,600,750
+Fayetteville,NC,530,630
+Fort Lauderdale,FL,1270,2000
+Fort Wayne,IN,480,530
+Fort Worth,TX,800,920
+Fresno,CA,680,810
+Grand Rapids,MI,,830
+Greensboro,NC,580,750
+Houston,TX,1150,1330
+Huntsville,AL,430,530
+Indianapolis,IN,580,680
+Jacksonville,FL,710,800
+Jersey City,NJ,,1500
+Kansas City,MO,530,640
+Knoxville,TN,580,750
+Las Vegas,NV,680,850
+Lexington-Fayette,KY,600,750
+Lincoln,NE,660,760
+Little Rock,AR,590,750
+Los Angeles,CA,1620,2180
+Louisville,KY,600,740
+Madison,WI,750,920
+Manchester,NH,950,1120
+Memphis,TN,520,600
+Mesa,AZ,730,860
+Miami,FL,1900,2540
+Milwaukee,WI,,790
+Minneapolis,MN,1170,1570
+Mobile,AL,630,750
+Montgomery,AL,520,600
+Nashville,TN,,1100
+New Orleans,LA,1200,1470
+New York,NY,2800,3400
+Norfolk,VA,650,800
+Oklahoma City,OK,550,700
+Omaha,NE,730,910
+Orlando,FL,900,1010
+Philadelphia,PA,780,1050
+Phoenix,AZ,660,830
+Pittsburgh,PA,870,1160
+Portland,OR,1330,1530
+Providence,RI,,1050
+Raleigh,NC,860,990
+Reno,NV,610,850
+Richmond,VA,,800
+Riverside,CA,900,1100
+Rochester,NY,630,690
+Sacramento,CA,980,1250
+Salt Lake City,UT,750,1070
+San Antonio,TX,760,950
+San Bernardino,CA,730,830
+San Diego,CA,1450,1870
+San Francisco,CA,3500,4610
+San Jose,CA,2010,2480
+Seattle,WA,1630,2200
+Spokane,WA,580,750
+St. Louis,MO,600,800
+St. Paul,MN,820,1050
+St. Petersburg,FL,800,1180
+Stamford,CT,1900,2420
+Stockton,CA,590,800
+Tacoma,WA,1010,1220
+Tallahassee,FL,630,700
+Tampa,FL,940,1020
+Toledo,OH,440,580
+Tucson,AZ,510,660
+Tulsa,OK,600,730
+Vancouver,WA,,1100
+Virginia Beach,VA,900,1100
+Washington,DC,1980,2800
+Wichita,KS,460,600
+Winston-Salem,NC,530,670

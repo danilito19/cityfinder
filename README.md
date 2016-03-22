@@ -40,8 +40,22 @@ All relevant project code is within cityfinder directory.
 
 /cityfinderapp contains most of our work, including the Django application. algorithms.py and City.py are files with code we created to run a weighted-scores algorithm to rank cities according to user preference.
 
-**How the database was made**
-The data came in multiple csvs, which we had to clean-up to be able to put in the database. We used short bash scripts as well as some manual work in Sublime text (regex find-replace) to delete columns, change cities and states which were clearly wrong (Chicago was listed in Indiana!). The more data cleaning we did, the more cities were able to match when we created the relationship to the City model. We wanted to get close to having as many cities as the walk score file has (108), although some files, such as crime data, did not provide information for many of our 108 cities.
+Data
+---------------
+We downloaded our data in csv format from
+
+* US Census
+* American Housing Survey for median rents data
+* WalkScore website
+* NOAA weather website
+* American Communities Survey
+* US Department of Justice, Uniform Crime Statistics
+* US Bureau of Labor Statistics for cost of living
+
+These sites either have a user interface /portal or we were able to easily copy-paste the data into a csv.
+
+We had to clean-up to be able to put in the database. We used short bash scripts as well as some manual work in Sublime text (regex find-replace) to delete columns, change cities and states which were clearly wrong (Chicago was listed in Indiana!). The more data cleaning we did, the more cities were able to match when we created the relationship to the City model. We wanted to get close to having as many cities as the walk score file has (108), although some files, such as crime data, did not provide information for many of our 108 cities.
+
 
 TODO:
 ---------------
