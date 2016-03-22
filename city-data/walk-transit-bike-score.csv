@@ -1,0 +1,109 @@
+City,State,Walk Score,Transit Score,Bike Score,Population
+New York,NY,87.6,84.1,65.1,8175133
+Los Angeles,CA,63.9,51.3,56,3792621
+Chicago,IL,74.8,64.7,70.2,2695598
+Houston,TX,44.2,36.8,49.3,2099451
+Philadelphia,PA,76.5,66.8,67.5,1526006
+Phoenix,AZ,38.3,32.2,54.3,1445632
+San Antonio,TX,33.7,36.3,42,1327407
+San Diego,CA,48.5,36.7,45.5,1307402
+Dallas,TX,43.6,39.5,43.7,1197816
+San Jose,CA,48.1,41,56.9,945942
+Jacksonville,FL,25.5,,39.5,821784
+Indianapolis,IN,28.7,23.7,41.1,820445
+San Francisco,CA,83.9,80.4,75.1,805235
+Austin,TX,35.4,33.5,51.7,790390
+Columbus,OH,40,31,46.5,787033
+Fort Worth,TX,31.6,20.1,40.2,741206
+Charlotte,NC,24.4,,36.1,731424
+Detroit,MI,52.2,37.9,55,713777
+El Paso,TX,38.7,,,649121
+Memphis,TN,33,,42.3,646889
+Baltimore,MD,66.2,57.8,56.1,620961
+Boston,MA,79.5,74.4,70.3,617594
+Seattle,WA,70.8,57,63,608660
+Washington D.C.,DC,74.1,70.6,69.5,601723
+Nashville-Davidson,TN,26.5,23.1,32.8,601222
+Denver,CO,55.7,46.9,71.3,600158
+Louisville-Jefferson,KY,31.2,28.5,42.6,597337
+Milwaukee,WI,59.4,49.1,,594833
+Portland,OR,62.8,50.8,72,583776
+Las Vegas,NV,38.6,33.4,52,583756
+Oklahoma City,OK,31.6,16,39.8,579999
+Albuquerque,NM,39.6,30.2,59.6,545852
+Tucson,AZ,38.9,34.2,67.9,520116
+Fresno,CA,42.1,30.3,55.9,494665
+Sacramento,CA,43.4,33.8,68.9,466488
+Long Beach,CA,65.8,,66.4,462257
+Kansas City,MO,32.1,28.7,40.3,459787
+Mesa,AZ,34.4,25.3,58.5,439041
+Virginia Beach,VA,31.1,19.7,45.9,437994
+Atlanta,GA,45.9,44.3,49.9,420003
+Colorado Springs,CO,33,17.8,46.4,416427
+Omaha,NE,41.1,,40.8,408958
+Raleigh,NC,28.8,22.6,40.6,403892
+Miami,FL,75.6,59.4,59.7,399457
+Cleveland,OH,56.8,47.1,50.8,396815
+Tulsa,OK,36,22.7,43.6,391906
+Oakland,CA,68.5,55.1,60.9,390724
+Minneapolis,MN,65.4,57.5,81.3,382578
+Wichita,KS,31.9,,43.5,382368
+Arlington,TX,34.6,,42.9,365438
+Bakersfield,CA,34.3,29.6,48.1,347483
+New Orleans,LA,56.3,,60.1,343829
+Honolulu,HI,62.6,55.6,45.2,337256
+Anaheim,CA,50.6,35.4,51.9,336265
+Tampa,FL,46.3,30.3,53.2,335709
+Aurora,CO,38.4,35,60.8,325078
+Santa Ana,CA,61.3,46,57.1,324528
+St. Louis,MO,59.8,45.2,56.9,319294
+Pittsburgh,PA,59.8,54.4,39.9,305704
+Corpus Christi,TX,35.7,29.1,,305215
+Riverside,CA,38.9,31.2,49.9,303871
+Cincinnati,OH,50.1,43.2,37,296943
+Lexington-Fayette,KY,33.9,25.3,43.7,295803
+Anchorage,AK,32.2,22.3,,291826
+Stockton,CA,40,28.2,53.9,291707
+Toledo,OH,43,,44.7,287208
+St. Paul,MN,56,47.4,62.1,285068
+Newark,NJ,77.8,64.9,51.1,277140
+Greensboro,NC,28,,39.6,269666
+Buffalo,NY,64.9,50.4,54.5,261310
+Plano,TX,36.4,17.4,57,259841
+Lincoln,NE,40.3,,62.3,258379
+Henderson,NV,27.6,22.1,51.6,257729
+Fort Wayne,IN,28.3,21.7,42.6,253691
+Jersey City,NJ,84.4,70,66.3,247597
+St. Petersburg,FL,40.5,34.7,56.1,244769
+Chula Vista,CA,39.7,35.5,45.8,243916
+Norfolk,VA,43.5,35.8,,242803
+Orlando,FL,39.3,32.5,53,238300
+Chandler,AZ,30,18.1,,236123
+Laredo,TX,43.8,,,236091
+Madison,WI,47.4,38.3,72.6,233209
+Winston-Salem,NC,21.8,,34.3,229617
+Lubbock,TX,34.8,21.1,46.7,229573
+Baton Rouge,LA,37.5,,47,229493
+Durham,NC,28.1,27.3,39.2,228330
+Garland,TX,36.4,28.8,39.1,226876
+Glendale,AZ,33.5,29.2,51.4,226721
+Reno,NV,36.3,27.7,48.1,225221
+Hialeah,FL,65.2,38,,224669
+Paradise,NV,45.5,35.1,53.1,223167
+Chesapeake,VA,20.8,13,,222209
+Scottsdale,AZ,28.9,23.5,,217385
+North Las Vegas,NV,30.2,30.1,42.4,216961
+Irving,TX,42,31.2,,216290
+Fremont,CA,44.5,36.4,61.1,214089
+Irvine,CA,43.9,27.4,69.7,212375
+Birmingham,AL,33,25.3,28.6,212237
+Rochester,NY,60.9,42.8,58.9,210565
+San Bernardino,CA,38.9,37.6,39.3,209924
+Spokane,WA,44.9,35.4,48.6,208916
+Gilbert,AZ,26.4,14.5,57.5,208453
+Arlington,VA,67.1,58,71,207627
+Montgomery,AL,25.4,,,205764
+Boise City,ID,37.3,,62.9,205671
+Richmond,VA,49.2,,,204214
+Des Moines,IA,41.8,,44.9,203433
+Fayetteville,NC,18,,,200564

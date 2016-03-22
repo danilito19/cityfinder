@@ -3,5 +3,5 @@
 __pycache__
 cityfinderenv/
 db.sqlite3
-
+cit-data/
 .DS_Store
