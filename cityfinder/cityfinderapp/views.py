@@ -201,3 +201,10 @@ def city_results(request):
   results_json = results.to_json()
 
   return render(request, 'city_results.html', {'results': results_json, "missteps": misstep_messages})
+
+def about(request):
+  '''
+  Project about page
+  '''
+  return render(request, 'about.html')
+

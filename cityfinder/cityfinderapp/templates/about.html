@@ -1,0 +1,45 @@
+<!--original-->
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} About Cityfinder {% endblock %}
+
+{% block header %}
+
+<header>
+    <div class="container" id="title_section">
+        <h1>CityFinder</h1>
+    </div>
+</header>
+{% endblock %}
+
+{% block body %}
+
+<main>
+  <h2>
+      Oops!
+  </h2>
+  <div class="row-centered gutter-60">
+      <div class="col-m-12">
+          <div id="sad_face_container">
+            <img src={% static "images/sad_face-02.svg" %} id="sad_face" width="200px">
+            <p>{{error_message}}</p>
+          </div>
+      </div>
+  </div>
+
+</main>
+{% endblock %}
+
+{% block footer %}
+<footer>
+
+    <div class="container-fluid">
+        <button id="bottom-button" type="button" onclick="window.location.href='../'">
+            <img src={% static "images/arrow.svg" %} id="arrow">
+            <p id="button-label">Start<p>
+        </button>
+    </div>
+
+</footer>
+{% endblock %}
