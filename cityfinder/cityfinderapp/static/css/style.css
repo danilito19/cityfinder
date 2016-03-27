@@ -15,6 +15,12 @@
 	padding-bottom: 40px;
 }
 
+#bootstrap-overrides a {
+	color: #red;
+	text-align: right;
+	padding-bottom: 40px;
+}
+
 #bootstrap-overrides #lists {
 	margin-bottom: 50px;
 	width: 830px;
@@ -53,6 +59,8 @@ body {
 	font-weight: 300;
 	font-size: 1.75em;
 }
+
+
 
 #bootstrap-overrides #bottom-button {
 	display: block;
