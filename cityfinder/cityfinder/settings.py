@@ -122,8 +122,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, STATIC_URL),)
-STATIC_ROOT = os.path.join(BASE_DIR, '/optional/static_files/')
+STATICFILES_DIRS = (os.path.join(BASE_DIR, './cityfinderapp/static'),)
+STATIC_ROOT = os.path.join(BASE_DIR, './static_files/')
 
 print ("base dir path"), BASE_DIR
 print ("static root dir path"), STATIC_ROOT
