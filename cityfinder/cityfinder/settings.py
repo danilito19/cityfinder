@@ -25,7 +25,7 @@ SECRET_KEY = '+w*=y9f0=b^w%1@%oz8zcu%58f&bs_7$&i50e&+2g@&s3bzohe'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [cityfinderapp.herokuapp.com’]
+ALLOWED_HOSTS = ['cityfinderapp.herokuapp.com’]
 
 
 # Application definition
