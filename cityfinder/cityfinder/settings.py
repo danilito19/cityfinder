@@ -74,6 +74,8 @@ WSGI_APPLICATION = 'cityfinder.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 # Update database configuration with $DATABASE_URL.
+CITY_DATABASE = 'city_data.db'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
