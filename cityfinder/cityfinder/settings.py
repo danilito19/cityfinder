@@ -73,16 +73,12 @@ WSGI_APPLICATION = 'cityfinder.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-
-CITY_DATABASE = 'city_data.db'
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, CITY_DATABASE),
-    }
-}
-
+# Update database configuration with $DATABASE_URL.
+DATABASES = {}
+import dj_database_url
+db_from_env = dj_database_url.config()
+if db_from_env: 
+    DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -127,3 +123,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, './static_files/')
 
 print ("base dir path"), BASE_DIR
 print ("static root dir path"), STATIC_ROOT
+
+# used for development environments
+# https://www.turnkeylinux.org/blog/django-settings
+testy = os.environ.get('DEVELOPMENT', None)
+print 'this is environ', testy
+# print 'this is full environ', os.environ
+if testy:
+    from settings_dev import *
