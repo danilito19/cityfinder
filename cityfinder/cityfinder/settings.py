@@ -25,7 +25,7 @@ SECRET_KEY = '+w*=y9f0=b^w%1@%oz8zcu%58f&bs_7$&i50e&+2g@&s3bzohe'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [cityfinderapp.herokuapp.com’]
 
 
 # Application definition
@@ -124,6 +124,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, './cityfinderapp/static'),)
 STATIC_ROOT = os.path.join(BASE_DIR, './static_files/')
+
 
 print ("base dir path"), BASE_DIR
 print ("static root dir path"), STATIC_ROOT
