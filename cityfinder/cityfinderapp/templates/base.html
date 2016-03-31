@@ -13,8 +13,14 @@
         <title>CityFinder - {% block title %}{% endblock %}</title>
     </head>
     <body id="bootstrap-overrides">
-        {% block header %}
-        {% endblock %}
+        <header>
+            <p>
+                <a href="about/">about</a>
+            </p>
+            <div class="container" id="title_section">
+                <h1>CityFinder</h1>
+            </div>
+        </header>
 
         {% block body %}
         {% endblock %}

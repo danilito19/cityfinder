@@ -16,18 +16,22 @@
 {% block body %}
 
 <main>
-  <h2>
+  <h3>
       A project by 
-  </h2>
-<a href="https://github.com/danilito19/">Anna Hazard</a>
-<p>
-<a href="https://github.com/danilito19/">Alden Golab</a>
-<p>
-<a href="https://github.com/danilito19/">Dani Litovsky Alcala</a>
-<p> 
-  </div>
-  <h2> for a University of Chicago computer science course.
-  </h2>
+  </h3>
+  <ul id="names">
+    <li>
+      <a href="https://annahazard.com/">Anna Hazard</a>
+    </li>
+    <li>
+      <a href="http://www.aldengolab.com/">Alden Golab</a>
+    </li>
+    <li>
+      <a href="https://github.com/danilito19/">Dani Litovsky Alcala</a>
+    </li>
+  </ul>
+  <h3> for a University of Chicago computer science course.
+  </h3>
 
 </main>
 {% endblock %}
@@ -38,7 +42,7 @@
     <div class="container-fluid">
         <button id="bottom-button" type="button" onclick="window.location.href='../'">
             <img src={% static "images/arrow.svg" %} id="arrow">
-            <p id="button-label">Start<p>
+            <p id="button-label">start<p>
         </button>
     </div>
 
