@@ -61,7 +61,6 @@ body {
 }
 
 
-
 #bootstrap-overrides #bottom-button {
 	display: block;
 	margin-left: auto;
@@ -158,6 +157,14 @@ body {
 	display: block;
 	margin: 20px auto;
 	text-align: center;
+}
+
+#bootstrap-overrides #names {
+	font-family: 'Roboto', sans-serif;
+	list-style: none;
+	width: 5em;
+	margin: 0 auto;
+	color: #FFA400; /* yellow */
 }
 
 /*bootstrap gutter adjustments adapted from http://arnique.net/web-design/58/a-quick-guide-to-changing-bootstraps-gutter-width/*/
