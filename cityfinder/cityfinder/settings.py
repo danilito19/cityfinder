@@ -133,8 +133,5 @@ print ("static root dir path"), STATIC_ROOT
 
 # used for development environments
 # https://www.turnkeylinux.org/blog/django-settings
-testy = os.environ.get('DEVELOPMENT', None)
-print 'this is environ', testy
-# print 'this is full environ', os.environ
-if testy:
-    from settings_dev import *
+os.environ.get('DEVELOPMENT', None)
+
